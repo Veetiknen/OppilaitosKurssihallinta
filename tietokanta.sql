@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2025 at 12:43 PM
+-- Generation Time: Aug 27, 2025 at 12:58 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,19 @@ SET time_zone = "+00:00";
 --
 -- Database: `projekti`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kurssikirjautumisilla`
+--
+
+CREATE TABLE `kurssikirjautumisilla` (
+  `id` int(11) NOT NULL,
+  `opiskelija` varchar(30) NOT NULL,
+  `kurssi` varchar(30) NOT NULL,
+  `Kirjautumispäivä` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -81,6 +94,12 @@ CREATE TABLE `tilat` (
 --
 
 --
+-- Indexes for table `kurssikirjautumisilla`
+--
+ALTER TABLE `kurssikirjautumisilla`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `kurssit`
 --
 ALTER TABLE `kurssit`
@@ -93,6 +112,12 @@ ALTER TABLE `opettajat`
   ADD PRIMARY KEY (`tunnusnumero`);
 
 --
+-- Indexes for table `opiskelijat`
+--
+ALTER TABLE `opiskelijat`
+  ADD PRIMARY KEY (`opiskelija_numero`);
+
+--
 -- Indexes for table `tilat`
 --
 ALTER TABLE `tilat`
@@ -101,6 +126,12 @@ ALTER TABLE `tilat`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `kurssikirjautumisilla`
+--
+ALTER TABLE `kurssikirjautumisilla`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `kurssit`
@@ -115,27 +146,18 @@ ALTER TABLE `opettajat`
   MODIFY `tunnusnumero` int(30) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `opiskelijat`
+--
+ALTER TABLE `opiskelijat`
+  MODIFY `opiskelija_numero` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tilat`
 --
 ALTER TABLE `tilat`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
-ALTER TABLE `opiskelijat`
-  ADD PRIMARY KEY (`opiskelija_numero`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `opiskelijat`
---
-ALTER TABLE `opiskelijat`
-  MODIFY `opiskelija_numero` int(11) NOT NULL AUTO_INCREMENT;
-COMMIT;
-
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
