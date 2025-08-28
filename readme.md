@@ -1,16 +1,42 @@
-Kun haluat kloonata "git clone https://github.com/Veetiknen/Tietovarasto-Projekti.git"
+# Projektin README
 
-git add .
-git commit -m "Viesti"
-git push origin main
+## Repon kloonaaminen
 
-jos muutoksia tehty niin
+1.  Avaa terminaali\
 
-git pull https://github.com/Veetiknen/Tietovarasto-Projekti.git
+2.  Suorita komento:
 
-https://chatgpt.com/share/68aff0c7-3d54-8003-ac96-22f8bc9d03f9
+    ``` bash
+    git clone <repon-osoite>
+    cd <repon-kansio>
+    ```
 
-kun alat työstämään niin pitää laittaa yhteys.php kuntoon. Luo .env niminen tiedosto projektin juureen ja laita sinne omat 
-DB_USERNAME=jkoivuka <- vaihda omaan
-DB_PASSWORD=inuoj <- vaihda omaan
-DB_NAME=jkoivuka <- databasen nimi
+## Muutosten tekeminen ja lähettäminen
+
+1.  Tee haluamasi muutokset tiedostoihin\
+
+2.  Lisää muutokset indeksiin:
+
+    ``` bash
+    git add .
+    ```
+
+3.  Tee commit selkeällä viestillä:
+
+    ``` bash
+    git commit -m "kuvaile muutoksesi"
+    ```
+
+4.  Lähetä muutokset päähaaraan:
+
+    ``` bash
+    git push origin main
+    ```
+
+## Uusien muutosten hakeminen
+
+Jos haluat varmistaa, että sinulla on tuorein versio:
+
+``` bash
+git pull origin main
+```

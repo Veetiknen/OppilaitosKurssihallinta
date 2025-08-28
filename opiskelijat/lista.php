@@ -1,7 +1,6 @@
 <?php
 require '../yhteys.php';
 
-
 $sql_lause = "SELECT * FROM opiskelijat";
 
 try {
@@ -35,20 +34,18 @@ $tulos = $kysely->fetchAll();
 <tr>
     <th>Tunnusnumero</th>
     <th>Nimi</th>
-    <th>Syntymäpäivä</th>
-    <th>Vuosikurssi</th>
     <th>Toiminnot</th>
 </tr>
 
 <?php foreach($tulos as $rivi): ?>
 <tr>
-    <td><?php echo htmlspecialchars($rivi['opiskelija_numero']); ?></td>
-    <td><?php echo htmlspecialchars($rivi['etunimi'] . ' ' . $rivi['sukunimi']); ?></td>
-    <td><?php echo htmlspecialchars($rivi['syntymäpäivä']); ?></td>
-    <td><?php echo htmlspecialchars($rivi['vuosikurssi']); ?></td>
+    <td><?= htmlspecialchars($rivi['opiskelija_numero']) ?></td>
+    <td><?= htmlspecialchars($rivi['etunimi'] . ' ' . $rivi['sukunimi']) ?></td>
     <td>
-        <a href="muokkaa.php?id=<?php echo $rivi['opiskelija_numero']; ?>">Muokkaa</a> |
-        <a href="poista.php?id=<?php echo $rivi['opiskelija_numero']; ?>" onclick="return confirm('Haluatko varmasti poistaa tämän opiskelijan?');">Poista</a>
+        <a href="nayta.php?id=<?= $rivi['opiskelija_numero'] ?>">Näytä</a> |
+        <a href="muokkaa.php?id=<?= $rivi['opiskelija_numero'] ?>">Muokkaa</a> |
+        <a href="poista.php?id=<?= $rivi['opiskelija_numero'] ?>" 
+           onclick="return confirm('Haluatko varmasti poistaa tämän opiskelijan?');">Poista</a>
     </td>
 </tr>
 <?php endforeach; ?>
