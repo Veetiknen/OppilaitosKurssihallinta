@@ -19,7 +19,7 @@ function loadEnv($path) {
 
 try {
     // Load .env file
-    loadEnv('.env');
+    loadEnv(__DIR__ . '/.env');
     
     $servername = 'localhost';
     $username = $_ENV['DB_USERNAME'];
