@@ -72,6 +72,6 @@ try {
 <p>Opiskelijalla ei ole ilmoittautuneita kursseja.</p>
 <?php endif; ?>
 
-<p><a href="lista.php">Takaisin opiskelijalistaan</a></p>
+<p><a href="lista.php">Takaisin opiskelija listaan</a></p>
 </body>
 </html>
