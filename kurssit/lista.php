@@ -5,17 +5,21 @@ require '../yhteys.php';
 $sql_lause = "SELECT 
     k.id,
     k.nimi,
+    k.kuvaus,
     k.alkupäivä,
     k.loppupäivä,
     CONCAT(o.etunimi, ' ', o.sukunimi) AS opettaja_nimi,
     t.nimi AS tila_nimi,
-    GROUP_CONCAT(CONCAT(os.etunimi, ' ', os.sukunimi) SEPARATOR ', ') AS opiskelijat
+    GROUP_CONCAT(CONCAT(os.etunimi, ' ', os.sukunimi, ' (', os.vuosikurssi, ')') SEPARATOR ', ') AS opiskelijat
 FROM kurssit k
 JOIN opettajat o ON k.opettaja = o.tunnusnumero
 JOIN tilat t ON k.tila = t.id
 LEFT JOIN kurssikirjautumisilla kk ON kk.kurssi = k.id
 LEFT JOIN opiskelijat os ON kk.opiskelija = os.opiskelija_numero
-GROUP BY k.id, k.nimi, k.alkupäivä, k.loppupäivä, opettaja_nimi, tila_nimi";
+GROUP BY k.id, k.nimi, k.kuvaus, k.alkupäivä, k.loppupäivä, opettaja_nimi, tila_nimi
+";
+
+
 
 try {
     $kysely = $yhteys->prepare($sql_lause);
@@ -47,8 +51,9 @@ $tulos = $kysely->fetchAll();
 <table>
 <tr>
     <th>Nimi</th>
+    <th>Kuvaus</th>
     <th>Opettaja</th>
-    <th>Opiskelija</th>
+    <th>Opiskelija (Vuosikurssi)</th>
     <th>Tila</th>
     <th>Alku</th>
     <th>Loppu</th>
@@ -58,6 +63,7 @@ $tulos = $kysely->fetchAll();
 <?php foreach($tulos as $rivi): ?>
 <tr>
     <td><?= htmlspecialchars($rivi['nimi']) ?></td>
+    <td><?= htmlspecialchars($rivi['kuvaus']) ?></td>
     <td><?= htmlspecialchars($rivi['opettaja_nimi']) ?></td>
     <td><?= htmlspecialchars($rivi['opiskelijat'] ?? '') ?></td>
     <td><?= htmlspecialchars($rivi['tila_nimi']) ?></td>
