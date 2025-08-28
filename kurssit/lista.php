@@ -3,14 +3,19 @@ require '../yhteys.php';
 
 
 $sql_lause = "SELECT 
-    k.*, 
-    CONCAT(o.etunimi, ' ', o.sukunimi) AS opettaja_nimi, 
+    k.id,
+    k.nimi,
+    k.alkupäivä,
+    k.loppupäivä,
+    CONCAT(o.etunimi, ' ', o.sukunimi) AS opettaja_nimi,
     t.nimi AS tila_nimi,
-    CONCAT(os.etunimi, ' ', os.sukunimi) AS opiskelija_nimi
+    GROUP_CONCAT(CONCAT(os.etunimi, ' ', os.sukunimi) SEPARATOR ', ') AS opiskelijat
 FROM kurssit k
 JOIN opettajat o ON k.opettaja = o.tunnusnumero
 JOIN tilat t ON k.tila = t.id
-LEFT JOIN opiskelijat os ON k.opiskelija_numero = os.opiskelija_numero";
+LEFT JOIN kurssikirjautumisilla kk ON kk.kurssi = k.id
+LEFT JOIN opiskelijat os ON kk.opiskelija = os.opiskelija_numero
+GROUP BY k.id, k.nimi, k.alkupäivä, k.loppupäivä, opettaja_nimi, tila_nimi";
 
 try {
     $kysely = $yhteys->prepare($sql_lause);
@@ -54,7 +59,7 @@ $tulos = $kysely->fetchAll();
 <tr>
     <td><?= htmlspecialchars($rivi['nimi']) ?></td>
     <td><?= htmlspecialchars($rivi['opettaja_nimi']) ?></td>
-    <td><?= htmlspecialchars($rivi['opiskelija_nimi']) ?></td>
+    <td><?= htmlspecialchars($rivi['opiskelijat'] ?? '') ?></td>
     <td><?= htmlspecialchars($rivi['tila_nimi']) ?></td>
     <td><?= $rivi['alkupäivä'] ?></td>
     <td><?= $rivi['loppupäivä'] ?></td>
