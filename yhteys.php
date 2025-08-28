@@ -2,7 +2,7 @@
 // Load environment variables from .env file
 function loadEnv($path) {
     if (!file_exists($path)) {
-        throw new Exception('.env file not found');
+        throw new Exception('.env tiedostoa ei löytynyt');
     }
     
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -27,7 +27,7 @@ try {
     $dbname = $_ENV['DB_NAME']
     
     if (!$username || !$password) {
-        throw new Exception('Database credentials not found in .env file');
+        throw new Exception('Tietokanta configuraatiota ei löytynt .env tiedostosta. Luo se tai korjaa oikeat tiedot');
     }
     
     $yhteys = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
