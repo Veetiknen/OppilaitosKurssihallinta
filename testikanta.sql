@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2025 at 01:15 PM
+-- Generation Time: Aug 28, 2025 at 07:49 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -63,6 +63,16 @@ CREATE TABLE `opettajat` (
   `aine` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `opettajat`
+--
+
+INSERT INTO `opettajat` (`tunnusnumero`, `etunimi`, `sukunimi`, `aine`) VALUES
+(1, 'Emmott', 'Fleming', 'Science'),
+(2, 'Xymenes', 'Beddow', 'Physical Education'),
+(3, 'Cyndia', 'Godlee', 'Science'),
+(4, 'Libbi', 'Muggeridge', 'English');
+
 -- --------------------------------------------------------
 
 --
@@ -77,6 +87,16 @@ CREATE TABLE `opiskelijat` (
   `vuosikurssi` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `opiskelijat`
+--
+
+INSERT INTO `opiskelijat` (`opiskelija_numero`, `etunimi`, `sukunimi`, `syntymäpäivä`, `vuosikurssi`) VALUES
+(1, 'Romy', 'Shuttleworth', '1964-10-11', 1),
+(2, 'Franzen', 'Rosenstengel', '1976-10-16', 2),
+(3, 'Engelbert', 'Sheerman', '1985-06-16', 3),
+(4, 'Cameron', 'Le Borgne', '1981-10-29', 4);
+
 -- --------------------------------------------------------
 
 --
@@ -88,6 +108,16 @@ CREATE TABLE `tilat` (
   `nimi` varchar(30) NOT NULL,
   `kapasiteetti` int(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tilat`
+--
+
+INSERT INTO `tilat` (`id`, `nimi`, `kapasiteetti`) VALUES
+(1, 'Auditorium', 1),
+(2, 'Auditorium', 2),
+(3, 'Library', 3),
+(4, 'Room 101', 4);
 
 --
 -- Indexes for dumped tables
@@ -147,19 +177,19 @@ ALTER TABLE `kurssit`
 -- AUTO_INCREMENT for table `opettajat`
 --
 ALTER TABLE `opettajat`
-  MODIFY `tunnusnumero` int(30) NOT NULL AUTO_INCREMENT;
+  MODIFY `tunnusnumero` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `opiskelijat`
 --
 ALTER TABLE `opiskelijat`
-  MODIFY `opiskelija_numero` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `opiskelija_numero` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tilat`
 --
 ALTER TABLE `tilat`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
