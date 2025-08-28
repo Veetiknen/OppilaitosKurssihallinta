@@ -24,7 +24,7 @@ try {
     $servername = 'localhost';
     $username = $_ENV['DB_USERNAME'];
     $password = $_ENV['DB_PASSWORD'];
-    $dbname = $_ENV['DB_NAME']
+    $dbname = $_ENV['DB_NAME'];
     
     if (!$username || !$password) {
         throw new Exception('Tietokanta configuraatiota ei löytynt .env tiedostosta. Luo se tai korjaa oikeat tiedot');
