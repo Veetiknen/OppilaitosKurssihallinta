@@ -26,9 +26,9 @@ try {
             FROM kurssit k
             JOIN kurssikirjautumisilla ck ON k.id = ck.kurssi
             WHERE ck.opiskelija = ?";
-    $stmt = $yhteys->prepare($sql);
-    $stmt->execute([$opiskelija_numero]);
-    $kurssit = $stmt->fetchAll();
+    $kysely = $yhteys->prepare($sql);
+    $kysely->execute([$opiskelija_numero]);
+    $kurssit = $kysely->fetchAll();
 } catch (PDOException $e) {
     die("VIRHE: " . $e->getMessage());
 }

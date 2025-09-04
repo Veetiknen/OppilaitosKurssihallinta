@@ -9,23 +9,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $syntymapaiva = trim($_POST["syntymapaiva"] ?? '');
     $vuosikurssi = trim($_POST["vuosikurssi"] ?? '');
 
-    if (empty($etunimi) || empty($sukunimi) || empty($syntymapaiva) || empty($vuosikurssi)) {
+    if(empty($etunimi) || empty($sukunimi) || empty($syntymapaiva) || empty($vuosikurssi)) {
         $virhe = "Kaikki kentät ovat pakollisia.";
     } else {
         try {
-            $sql = "INSERT INTO opiskelijat 
+            $sql_lause = "INSERT INTO opiskelijat 
                     (etunimi, sukunimi, syntymäpäivä, vuosikurssi)
                     VALUES (:etunimi, :sukunimi, :syntymapaiva, :vuosikurssi)";
-            $stmt = $yhteys->prepare($sql);
-            $stmt->bindParam(':etunimi', $etunimi);
-            $stmt->bindParam(':sukunimi', $sukunimi);
-            $stmt->bindParam(':syntymapaiva', $syntymapaiva);
-            $stmt->bindParam(':vuosikurssi', $vuosikurssi);
-            $stmt->execute();
-
-            // Ohjataan takaisin lista.php -sivulle
-            header("Location: lista.php");
-            exit;
+            $kysely = $yhteys->prepare($sql_lause);
+            $kysely->bindParam(':etunimi', $etunimi);
+            $kysely->bindParam(':sukunimi', $sukunimi);
+            $kysely->bindParam(':syntymapaiva', $syntymapaiva);
+            $kysely->bindParam(':vuosikurssi', $vuosikurssi);
+            $kysely->execute();
 
         } catch (PDOException $e) {
             $virhe = "Virhe lisättäessä: " . $e->getMessage();

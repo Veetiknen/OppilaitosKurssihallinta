@@ -18,6 +18,7 @@
 ## Opiskelijanäkymä
 - [x] Näytä opiskelijan tiedot
 - [x] Näytä lista kursseista, joille opiskelija on kirjautunut (nimi + aloituspäivä)
+- [ ] Opiskelijan vuosikurssi ei voi olla isompi kuin 3 
 
 ## Opettajanäkymä
 - [x] Näytä opettajan nimi ja opetettava aine
