@@ -26,6 +26,14 @@ $tulos = $kysely->fetchAll();
         a:hover { text-decoration: underline; }
     </style>
 </head>
+
+<p>
+    <a href="../index.php" 
+       style="display:inline-block; padding:8px 16px; background:#2980b9; color:#fff; text-decoration:none; border-radius:5px;">
+       ⬅ Takaisin etusivulle
+    </a>
+</p>
+
 <body>
 <h2>Opiskelijat</h2>
 <p><a href="lisaa.php">Lisää opiskelija</a></p>
