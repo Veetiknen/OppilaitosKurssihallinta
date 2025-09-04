@@ -1,5 +1,5 @@
 <?php
-require '../yhteys.php'; // Muuta polku, jos tarpeen
+require '../yhteys.php';
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $etunimi = $_POST['etunimi'] ?? '';
@@ -12,7 +12,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt = $yhteys->prepare($sql);
             $stmt->execute([$etunimi, $sukunimi, $aine]);
 
-            // ✅ Ohjaa takaisin listaukseen
             header("Location: lista.php");
             exit;
         } catch (PDOException $e) {
