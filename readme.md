@@ -40,3 +40,13 @@ Jos haluat varmistaa, että sinulla on tuorein versio:
 ``` bash
 git pull origin main
 ```
+
+## tee .env tiedosto
+
+laita sinne seuraavat ja anna oikeat arvot. 
+
+``` bash
+DB_USERNAME=
+DB_PASSWORD=
+DB_NAME=
+```

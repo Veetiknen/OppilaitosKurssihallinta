@@ -28,7 +28,7 @@ $tulos = $kysely->fetchAll();
     </style>
 </head>
 <body>
-<h2>Opiskelijat</h2>
+<h2>Tilat</h2>
 <p><a href="lisaa.php">Lisää Tila</a></p>
 
 <table>
