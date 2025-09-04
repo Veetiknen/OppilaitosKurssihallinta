@@ -13,6 +13,7 @@
 - [x] Näytä vastaavan opettajan nimi
 - [x] Näytä tilan nimi
 - [x] Näytä ilmoittautuneet opiskelijat (nimi + vuosikurssi)
+- [ ] Muokkaa kurssinäkymää niin että alussa näkyy kurssit ja niiden kuvaus. Painamalla näytä nappia näkee muut tiedot (opettaja, opiskelijat, yms)
 
 ## Opiskelijanäkymä
 - [x] Näytä opiskelijan tiedot
