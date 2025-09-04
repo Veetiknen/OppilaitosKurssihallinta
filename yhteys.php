@@ -30,7 +30,7 @@ try {
         throw new Exception('Tietokanta configuraatiota ei löytynt .env tiedostosta. Luo se tai korjaa oikeat tiedot');
     }
     
-    $yhteys = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $yhteys = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", $username, $password);
     $yhteys->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     echo "Yhteys muodostettu<br>";
     
