@@ -22,7 +22,7 @@ try {
 
 // Hae opiskelijan kurssit kirjautumisten perusteella
 try {
-    $sql = "SELECT k.nimi, k.alkupäivä
+    $sql = "SELECT k.nimi, ck.Kirjautumispäivä
             FROM kurssit k
             JOIN kurssikirjautumisilla ck ON k.id = ck.kurssi
             WHERE ck.opiskelija = ?";
@@ -59,12 +59,12 @@ try {
 <table>
 <tr>
     <th>Kurssi</th>
-    <th>Aloituspäivämäärä</th>
+    <th>Ilmoittautumispäivä</th>
 </tr>
 <?php foreach ($kurssit as $k): ?>
 <tr>
     <td><?= htmlspecialchars($k['nimi']) ?></td>
-    <td><?= htmlspecialchars($k['alkupäivä']) ?></td>
+    <td><?= htmlspecialchars($k['Kirjautumispäivä']) ?></td>
 </tr>
 <?php endforeach; ?>
 </table>
