@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $syntymapaiva = $_POST["syntymapaiva"] ?? '';
     $vuosikurssi = $_POST["vuosikurssi"] ?? '';
 
-    if(!empty($etunimi) && !empty($sukunimi) && !empty($syntymapaiva) && empty($vuosikurssi)) {
+    if(!empty($etunimi) && !empty($sukunimi) && !empty($syntymapaiva) && !empty($vuosikurssi)) {
         try {
             $sql_lause = "INSERT INTO opiskelijat 
                     (etunimi, sukunimi, syntymäpäivä, vuosikurssi)

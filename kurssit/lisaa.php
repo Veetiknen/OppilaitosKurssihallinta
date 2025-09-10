@@ -1,12 +1,13 @@
 <?php
 require '../yhteys.php';
 
-// Haetaan opettajat ja tilat alasvetovalikoita varten
+// Haetaan aineet (opettajien aine-kentistä distinct)
 try {
-    $opettajat = $yhteys->query("SELECT tunnusnumero, CONCAT(etunimi, ' ', sukunimi) AS nimi FROM opettajat")->fetchAll();
+    $aineet = $yhteys->query("SELECT DISTINCT aine FROM opettajat WHERE tunnusnumero != 0")->fetchAll();
+    $opettajat = $yhteys->query("SELECT tunnusnumero, CONCAT(etunimi, ' ', sukunimi) AS nimi, aine FROM opettajat WHERE tunnusnumero != 0")->fetchAll();
     $tilat = $yhteys->query("SELECT id, nimi FROM tilat")->fetchAll();
 } catch (PDOException $e) {
-    die("Virhe haettaessa opettajia tai tiloja: " . $e->getMessage());
+    die("Virhe haettaessa tietoja: " . $e->getMessage());
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -16,8 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $loppupaiva = $_POST["loppupaiva"] ?? '';
     $opettaja = $_POST["opettaja"] ?? '';
     $tila = $_POST["tila"] ?? '';
+    $aine = $_POST["aine"] ?? '';
 
-    if (!empty($nimi) && !empty($kuvaus) && !empty($alkupaiva) && !empty($loppupaiva) && !empty($opettaja) && !empty($tila)) {
+    if (!empty($nimi) && !empty($kuvaus) && !empty($alkupaiva) && !empty($loppupaiva) && !empty($opettaja) && !empty($tila) && !empty($aine)) {
         try {
             $sql_lause = "INSERT INTO kurssit 
                 (nimi, kuvaus, alkupäivä, loppupäivä, opettaja, tila)
@@ -33,7 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             header("Location: lista.php");
             exit;
-
         } catch (PDOException $e) {
             echo "Virhe lisättäessä kurssia: " . $e->getMessage();
         }
@@ -42,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fi">
 <head>
@@ -52,6 +52,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <h2>Lisää uusi kurssi</h2>
     <form method="post">
+        <label>Aine:<br>
+            <select name="aine" required>
+                <option value="">-- Valitse aine --</option>
+                <?php foreach($aineet as $a): ?>
+                    <option value="<?= htmlspecialchars($a['aine']) ?>"><?= htmlspecialchars($a['aine']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label><br><br>
+
         <label>Kurssin nimi:<br><input type="text" name="nimi" required></label><br><br>
         <label>Kuvaus:<br><input type="text" name="kuvaus" required></label><br><br>
         <label>Alkupäivä:<br><input type="date" name="alkupaiva" required></label><br><br>
@@ -61,7 +70,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <select name="opettaja" required>
                 <option value="">-- Valitse opettaja --</option>
                 <?php foreach($opettajat as $o): ?>
-                    <option value="<?= $o['tunnusnumero'] ?>"><?= htmlspecialchars($o['nimi']) ?></option>
+                    <option value="<?= $o['tunnusnumero'] ?>">
+                        <?= htmlspecialchars($o['nimi']) ?> (<?= htmlspecialchars($o['aine']) ?>)
+                    </option>
                 <?php endforeach; ?>
             </select>
         </label><br><br>
