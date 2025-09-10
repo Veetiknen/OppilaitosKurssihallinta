@@ -3,35 +3,34 @@
 ## Perustoiminnot
 - [x] Luo tietokantamalli (opettajat, opiskelijat, kurssit, tilat, ilmoittautumiset)
 - [ ] Toteuta CRUD-toiminnot (lisääminen, poistaminen, muokkaaminen) seuraaville:
-  - [ ] Opettajat
+  - [x] Opettajat
   - [ ] Opiskelijat
-  - [ ] Kurssit
-  - [ ] Ilmoittautumiset
+  - [x] Kurssit
 
 ## Kurssinäkymä
 - [x] Näytä kurssin nimi, kuvaus, alku- ja loppupäivä
 - [x] Näytä vastaavan opettajan nimi
 - [x] Näytä tilan nimi
 - [x] Näytä ilmoittautuneet opiskelijat (nimi + vuosikurssi)
-- [ ] Muokkaa kurssinäkymää niin että alussa näkyy kurssit ja niiden kuvaus. Painamalla näytä nappia näkee muut tiedot (opettaja, opiskelijat, yms)
+- [x] Muokkaa kurssinäkymää niin että alussa näkyy kurssit ja niiden kuvaus. Painamalla näytä nappia näkee muut tiedot (opettaja, opiskelijat, yms)
 
 ## Opiskelijanäkymä
 - [x] Näytä opiskelijan tiedot
 - [x] Näytä lista kursseista, joille opiskelija on kirjautunut (nimi + aloituspäivä)
-- [ ] Opiskelijan vuosikurssi ei voi olla isompi kuin 3 
+- [x] Opiskelijan vuosikurssi ei voi olla isompi kuin 3 
 
 ## Opettajanäkymä
 - [x] Näytä opettajan nimi ja opetettava aine
-- [ ] Näytä kaikki kurssit, joista opettaja vastaa (nimi, alku- ja loppupäivä, tilan nimi)
+- [x] Näytä kaikki kurssit, joista opettaja vastaa (nimi, alku- ja loppupäivä, tilan nimi)
 
 ## Tilanäkymä
 - [x] Näytä tilan nimi ja kapasiteetti
 - [ ] Näytä kaikki kurssit, jotka pidetään tilassa:
-  - [ ] Kurssin nimi
-  - [ ] Vastaava opettaja
-  - [ ] Alku- ja loppupäivä
-  - [ ] Osallistujien määrä
-  - [ ] Varoituskuvake, jos osallistujia > kapasiteetti
+  - [x] Kurssin nimi
+  - [x] Vastaava opettaja
+  - [x] Alku- ja loppupäivä
+  - [x] Osallistujien määrä
+  - [x] Varoituskuvake, jos osallistujia > kapasiteetti
 
 ## Ulkoasu
 - [ ] CSS
