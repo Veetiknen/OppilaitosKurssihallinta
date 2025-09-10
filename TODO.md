@@ -25,7 +25,7 @@
 
 ## Tilanäkymä
 - [x] Näytä tilan nimi ja kapasiteetti
-- [ ] Näytä kaikki kurssit, jotka pidetään tilassa:
+- [x] Näytä kaikki kurssit, jotka pidetään tilassa:
   - [x] Kurssin nimi
   - [x] Vastaava opettaja
   - [x] Alku- ja loppupäivä
