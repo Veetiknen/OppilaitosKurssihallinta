@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option value="">-- Valitse opettaja --</option>
                 <?php foreach($opettajat as $o): ?>
                     <option value="<?= $o['tunnusnumero'] ?>">
-                        <?= htmlspecialchars($o['nimi']) ?> (<?= htmlspecialchars($o['aine']) ?>)
+                        <?= htmlspecialchars($o['nimi']) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
