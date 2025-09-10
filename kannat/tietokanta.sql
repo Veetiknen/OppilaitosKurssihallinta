@@ -16,12 +16,12 @@ CREATE DATABASE IF NOT EXISTS `projekti`
   DEFAULT CHARACTER SET utf8mb4
   COLLATE utf8mb4_general_ci;
 
-USE `combined_projekti`;
+USE `projekti`;
 
 -- --------------------------------------------------------
 -- Table structure for table `opettajat`
 
-CREATE TABLE `opettajat` (s
+CREATE TABLE `opettajat` (
   `tunnusnumero` int(30) NOT NULL,
   `etunimi` varchar(30) NOT NULL,
   `sukunimi` varchar(30) NOT NULL,

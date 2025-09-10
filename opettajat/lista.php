@@ -1,7 +1,6 @@
 <?php
 require '../yhteys.php';
 
-
 $sql_lause = "SELECT * FROM opettajat WHERE tunnusnumero != 0";
 
 try {
@@ -49,12 +48,14 @@ $tulos = $kysely->fetchAll();
 
 <?php foreach($tulos as $rivi): ?>
 <tr>
-    <td><?php echo htmlspecialchars($rivi['tunnusnumero']); ?></td>
-    <td><?php echo htmlspecialchars($rivi['etunimi'] . ' ' . $rivi['sukunimi']); ?></td>
-    <td><?php echo htmlspecialchars($rivi['aine']); ?></td>
+    <td><?= htmlspecialchars($rivi['tunnusnumero']); ?></td>
+    <td><?= htmlspecialchars($rivi['etunimi'] . ' ' . $rivi['sukunimi']); ?></td>
+    <td><?= htmlspecialchars($rivi['aine']); ?></td>
     <td>
-        <a href="muokkaa.php?id=<?php echo $rivi['tunnusnumero']; ?>">Muokkaa</a> |
-        <a href="poista.php?id=<?php echo $rivi['tunnusnumero']; ?>" onclick="return confirm('Haluatko varmasti poistaa tämän opettajan?');">Poista</a>
+        <a href="nayta.php?id=<?= $rivi['tunnusnumero']; ?>">Näytä</a> | 
+        <a href="muokkaa.php?id=<?= $rivi['tunnusnumero']; ?>">Muokkaa</a> |
+        <a href="poista.php?id=<?= $rivi['tunnusnumero']; ?>" 
+           onclick="return confirm('Haluatko varmasti poistaa tämän opettajan?');">Poista</a>
     </td>
 </tr>
 <?php endforeach; ?>
