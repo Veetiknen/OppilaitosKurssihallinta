@@ -11,17 +11,17 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `combined_projekti`
---
+-- Luo tietokanta
+CREATE DATABASE IF NOT EXISTS `projekti`
+  DEFAULT CHARACTER SET utf8mb4
+  COLLATE utf8mb4_general_ci;
+
+USE `combined_projekti`;
 
 -- --------------------------------------------------------
-
---
 -- Table structure for table `opettajat`
---
 
-CREATE TABLE `opettajat` (
+CREATE TABLE `opettajat` (s
   `tunnusnumero` int(30) NOT NULL,
   `etunimi` varchar(30) NOT NULL,
   `sukunimi` varchar(30) NOT NULL,

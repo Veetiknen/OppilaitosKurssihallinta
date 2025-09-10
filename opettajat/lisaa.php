@@ -8,17 +8,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (!empty($etunimi) && !empty($sukunimi) && !empty($aine)) {
         try {
-            $sql = "INSERT INTO opettajat (etunimi, sukunimi, aine) VALUES (?, ?, ?)";
-            $stmt = $yhteys->prepare($sql);
-            $stmt->execute([$etunimi, $sukunimi, $aine]);
+            $sql_lause = "INSERT INTO opettajat (etunimi, sukunimi, aine) 
+                    VALUES (:etunimi, :sukunimi, :aine)";
+            $kysely = $yhteys->prepare($sql_lause);
+            $kysely->bindParam(':etunimi', $etunimi);
+            $kysely->bindParam(':sukunimi', $sukunimi);
+            $kysely->bindParam(':aine', $aine);
+            $kysely->execute();
 
             header("Location: lista.php");
             exit;
         } catch (PDOException $e) {
-            echo "<p style='color: red;'>Virhe tallennuksessa: " . $e->getMessage() . "</p>";
+            echo "Virhe tallennuksessa: " . $e->getMessage() . "</p>";
         }
     } else {
-        echo "<p style='color: red;'>Kaikki kentät ovat pakollisia.</p>";
+        echo "Kaikki kentät ovat pakollisia.";
     }
 }
 ?>
@@ -32,9 +36,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body>
 <h2>Lisää opettaja</h2>
 <form method="post" action="">
-    <p><label>Etunimi:<br><input type="text" name="etunimi" required></label></p>
-    <p><label>Sukunimi:<br><input type="text" name="sukunimi" required></label></p>
-    <p><label>Aine:<br><input type="text" name="aine" required></label></p>
+    <p><label>Etunimi:<br><input type="text" name="etunimi"></label></p>
+    <p><label>Sukunimi:<br><input type="text" name="sukunimi"></label></p>
+    <p><label>Aine:<br><input type="text" name="aine"></label></p>
     <p><button type="submit">Lisää opettaja</button></p>
 </form>
 <p><a href="lista.php">Takaisin listaan</a></p>

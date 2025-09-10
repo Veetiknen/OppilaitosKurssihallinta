@@ -1,17 +1,13 @@
 <?php
 require '../yhteys.php';
 
-$virhe = "";
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $etunimi = trim($_POST["etunimi"] ?? '');
-    $sukunimi = trim($_POST["sukunimi"] ?? '');
-    $syntymapaiva = trim($_POST["syntymapaiva"] ?? '');
-    $vuosikurssi = trim($_POST["vuosikurssi"] ?? '');
+    $etunimi = $_POST["etunimi"] ?? '';
+    $sukunimi = $_POST["sukunimi"] ?? '';
+    $syntymapaiva = $_POST["syntymapaiva"] ?? '';
+    $vuosikurssi = $_POST["vuosikurssi"] ?? '';
 
-    if(empty($etunimi) || empty($sukunimi) || empty($syntymapaiva) || empty($vuosikurssi)) {
-        $virhe = "Kaikki kentät ovat pakollisia.";
-    } else {
+    if(!empty($etunimi) && !empty($sukunimi) && !empty($syntymapaiva) && empty($vuosikurssi)) {
         try {
             $sql_lause = "INSERT INTO opiskelijat 
                     (etunimi, sukunimi, syntymäpäivä, vuosikurssi)
@@ -23,9 +19,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $kysely->bindParam(':vuosikurssi', $vuosikurssi);
             $kysely->execute();
 
+            header("Location: lista.php");
+            exit;
+
         } catch (PDOException $e) {
-            $virhe = "Virhe lisättäessä: " . $e->getMessage();
+           echo "Virhe lisättäessä: " . $e->getMessage();
         }
+    } else {
+        echo "Kaikki kentät ovat pakollisia";
     }
 }
 ?>
@@ -38,30 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <h2>Lisää uusi opiskelija</h2>
-    <p><a href="lista.php">Takaisin opiskelijalistaan</a></p>
-
-    <?php if ($virhe): ?>
-        <p style="color: red;"><?= htmlspecialchars($virhe) ?></p>
-    <?php endif; ?>
-
     <form method="post">
-        <label>Etunimi:<br>
-            <input type="text" name="etunimi" required>
-        </label><br><br>
-
-        <label>Sukunimi:<br>
-            <input type="text" name="sukunimi" required>
-        </label><br><br>
-
-        <label>Syntymäpäivä:<br>
-            <input type="date" name="syntymapaiva" required>
-        </label><br><br>
-
-        <label>Vuosikurssi:<br>
-            <input type="number" name="vuosikurssi" min="1" max="10" required>
-        </label><br><br>
-
+        <label>Etunimi:<br><input type="text" name="etunimi"></label><br><br>
+        <label>Sukunimi:<br><input type="text" name="sukunimi"></label><br><br>
+        <label>Syntymäpäivä:<br><input type="date" name="syntymapaiva"></label><br><br>
+        <label>Vuosikurssi:<br><input type="number" name="vuosikurssi" min="1" max="3"></label><br><br>
         <button type="submit">Lisää</button>
     </form>
+    <p><a href="lista.php">Takaisin opiskelijalistaan</a></p>
 </body>
 </html>
