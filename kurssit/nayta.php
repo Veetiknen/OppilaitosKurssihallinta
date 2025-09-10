@@ -58,7 +58,20 @@ try {
     <p><strong>Loppu:</strong> <?= htmlspecialchars($kurssi['loppupäivä']) ?></p>
     <p><strong>Opettaja:</strong> <?= htmlspecialchars($kurssi['opettaja_nimi']) ?></p>
     <p><strong>Tila:</strong> <?= htmlspecialchars($kurssi['tila_nimi']) ?></p>
-    <p><strong>Opiskelijat:</strong> <?= htmlspecialchars($kurssi['opiskelijat'] ?? 'Ei ilmoittautuneita') ?></p>
+    <p><strong>Opiskelijat:</strong> 
+    <?php if (empty($kurssi['opiskelijat'])): ?>
+        Ei ilmoittautuneita 
+        <a href="lisaa_opiskelija.php?kurssi=<?= $kurssi['id'] ?>">
+            <button>Lisää opiskelija</button>
+        </a>
+    <?php else: ?>
+        <?= htmlspecialchars($kurssi['opiskelijat']) ?>
+        <br><br>
+        <a href="lisaa_opiskelija.php?kurssi=<?= $kurssi['id'] ?>">
+            <button>Lisää opiskelija</button>
+        </a>
+    <?php endif; ?>
+</p>
 </div>
 </body>
 </html>
