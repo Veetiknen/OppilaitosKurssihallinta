@@ -1,7 +1,6 @@
 <?php
 require '../yhteys.php';
 
-
 $sql_lause = "SELECT * FROM tilat";
 
 try {
@@ -43,7 +42,6 @@ $tulos = $kysely->fetchAll();
 <tr>
     <th>ID</th>
     <th>Nimi</th>
-    <th>Kapasiteetti</th>
     <th>Toiminnot</th>
 </tr>
 
@@ -51,8 +49,8 @@ $tulos = $kysely->fetchAll();
 <tr>
     <td><?php echo htmlspecialchars($rivi['id']); ?></td>
     <td><?php echo htmlspecialchars($rivi['nimi']); ?></td>
-    <td><?php echo htmlspecialchars($rivi['kapasiteetti']); ?></td>
     <td>
+        <a href="nayta.php?id=<?php echo $rivi['id']; ?>">Näytä</a> |
         <a href="muokkaa.php?id=<?php echo $rivi['id']; ?>">Muokkaa</a> |
         <a href="poista.php?id=<?php echo $rivi['id']; ?>" onclick="return confirm('Haluatko varmasti poistaa tämän tilan?');">Poista</a>
     </td>
