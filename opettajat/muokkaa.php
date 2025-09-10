@@ -9,9 +9,9 @@ $opettaja_id = (int)$_GET['id'];
 
 // Hae opettajan tiedot
 try {
-    $sql = "SELECT * FROM opettajat WHERE tunnusnumero = :id";
-    $kysely = $yhteys->prepare($sql);
-    $kysely->bindParam(':id', $opettaja_id, PDO::PARAM_INT);
+    $sql_lause = "SELECT * FROM opettajat WHERE tunnusnumero = :id";
+    $kysely = $yhteys->prepare($sql_lause);
+    $kysely->bindParam(':id', $opettaja_id);
     $kysely->execute();
     $opettaja = $kysely->fetch();
     if (!$opettaja) {
@@ -29,14 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($etunimi) && !empty($sukunimi) && !empty($aine)) {
         try {
-            $sql = "UPDATE opettajat
+            $sql_lause = "UPDATE opettajat
                     SET etunimi = :etunimi, sukunimi = :sukunimi, aine = :aine
                     WHERE tunnusnumero = :id";
-            $kysely = $yhteys->prepare($sql);
+            $kysely = $yhteys->prepare($sql_lause);
             $kysely->bindParam(':etunimi', $etunimi);
             $kysely->bindParam(':sukunimi', $sukunimi);
             $kysely->bindParam(':aine', $aine);
-            $kysely->bindParam(':id', $opettaja_id, PDO::PARAM_INT);
+            $kysely->bindParam(':id', $opettaja_id);
             $kysely->execute();
 
             header("Location: lista.php");
@@ -61,18 +61,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <h2>Muokkaa opettajaa: <?= htmlspecialchars($opettaja['etunimi'] . ' ' . $opettaja['sukunimi']) ?></h2>
 
 <form method="post">
-    <label>Etunimi:<br>
-        <input type="text" name="etunimi" value="<?= htmlspecialchars($opettaja['etunimi']) ?>" required>
-    </label><br><br>
-
-    <label>Sukunimi:<br>
-        <input type="text" name="sukunimi" value="<?= htmlspecialchars($opettaja['sukunimi']) ?>" required>
-    </label><br><br>
-
-    <label>Aine:<br>
-        <input type="text" name="aine" value="<?= htmlspecialchars($opettaja['aine']) ?>" required>
-    </label><br><br>
-
+    <label>Etunimi:<br><input type="text" name="etunimi" value="<?= htmlspecialchars($opettaja['etunimi']) ?>"></label><br><br>
+    <label>Sukunimi:<br><input type="text" name="sukunimi" value="<?= htmlspecialchars($opettaja['sukunimi']) ?>"></label><br><br>
+    <label>Aine:<br><input type="text" name="aine" value="<?= htmlspecialchars($opettaja['aine']) ?>"></label><br><br>
     <button type="submit">Tallenna muutokset</button>
 </form>
 
