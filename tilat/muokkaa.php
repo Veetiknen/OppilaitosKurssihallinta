@@ -49,19 +49,98 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>Muokkaa tilaa</title>
     <style>
-        label { display:block; margin-top:10px; }
-        input { width:300px; }
-        button { margin-top:15px; padding:5px 15px; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        main {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #0070c0;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #005a8f;
+        }
+
+        .cancel-link {
+            display: inline-block;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #0070c0;
+        }
+
+        .cancel-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h2>Muokkaa tilaa: <?= htmlspecialchars($tila['nimi']) ?></h2>
-    <form method="post">
-        <label>Nimi:<input type="text" name="nimi" value="<?= htmlspecialchars($tila['nimi']) ?>"></label>
-        <label>Kapasiteetti:<input type="number" name="kapasiteetti" value="<?= htmlspecialchars($tila['kapasiteetti']) ?>" min="1"></label>
-        <button type="submit">Tallenna</button>
-    </form>
 
-    <p><a href="nayta.php?id=<?= $tila_id ?>">Peruuta</a></p>
+<main>
+    <div class="card">
+        <h2>Muokkaa tilaa: <?= htmlspecialchars($tila['nimi']) ?></h2>
+        <form method="post">
+            <div class="form-group">
+                <label for="nimi">Nimi:</label>
+                <input type="text" name="nimi" id="nimi" value="<?= htmlspecialchars($tila['nimi']) ?>" required>
+            </div>
+
+            <div class="form-group">
+                <label for="kapasiteetti">Kapasiteetti:</label>
+                <input type="number" name="kapasiteetti" id="kapasiteetti" value="<?= htmlspecialchars($tila['kapasiteetti']) ?>" min="1" required>
+            </div>
+
+            <button type="submit">Tallenna</button>
+        </form>
+
+        <a class="cancel-link" href="nayta.php?id=<?= $tila_id ?>">⬅ Peruuta ja palaa</a>
+    </div>
+</main>
+
 </body>
 </html>

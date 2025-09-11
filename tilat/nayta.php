@@ -55,54 +55,146 @@ foreach ($kurssit as $k) {
     <meta charset="UTF-8">
     <title>Tila: <?= htmlspecialchars($tila['nimi']) ?></title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 90%; margin-top: 20px; }
-        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .warning { color: red; font-weight: bold; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        h2, h3 {
+            margin-top: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #0070c0;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 0 6px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background-color: #e2e9f7;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .warning {
+            color: #d8000c;
+            background-color: #ffd2d2;
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #0070c0;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #005a8f;
+        }
+
+        .info-pair {
+            margin-bottom: 10px;
+        }
+
+        .info-pair strong {
+            display: inline-block;
+            width: 120px;
+        }
     </style>
 </head>
 <body>
-<h2>Tila: <?= htmlspecialchars($tila['nimi']) ?></h2>
 
-<p><strong>ID:</strong> <?= htmlspecialchars($tila['id']) ?></p>
-<p><strong>Kapasiteetti:</strong> <?= htmlspecialchars($tila['kapasiteetti']) ?></p>
+<main>
+    <div class="card">
+        <h2>Tila: <?= htmlspecialchars($tila['nimi']) ?></h2>
+        <div class="info-pair"><strong>ID:</strong> <?= htmlspecialchars($tila['id']) ?></div>
+        <div class="info-pair"><strong>Kapasiteetti:</strong> <?= htmlspecialchars($tila['kapasiteetti']) ?></div>
+    </div>
 
-<h3>Kurssit tässä tilassa</h3>
+    <div class="card">
+        <h3>Kurssit tässä tilassa</h3>
 
-<?php if (count($kurssit) > 0): ?>
-<table>
-<tr>
-    <th>Nimi</th>
-    <th>Opettaja</th>
-    <th>Alkupäivä</th>
-    <th>Loppupäivä</th>
-    <th>Osallistujat</th>
-    <?php if ($onkoYlityksia): ?>
-        <th>Huomio</th>
-    <?php endif; ?>
-</tr>
-<?php foreach ($kurssit as $k): ?>
-<tr>
-    <td><?= htmlspecialchars($k['nimi']) ?></td>
-    <td><?= htmlspecialchars($k['opettaja']) ?></td>
-    <td><?= htmlspecialchars($k['alkupäivä']) ?></td>
-    <td><?= htmlspecialchars($k['loppupäivä']) ?></td>
-    <td><?= htmlspecialchars($k['osallistujia']) ?></td>
-    <?php if ($onkoYlityksia): ?>
-        <td>
-            <?php if ($k['osallistujia'] > $tila['kapasiteetti']): ?>
-                <span class="warning">Ylittää kapasiteetin!</span>
-            <?php endif; ?>
-        </td>
-    <?php endif; ?>
-</tr>
-<?php endforeach; ?>
-</table>
-<?php else: ?>
-<p>Ei kursseja tässä tilassa.</p>
-<?php endif; ?>
+        <?php if (count($kurssit) > 0): ?>
+        <table>
+            <tr>
+                <th>Nimi</th>
+                <th>Opettaja</th>
+                <th>Alkupäivä</th>
+                <th>Loppupäivä</th>
+                <th>Osallistujat</th>
+                <?php if ($onkoYlityksia): ?>
+                    <th>Huomio</th>
+                <?php endif; ?>
+            </tr>
+            <?php foreach ($kurssit as $k): ?>
+            <tr>
+                <td><?= htmlspecialchars($k['nimi']) ?></td>
+                <td><?= htmlspecialchars($k['opettaja']) ?></td>
+                <td><?= htmlspecialchars($k['alkupäivä']) ?></td>
+                <td><?= htmlspecialchars($k['loppupäivä']) ?></td>
+                <td><?= htmlspecialchars($k['osallistujia']) ?></td>
+                <?php if ($onkoYlityksia): ?>
+                    <td>
+                        <?php if ($k['osallistujia'] > $tila['kapasiteetti']): ?>
+                            <span class="warning">Ylittää kapasiteetin!</span>
+                        <?php endif; ?>
+                    </td>
+                <?php endif; ?>
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php else: ?>
+            <p>Ei kursseja tässä tilassa.</p>
+        <?php endif; ?>
 
-<p><a href="lista.php">Takaisin tila listaan</a></p>
+        <a href="lista.php" class="btn">⬅ Takaisin tila listaan</a>
+    </div>
+</main>
+
 </body>
 </html>

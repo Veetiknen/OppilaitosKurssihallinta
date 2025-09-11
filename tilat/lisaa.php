@@ -31,29 +31,102 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Lisää Tila</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        input[type="text"], input[type="number"] {
-            padding: 6px;
-            width: 300px;
-            margin-bottom: 10px;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f6f8;
+            color: #333;
         }
-        input[type="submit"] {
-            padding: 8px 16px;
-            background: #2980b9;
+
+        a {
+            text-decoration: none;
+            color: #0070c0;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        nav {
+            background-color: #dde6f1;
+            width: 220px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 60px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav li {
+            padding: 10px 20px;
+        }
+
+        nav li:hover {
+            background-color: #c7d9f0;
+        }
+
+        main {
+            margin-left: 240px;
+            padding: 20px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background: white;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #e2e9f7;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .btn {
+            background-color: #0070c0;
             color: white;
+            padding: 6px 12px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
-        input[type="submit"]:hover {
-            background: #1f6391;
+
+        .btn:hover {
+            background-color: #005a8f;
+        }
+
+        .warning {
+            color: red;
+            font-weight: bold;
+        }
+
+        form input,
+        form select {
+            padding: 5px;
+            margin-bottom: 10px;
+            width: 300px;
         }
     </style>
 </head>
 <body>
 <h2>Lisää uusi tila</h2>
 
-<?php if (!empty($virhe)) echo "<p style='color:red;'>$virhe</p>"; ?>
+<?php if (!empty($virhe)) echo "<p class='warning'>$virhe</p>"; ?>
 
 <form method="post" action="">
     <label for="nimi">Tilan nimi:</label><br>
@@ -62,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <label for="kapasiteetti">Kapasiteetti:</label><br>
     <input type="number" name="kapasiteetti" id="kapasiteetti" min="1" required><br><br>
 
-    <input type="submit" value="Lisää Tila">
+    <input type="submit" class="btn" value="Lisää Tila">
 </form>
 
 <p><a href="lista.php">⬅ Takaisin tilalistaan</a></p>
