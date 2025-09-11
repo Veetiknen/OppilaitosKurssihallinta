@@ -58,11 +58,11 @@ CREATE TABLE `opiskelijat` (
 --
 
 INSERT INTO `opiskelijat` (`opiskelija_numero`, `etunimi`, `sukunimi`, `syntymäpäivä`, `vuosikurssi`) VALUES
-(1, 'Matti', 'Meikäläinen', '2005-02-15', 1),
-(2, 'Romy', 'Shuttleworth', '1964-10-11', 1),
-(3, 'Franzen', 'Rosenstengel', '1976-10-16', 2),
-(4, 'Engelbert', 'Sheerman', '1985-06-16', 3),
-(5, 'Cameron', 'Le Borgne', '1981-10-29', 4);
+(0, 'Malli', 'Oppilas', '2005-02-15', 1),
+(1, 'Romy', 'Shuttleworth', '1964-10-11', 1),
+(2, 'Franzen', 'Rosenstengel', '1976-10-16', 2),
+(3, 'Engelbert', 'Sheerman', '1985-06-16', 3),
+(4, 'Cameron', 'Le Borgne', '1981-10-29', 4);
 
 -- --------------------------------------------------------
 
@@ -81,10 +81,16 @@ CREATE TABLE `tilat` (
 --
 
 INSERT INTO `tilat` (`id`, `nimi`, `kapasiteetti`) VALUES
-(1, 'Huone1', 30),
-(2, 'Auditorium', 100),
-(3, 'Library', 25),
-(4, 'Room 101', 20);
+(0, 'Ei valittu', 0),
+(1, 'Auditorium', 100),
+(2, 'Library', 25),
+(3, 'Room 101', 20),
+(4, 'Luokka 4', 30);
+
+ALTER TABLE `tilat`
+  ADD PRIMARY KEY (`id`);
+ALTER TABLE `tilat`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 -- --------------------------------------------------------
 
@@ -107,11 +113,10 @@ CREATE TABLE `kurssit` (
 --
 
 INSERT INTO `kurssit` (`id`, `nimi`, `kuvaus`, `alkupäivä`, `loppupäivä`, `opettaja`, `tila`) VALUES
-(1, 'Testi', 'Testikurssi', '2025-09-21', '2026-01-06', 0, 1),
-(2, 'Biology 101', 'Introduction to Biology', '2025-09-01', '2025-12-15', 1, 2),
-(3, 'Physical Education', 'Basic PE Course', '2025-09-01', '2025-12-15', 2, 4),
-(4, 'Advanced Science', 'Advanced Science Topics', '2025-09-15', '2026-01-20', 3, 3),
-(5, 'English Literature', 'Modern English Literature', '2025-09-10', '2025-12-20', 4, 1);
+(1, 'Biology 101', 'Introduction to Biology', '2025-09-01', '2025-12-15', 1, 2),
+(2, 'Physical Education', 'Basic PE Course', '2025-09-01', '2025-12-15', 2, 4),
+(3, 'Advanced Science', 'Advanced Science Topics', '2025-09-15', '2026-01-20', 3, 3),
+(4, 'English Literature', 'Modern English Literature', '2025-09-10', '2025-12-20', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -131,11 +136,11 @@ CREATE TABLE `kurssikirjautumisilla` (
 --
 
 INSERT INTO `kurssikirjautumisilla` (`id`, `opiskelija`, `kurssi`, `Kirjautumispäivä`) VALUES
-(1, 1, 1, '2025-08-28 07:48:47'),
-(2, 2, 2, '2025-08-28 08:00:00'),
-(3, 3, 3, '2025-08-28 08:15:00'),
-(4, 4, 4, '2025-08-28 08:30:00'),
-(5, 5, 5, '2025-08-28 08:45:00');
+(0, 0, 0, '2025-08-28 07:48:47'),
+(1, 1, 1, '2025-08-28 08:00:00'),
+(2, 2, 2, '2025-08-28 08:15:00'),
+(3, 3, 3, '2025-08-28 08:30:00'),
+(4, 4, 4, '2025-08-28 08:45:00');
 
 --
 -- Indexes for dumped tables
