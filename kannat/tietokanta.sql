@@ -87,7 +87,6 @@ INSERT INTO `tilat` (`id`, `nimi`, `kapasiteetti`) VALUES
 (3, 'Room 101', 20),
 (4, 'Luokka 4', 30);
 
-
 -- --------------------------------------------------------
 
 --
@@ -109,6 +108,7 @@ CREATE TABLE `kurssit` (
 --
 
 INSERT INTO `kurssit` (`id`, `nimi`, `kuvaus`, `alkupäivä`, `loppupäivä`, `opettaja`, `tila`) VALUES
+(0, 'Ei valittu', 'Ei kurssia valittu', '2025-01-01', '2025-12-31', 0, 0),
 (1, 'Biology 101', 'Introduction to Biology', '2025-09-01', '2025-12-15', 1, 2),
 (2, 'Physical Education', 'Basic PE Course', '2025-09-01', '2025-12-15', 2, 4),
 (3, 'Advanced Science', 'Advanced Science Topics', '2025-09-15', '2026-01-20', 3, 3),
@@ -159,9 +159,6 @@ ALTER TABLE `opiskelijat`
 --
 ALTER TABLE `tilat`
   ADD PRIMARY KEY (`id`);
-  
-ALTER TABLE `tilat`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Indexes for table `kurssit`

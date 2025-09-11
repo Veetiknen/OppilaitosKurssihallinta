@@ -1,7 +1,7 @@
 <?php
 require '../yhteys.php';
 
-$sql_lause = "SELECT * FROM opiskelijat";
+$sql_lause = "SELECT * FROM opiskelijat WHERE opiskelija_numero != 0";
 
 try {
     $kysely = $yhteys->prepare($sql_lause);
