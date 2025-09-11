@@ -7,21 +7,11 @@
     <meta charset="UTF-8">
     <title>Opintohallinta</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-            /* Taustakuva ja sen asetukset */
-            background-image: url('https://emojimix.app/italian/1_13.jpg');
-            background-size: cover; /* Peittää koko taustan */
-            background-repeat: no-repeat;
-            background-position: center center;
-            /* Halutessasi voit lisätä myös varjon tai taustavärin */
-            color: #fff; /* Esim. valkoinen teksti, koska taustakuva on värikäs */
-        }
-        h1 { color: #f0f0f0; }
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        h1 { color: #2c3e50; }
         ul { list-style: none; padding: 0; }
         li { margin: 10px 0; }
-        a { text-decoration: none; color: #a0d8f0; font-weight: bold; }
+        a { text-decoration: none; color: #2980b9; font-weight: bold; }
         a:hover { text-decoration: underline; }
     </style>
 </head>
