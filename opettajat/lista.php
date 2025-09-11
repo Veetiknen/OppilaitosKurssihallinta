@@ -25,6 +25,7 @@ $opettajat = $kysely->fetchAll();
     <td><?= htmlspecialchars($o['etunimi'].' '.$o['sukunimi']) ?></td>
     <td><?= htmlspecialchars($o['aine']) ?></td>
     <td>
+        <a class="btn" href="nayta.php?id=<?= $o['tunnusnumero'] ?>">Näytä</a>
         <a class="btn" href="muokkaa.php?id=<?= $o['tunnusnumero'] ?>">Muokkaa</a>
         <a class="btn" href="poista.php?id=<?= $o['tunnusnumero'] ?>" onclick="return confirm('Haluatko varmasti poistaa?')">Poista</a>
     </td>
