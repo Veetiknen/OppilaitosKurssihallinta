@@ -1,61 +1,37 @@
 <?php
 require '../yhteys.php';
+require '../template.php';
 
-$sql_lause = "SELECT id, nimi, kuvaus FROM kurssit";
+renderHeader("Kurssit");
 
-try {
-    $kysely = $yhteys->prepare($sql_lause);
-    $kysely->execute();
-} catch (PDOException $e) {
-    die("VIRHE: " . $e->getMessage());
-}
-$tulos = $kysely->fetchAll();
+$sql = "SELECT id, nimi, kuvaus FROM kurssit";
+$kysely = $yhteys->prepare($sql);
+$kysely->execute();
+$kurssit = $kysely->fetchAll();
 ?>
 
-<!DOCTYPE html>
-<html lang="fi">
-<head>
-    <meta charset="UTF-8">
-    <title>Kurssit</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 70%; }
-        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        a { text-decoration: none; color: #2980b9; }
-        a:hover { text-decoration: underline; }
-    </style>
-</head>
-
-<p>
-    <a href="../index.php" 
-       style="display:inline-block; padding:8px 16px; background:#2980b9; color:#fff; text-decoration:none; border-radius:5px;">
-       ⬅ Takaisin etusivulle
-    </a>
-</p>
-
-<body>
-<h2>Kurssit</h2>
-<p><a href="lisaa.php">Lisää kurssi</a></p>
+<p><a class="btn" href="lisaa.php">Lisää Kurssi</a></p>
 
 <table>
-<tr>
-    <th>Nimi</th>
-    <th>Kuvaus</th>
-    <th>Toiminnot</th>
-</tr>
-
-<?php foreach($tulos as $rivi): ?>
-<tr>
-    <td><?= htmlspecialchars($rivi['nimi']) ?></td>
-    <td><?= htmlspecialchars($rivi['kuvaus']) ?></td>
-    <td>
-        <a href="nayta.php?id=<?= $rivi['id'] ?>">Näytä</a> |
-        <a href="muokkaa.php?id=<?= $rivi['id'] ?>">Muokkaa</a> |
-        <a href="poista.php?id=<?= $rivi['id'] ?>" onclick="return confirm('Haluatko varmasti poistaa tämän kurssin?');">Poista</a>
-</td>
-</tr>
-<?php endforeach; ?>
+    <tr>
+        <th>Nimi</th>
+        <th>Kuvaus</th>
+        <th>Toiminnot</th>
+    </tr>
+    <?php foreach($kurssit as $kurssi): ?>
+    <tr>
+        <td><?= htmlspecialchars($kurssi['nimi']) ?></td>
+        <td><?= htmlspecialchars($kurssi['kuvaus']) ?></td>
+        <td>
+            <a class="btn" href="nayta.php?id=<?= $kurssi['id'] ?>">Näytä</a>
+            <a class="btn" href="muokkaa.php?id=<?= $kurssi['id'] ?>">Muokkaa</a>
+            <a class="btn" href="poista.php?id=<?= $kurssi['id'] ?>" 
+               onclick="return confirm('Haluatko varmasti poistaa tämän kurssin?');">
+               Poista
+            </a>
+        </td>
+    </tr>
+    <?php endforeach; ?>
 </table>
-</body>
-</html>
+
+<?php renderFooter(); ?>

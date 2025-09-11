@@ -1,33 +1,31 @@
 <?php
 require '../yhteys.php';
+require '../template.php';
 
 if (!isset($_GET['id'])) {
-    die("Kurssin ID puuttuu.");
+    die("Kurssia ei valittu");
 }
-$id = (int)$_GET['id'];
 
-$sql_lause = "
-SELECT 
-    k.id,
-    k.nimi,
-    k.kuvaus,
-    k.alkupäivä,
-    k.loppupäivä,
-    CONCAT(o.etunimi, ' ', o.sukunimi) AS opettaja_nimi,
-    t.nimi AS tila_nimi,
-    GROUP_CONCAT(CONCAT(os.etunimi, ' ', os.sukunimi, ' (', os.vuosikurssi, ')') SEPARATOR ', ') AS opiskelijat
-FROM kurssit k
-JOIN opettajat o ON k.opettaja = o.tunnusnumero
-JOIN tilat t ON k.tila = t.id
-LEFT JOIN kurssikirjautumisilla kk ON kk.kurssi = k.id
-LEFT JOIN opiskelijat os ON kk.opiskelija = os.opiskelija_numero
-WHERE k.id = :id
-GROUP BY k.id, k.nimi, k.kuvaus, k.alkupäivä, k.loppupäivä, opettaja_nimi, tila_nimi
-";
+$kurssi_id = (int)$_GET['id'];
 
+// Haetaan kurssin tiedot
 try {
+    $sql_lause = "
+        SELECT 
+            k.id,
+            k.nimi,
+            k.kuvaus,
+            k.alkupäivä,
+            k.loppupäivä,
+            CONCAT(o.etunimi, ' ', o.sukunimi) AS opettaja_nimi,
+            t.nimi AS tila_nimi
+        FROM kurssit k
+        JOIN opettajat o ON k.opettaja = o.tunnusnumero
+        JOIN tilat t ON k.tila = t.id
+        WHERE k.id = :id
+    ";
     $kysely = $yhteys->prepare($sql_lause);
-    $kysely->bindParam(':id', $id, PDO::PARAM_INT);
+    $kysely->bindParam(':id', $kurssi_id, PDO::PARAM_INT);
     $kysely->execute();
     $kurssi = $kysely->fetch();
     if (!$kurssi) {
@@ -36,42 +34,56 @@ try {
 } catch (PDOException $e) {
     die("VIRHE: " . $e->getMessage());
 }
+
+// Haetaan kurssin opiskelijat
+try {
+    $sql_opiskelijat = "
+        SELECT os.etunimi, os.sukunimi, os.vuosikurssi, kk.Kirjautumispäivä
+        FROM kurssikirjautumisilla kk
+        JOIN opiskelijat os ON kk.opiskelija = os.opiskelija_numero
+        WHERE kk.kurssi = :id
+    ";
+    $stmt = $yhteys->prepare($sql_opiskelijat);
+    $stmt->bindParam(':id', $kurssi_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $opiskelijat = $stmt->fetchAll();
+} catch (PDOException $e) {
+    die("VIRHE: " . $e->getMessage());
+}
+
+renderHeader("Kurssi: " . htmlspecialchars($kurssi['nimi']));
 ?>
 
-<!DOCTYPE html>
-<html lang="fi">
-<head>
-    <meta charset="UTF-8">
-    <title>Kurssin tiedot</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .container { max-width: 600px; }
-        .back { margin-bottom: 15px; display: inline-block; }
-    </style>
-</head>
-<body>
-<div class="container">
-    <a href="lista.php" class="back">&laquo; Takaisin kursseihin</a>
-    <h2><?= htmlspecialchars($kurssi['nimi']) ?></h2>
-    <p><strong>Kuvaus:</strong> <?= nl2br(htmlspecialchars($kurssi['kuvaus'])) ?></p>
-    <p><strong>Alku:</strong> <?= htmlspecialchars($kurssi['alkupäivä']) ?></p>
-    <p><strong>Loppu:</strong> <?= htmlspecialchars($kurssi['loppupäivä']) ?></p>
-    <p><strong>Opettaja:</strong> <?= htmlspecialchars($kurssi['opettaja_nimi']) ?></p>
-    <p><strong>Tila:</strong> <?= htmlspecialchars($kurssi['tila_nimi']) ?></p>
-    <p><strong>Opiskelijat:</strong> 
-    <?php if (empty($kurssi['opiskelijat'])): ?>
-        Ei ilmoittautuneita 
-        <a href="lisaa_opiskelija.php?kurssi=<?= $kurssi['id'] ?>">
-            <button>Lisää opiskelija</button>
-        </a>
-    <?php else: ?>
-        <?= htmlspecialchars($kurssi['opiskelijat']) ?>
-        <br><br>
-        <a href="lisaa_opiskelija.php?kurssi=<?= $kurssi['id'] ?>">
-            <button>Lisää opiskelija</button>
-        </a>
-    <?php endif; ?>
-</p>
-</div>
-</body>
-</html>
+<p><strong>Kuvaus:</strong> <?= nl2br(htmlspecialchars($kurssi['kuvaus'])) ?></p>
+<p><strong>Alku:</strong> <?= htmlspecialchars($kurssi['alkupäivä']) ?></p>
+<p><strong>Loppu:</strong> <?= htmlspecialchars($kurssi['loppupäivä']) ?></p>
+<p><strong>Opettaja:</strong> <?= htmlspecialchars($kurssi['opettaja_nimi']) ?></p>
+<p><strong>Tila:</strong> <?= htmlspecialchars($kurssi['tila_nimi']) ?></p>
+
+<h3>Ilmoittautuneet opiskelijat</h3>
+
+<?php if (count($opiskelijat) > 0): ?>
+<table>
+<tr>
+    <th>Etunimi</th>
+    <th>Sukunimi</th>
+    <th>Vuosikurssi</th>
+    <th>Ilmoittautumispäivä</th>
+</tr>
+<?php foreach ($opiskelijat as $o): ?>
+<tr>
+    <td><?= htmlspecialchars($o['etunimi']) ?></td>
+    <td><?= htmlspecialchars($o['sukunimi']) ?></td>
+    <td><?= htmlspecialchars($o['vuosikurssi']) ?></td>
+    <td><?= htmlspecialchars($o['Kirjautumispäivä']) ?></td>
+</tr>
+<?php endforeach; ?>
+</table>
+<?php else: ?>
+<p>Kurssilla ei ole vielä opiskelijoita.</p>
+<?php endif; ?>
+
+<a href="lisaa_opiskelija.php?kurssi=<?= $kurssi['id'] ?>" class="btn">➕ Lisää opiskelija</a>
+<a href="lista.php" class="btn">&laquo; Takaisin kurssilistaan</a>
+
+<?php renderFooter(); ?>

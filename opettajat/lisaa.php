@@ -1,15 +1,18 @@
 <?php
 require '../yhteys.php';
+require '../template.php';
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $etunimi = $_POST['etunimi'] ?? '';
-    $sukunimi = $_POST['sukunimi'] ?? '';
-    $aine = $_POST['aine'] ?? '';
+renderHeader("Lisää Opettaja");
 
-    if (!empty($etunimi) && !empty($sukunimi) && !empty($aine)) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $etunimi = $_POST["etunimi"] ?? '';
+    $sukunimi = $_POST["sukunimi"] ?? '';
+    $aine = $_POST["aine"] ?? '';
+
+    if(!empty($etunimi) && !empty($sukunimi) && !empty($aine)) {
         try {
-            $sql_lause = "INSERT INTO opettajat (etunimi, sukunimi, aine) 
-                    VALUES (:etunimi, :sukunimi, :aine)";
+            $sql_lause = "INSERT INTO opettajat (etunimi, sukunimi, aine)
+                          VALUES (:etunimi, :sukunimi, :aine)";
             $kysely = $yhteys->prepare($sql_lause);
             $kysely->bindParam(':etunimi', $etunimi);
             $kysely->bindParam(':sukunimi', $sukunimi);
@@ -18,29 +21,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             header("Location: lista.php");
             exit;
+
         } catch (PDOException $e) {
-            echo "Virhe tallennuksessa: " . $e->getMessage() . "</p>";
+           echo "<p class='warning'>Virhe lisättäessä: " . htmlspecialchars($e->getMessage()) . "</p>";
         }
     } else {
-        echo "Kaikki kentät ovat pakollisia.";
+        echo "<p class='warning'>Kaikki kentät ovat pakollisia</p>";
     }
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="fi">
-<head>
-    <meta charset="UTF-8">
-    <title>Lisää opettaja</title>
-</head>
-<body>
-<h2>Lisää opettaja</h2>
-<form method="post" action="">
-    <p><label>Etunimi:<br><input type="text" name="etunimi"></label></p>
-    <p><label>Sukunimi:<br><input type="text" name="sukunimi"></label></p>
-    <p><label>Aine:<br><input type="text" name="aine"></label></p>
-    <p><button type="submit">Lisää opettaja</button></p>
+<form method="post">
+    <label>Etunimi:<br><input type="text" name="etunimi" required></label><br><br>
+    <label>Sukunimi:<br><input type="text" name="sukunimi" required></label><br><br>
+    <label>Aine:<br><input type="text" name="aine" required></label><br><br>
+    <button type="submit" class="btn">Lisää</button>
+    <a href="lista.php" class="btn">Takaisin opettajalistaan</a>
 </form>
-<p><a href="lista.php">Takaisin listaan</a></p>
-</body>
-</html>
+
+<?php renderFooter(); ?>
