@@ -9,10 +9,22 @@
     <style>
         body { font-family: Arial, sans-serif; margin: 30px; }
         h1 { color: #2c3e50; }
+        p { margin-bottom: 20px; }
         ul { list-style: none; padding: 0; }
         li { margin: 10px 0; }
-        a { text-decoration: none; color: #2980b9; font-weight: bold; }
-        a:hover { text-decoration: underline; }
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #2980b9;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        a:hover {
+            background: #3498db;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>

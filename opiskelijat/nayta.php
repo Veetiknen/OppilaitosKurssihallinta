@@ -1,5 +1,6 @@
 <?php
 require '../yhteys.php';
+require '../template.php';
 
 if (!isset($_GET['id'])) {
     die("Opiskelijaa ei valittu");
@@ -32,22 +33,9 @@ try {
 } catch (PDOException $e) {
     die("VIRHE: " . $e->getMessage());
 }
-?>
 
-<!DOCTYPE html>
-<html lang="fi">
-<head>
-    <meta charset="UTF-8">
-    <title>Opiskelija: <?= htmlspecialchars($opiskelija['etunimi'] . ' ' . $opiskelija['sukunimi']) ?></title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 80%; margin-top: 20px; }
-        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-    </style>
-</head>
-<body>
-<h2>Opiskelija: <?= htmlspecialchars($opiskelija['etunimi'] . ' ' . $opiskelija['sukunimi']) ?></h2>
+renderHeader("Opiskelija: " . htmlspecialchars($opiskelija['etunimi'] . ' ' . $opiskelija['sukunimi']));
+?>
 
 <p><strong>Tunnusnumero:</strong> <?= htmlspecialchars($opiskelija['opiskelija_numero']) ?></p>
 <p><strong>Syntymäpäivä:</strong> <?= htmlspecialchars($opiskelija['syntymäpäivä']) ?></p>
@@ -72,6 +60,6 @@ try {
 <p>Opiskelijalla ei ole ilmoittautuneita kursseja.</p>
 <?php endif; ?>
 
-<p><a href="lista.php">Takaisin opiskelija listaan</a></p>
-</body>
-</html>
+<a href="lista.php" class="btn">Takaisin opiskelijalistaan</a>
+
+<?php renderFooter(); ?>
