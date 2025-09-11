@@ -10,12 +10,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($nimi) || $kapasiteetti <= 0) {
         $virhe = "Täytä kaikki kentät oikein.";
     } else {
-        $sql = "INSERT INTO tilat (nimi, kapasiteetti) VALUES (:nimi, :kapasiteetti)";
+        $sql_lause = "INSERT INTO tilat (nimi, kapasiteetti) VALUES (:nimi, :kapasiteetti)";
         try {
-            $stmt = $yhteys->prepare($sql);
-            $stmt->bindParam(":nimi", $nimi);
-            $stmt->bindParam(":kapasiteetti", $kapasiteetti);
-            $stmt->execute();
+            $kysely = $yhteys->prepare($sql_lause);
+            $kysely->bindParam(":nimi", $nimi);
+            $kysely->bindParam(":kapasiteetti", $kapasiteetti);
+            $kysely->execute();
             header("Location: lista.php");
             exit;
         } catch (PDOException $e) {
