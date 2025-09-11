@@ -1,42 +1,16 @@
 <?php
 require '../yhteys.php';
+require '../template.php';
 
-$sql_lause = "SELECT * FROM opettajat WHERE tunnusnumero != 0";
+renderHeader("Opettajat");
 
-try {
-    $kysely = $yhteys->prepare($sql_lause);
-    $kysely->execute();
-} catch (PDOException $e) {
-    die("VIRHE: " . $e->getMessage());
-}
-$tulos = $kysely->fetchAll();
+$sql = "SELECT * FROM opettajat WHERE tunnusnumero != 0";
+$kysely = $yhteys->prepare($sql);
+$kysely->execute();
+$opettajat = $kysely->fetchAll();
 ?>
 
-<!DOCTYPE html>
-<html lang="fi">
-<head>
-    <meta charset="UTF-8">
-    <title>Opettajat</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { border-collapse: collapse; width: 80%; }
-        th, td { border: 1px solid #333; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        a { text-decoration: none; color: #2980b9; }
-        a:hover { text-decoration: underline; }
-    </style>
-</head>
-
-<p>
-    <a href="../index.php" 
-       style="display:inline-block; padding:8px 16px; background:#2980b9; color:#fff; text-decoration:none; border-radius:5px;">
-       ⬅ Takaisin etusivulle
-    </a>
-</p>
-
-<body>
-<h2>Opettajat</h2>
-<p><a href="lisaa.php">Lisää opettaja</a></p>
+<p><a class="btn" href="lisaa.php">Lisää Opettaja</a></p>
 
 <table>
 <tr>
@@ -45,21 +19,17 @@ $tulos = $kysely->fetchAll();
     <th>Aine</th>
     <th>Toiminnot</th>
 </tr>
-
-<?php foreach($tulos as $rivi): ?>
+<?php foreach($opettajat as $o): ?>
 <tr>
-    <td><?= htmlspecialchars($rivi['tunnusnumero']); ?></td>
-    <td><?= htmlspecialchars($rivi['etunimi'] . ' ' . $rivi['sukunimi']); ?></td>
-    <td><?= htmlspecialchars($rivi['aine']); ?></td>
+    <td><?= $o['tunnusnumero'] ?></td>
+    <td><?= htmlspecialchars($o['etunimi'].' '.$o['sukunimi']) ?></td>
+    <td><?= htmlspecialchars($o['aine']) ?></td>
     <td>
-        <a href="nayta.php?id=<?= $rivi['tunnusnumero']; ?>">Näytä</a> | 
-        <a href="muokkaa.php?id=<?= $rivi['tunnusnumero']; ?>">Muokkaa</a> |
-        <a href="poista.php?id=<?= $rivi['tunnusnumero']; ?>" 
-           onclick="return confirm('Haluatko varmasti poistaa tämän opettajan?');">Poista</a>
+        <a class="btn" href="muokkaa.php?id=<?= $o['tunnusnumero'] ?>">Muokkaa</a>
+        <a class="btn" href="poista.php?id=<?= $o['tunnusnumero'] ?>" onclick="return confirm('Haluatko varmasti poistaa?')">Poista</a>
     </td>
 </tr>
 <?php endforeach; ?>
-
 </table>
-</body>
-</html>
+
+<?php renderFooter(); ?>

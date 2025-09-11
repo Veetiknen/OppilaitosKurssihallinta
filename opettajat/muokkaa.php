@@ -1,72 +1,40 @@
 <?php
 require '../yhteys.php';
+require '../template.php';
 
-if (!isset($_GET['id'])) {
-    die("Opettajaa ei valittu.");
+if (!isset($_GET['id'])) die("Opettaja ID puuttuu.");
+$id = (int)$_GET['id'];
+
+// Hae opettaja
+$kysely = $yhteys->prepare("SELECT * FROM opettajat WHERE tunnusnumero = :id");
+$kysely->bindParam(':id', $id);
+$kysely->execute();
+$opettaja = $kysely->fetch();
+if (!$opettaja) die("Opettajaa ei löytynyt.");
+
+renderHeader("Muokkaa Opettajaa");
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $etunimi = $_POST['etunimi'];
+    $sukunimi = $_POST['sukunimi'];
+    $aine = $_POST['aine'];
+    $update = $yhteys->prepare("UPDATE opettajat SET etunimi=:etunimi, sukunimi=:sukunimi, aine=:aine WHERE tunnusnumero=:id");
+    $update->bindParam(':etunimi', $etunimi);
+    $update->bindParam(':sukunimi', $sukunimi);
+    $update->bindParam(':aine', $aine);
+    $update->bindParam(':id', $id);
+    $update->execute();
+    echo "<p>Opettaja päivitetty!</p>";
 }
 
-$opettaja_id = (int)$_GET['id'];
-
-// Hae opettajan tiedot
-try {
-    $sql_lause = "SELECT * FROM opettajat WHERE tunnusnumero = :id";
-    $kysely = $yhteys->prepare($sql_lause);
-    $kysely->bindParam(':id', $opettaja_id);
-    $kysely->execute();
-    $opettaja = $kysely->fetch();
-    if (!$opettaja) {
-        die("Opettajaa ei löytynyt.");
-    }
-} catch (PDOException $e) {
-    die("VIRHE: " . $e->getMessage());
-}
-
-// Käsittele lomakkeen POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $etunimi = $_POST['etunimi'] ?? '';
-    $sukunimi = $_POST['sukunimi'] ?? '';
-    $aine = $_POST['aine'] ?? '';
-
-    if (!empty($etunimi) && !empty($sukunimi) && !empty($aine)) {
-        try {
-            $sql_lause = "UPDATE opettajat
-                    SET etunimi = :etunimi, sukunimi = :sukunimi, aine = :aine
-                    WHERE tunnusnumero = :id";
-            $kysely = $yhteys->prepare($sql_lause);
-            $kysely->bindParam(':etunimi', $etunimi);
-            $kysely->bindParam(':sukunimi', $sukunimi);
-            $kysely->bindParam(':aine', $aine);
-            $kysely->bindParam(':id', $opettaja_id);
-            $kysely->execute();
-
-            header("Location: lista.php");
-            exit;
-
-        } catch (PDOException $e) {
-            echo "Virhe muokattaessa opettajaa: " . $e->getMessage();
-        }
-    } else {
-        echo "Kaikki kentät ovat pakollisia.";
-    }
-}
 ?>
 
-<!DOCTYPE html>
-<html lang="fi">
-<head>
-    <meta charset="UTF-8">
-    <title>Muokkaa opettajaa</title>
-</head>
-<body>
-<h2>Muokkaa opettajaa: <?= htmlspecialchars($opettaja['etunimi'] . ' ' . $opettaja['sukunimi']) ?></h2>
-
 <form method="post">
-    <label>Etunimi:<br><input type="text" name="etunimi" value="<?= htmlspecialchars($opettaja['etunimi']) ?>"></label><br><br>
-    <label>Sukunimi:<br><input type="text" name="sukunimi" value="<?= htmlspecialchars($opettaja['sukunimi']) ?>"></label><br><br>
-    <label>Aine:<br><input type="text" name="aine" value="<?= htmlspecialchars($opettaja['aine']) ?>"></label><br><br>
-    <button type="submit">Tallenna muutokset</button>
+    <label>Etunimi:<br><input type="text" name="etunimi" value="<?= htmlspecialchars($opettaja['etunimi']) ?>" required></label><br>
+    <label>Sukunimi:<br><input type="text" name="sukunimi" value="<?= htmlspecialchars($opettaja['sukunimi']) ?>" required></label><br>
+    <label>Aine:<br><input type="text" name="aine" value="<?= htmlspecialchars($opettaja['aine']) ?>" required></label><br>
+    <button class="btn" type="submit">Tallenna</button>
 </form>
+<p><a href="lista.php">Takaisin listaan</a></p>
 
-<p><a href="lista.php">Takaisin opettajalistaan</a></p>
-</body>
-</html>
+<?php renderFooter(); ?>
