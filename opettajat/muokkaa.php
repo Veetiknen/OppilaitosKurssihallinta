@@ -30,9 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ?>
 
 <form method="post">
-    <label>Etunimi:<br><input type="text" name="etunimi" value="<?= htmlspecialchars($opettaja['etunimi']) ?>" required></label><br>
-    <label>Sukunimi:<br><input type="text" name="sukunimi" value="<?= htmlspecialchars($opettaja['sukunimi']) ?>" required></label><br>
-    <label>Aine:<br><input type="text" name="aine" value="<?= htmlspecialchars($opettaja['aine']) ?>" required></label><br>
+    <label>Etunimi:<br><input type="text" name="etunimi" value="<?= htmlspecialchars($opettaja['etunimi']) ?>"></label><br>
+    <label>Sukunimi:<br><input type="text" name="sukunimi" value="<?= htmlspecialchars($opettaja['sukunimi']) ?>"></label><br>
+    <label>Aine:<br><input type="text" name="aine" value="<?= htmlspecialchars($opettaja['aine']) ?>"></label><br>
     <button class="btn" type="submit">Tallenna</button>
 </form>
 <p><a href="lista.php">Takaisin listaan</a></p>

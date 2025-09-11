@@ -32,9 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <form method="post">
-    <label>Etunimi:<br><input type="text" name="etunimi" required></label><br><br>
-    <label>Sukunimi:<br><input type="text" name="sukunimi" required></label><br><br>
-    <label>Aine:<br><input type="text" name="aine" required></label><br><br>
+    <label>Etunimi:<br><input type="text" name="etunimi"></label><br><br>
+    <label>Sukunimi:<br><input type="text" name="sukunimi"></label><br><br>
+    <label>Aine:<br><input type="text" name="aine"></label><br><br>
     <button type="submit" class="btn">Lisää</button>
     <a href="lista.php" class="btn">Takaisin opettajalistaan</a>
 </form>

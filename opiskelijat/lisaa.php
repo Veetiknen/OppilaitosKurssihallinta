@@ -35,10 +35,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <form method="post">
-    <label>Etunimi:<br><input type="text" name="etunimi" required></label><br><br>
-    <label>Sukunimi:<br><input type="text" name="sukunimi" required></label><br><br>
-    <label>Syntymäpäivä:<br><input type="date" name="syntymapaiva" required></label><br><br>
-    <label>Vuosikurssi:<br><input type="number" name="vuosikurssi" min="1" max="3" required></label><br><br>
+    <label>Etunimi:<br><input type="text" name="etunimi"></label><br><br>
+    <label>Sukunimi:<br><input type="text" name="sukunimi"></label><br><br>
+    <label>Syntymäpäivä:<br><input type="date" name="syntymapaiva"></label><br><br>
+    <label>Vuosikurssi:<br><input type="number" name="vuosikurssi" min="1" max="3"></label><br><br>
     <button type="submit" class="btn">Lisää</button>
     <a href="lista.php" class="btn">Takaisin opiskelijalistaan</a>
 </form>

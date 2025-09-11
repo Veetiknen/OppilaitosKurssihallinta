@@ -127,12 +127,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="post">
             <div class="form-group">
                 <label for="nimi">Nimi:</label>
-                <input type="text" name="nimi" id="nimi" value="<?= htmlspecialchars($tila['nimi']) ?>" required>
+                <input type="text" name="nimi" id="nimi" value="<?= htmlspecialchars($tila['nimi']) ?>">
             </div>
 
             <div class="form-group">
                 <label for="kapasiteetti">Kapasiteetti:</label>
-                <input type="number" name="kapasiteetti" id="kapasiteetti" value="<?= htmlspecialchars($tila['kapasiteetti']) ?>" min="1" required>
+                <input type="number" name="kapasiteetti" id="kapasiteetti" value="<?= htmlspecialchars($tila['kapasiteetti']) ?>" min="1">
             </div>
 
             <button type="submit">Tallenna</button>

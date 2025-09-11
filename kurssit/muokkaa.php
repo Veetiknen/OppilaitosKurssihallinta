@@ -50,23 +50,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <form method="post">
     <label>Kurssin nimi:<br>
-        <input type="text" name="nimi" value="<?= htmlspecialchars($kurssi['nimi']) ?>" required>
+        <input type="text" name="nimi" value="<?= htmlspecialchars($kurssi['nimi']) ?>">
     </label><br>
 
     <label>Kuvaus:<br>
-        <input type="text" name="kuvaus" value="<?= htmlspecialchars($kurssi['kuvaus']) ?>" required>
+        <input type="text" name="kuvaus" value="<?= htmlspecialchars($kurssi['kuvaus']) ?>">
     </label><br>
 
     <label>Alkupäivä:<br>
-        <input type="date" name="alkupaiva" value="<?= htmlspecialchars($kurssi['alkupäivä']) ?>" required>
+        <input type="date" name="alkupaiva" value="<?= htmlspecialchars($kurssi['alkupäivä']) ?>">
     </label><br>
 
     <label>Loppupäivä:<br>
-        <input type="date" name="loppupaiva" value="<?= htmlspecialchars($kurssi['loppupäivä']) ?>" required>
+        <input type="date" name="loppupaiva" value="<?= htmlspecialchars($kurssi['loppupäivä']) ?>">
     </label><br>
 
     <label>Opettaja:<br>
-        <select name="opettaja" required>
+        <select name="opettaja">
             <option value="">-- Valitse opettaja --</option>
             <?php foreach ($opettajat as $o): ?>
                 <option value="<?= $o['tunnusnumero'] ?>" <?= $kurssi['opettaja'] == $o['tunnusnumero'] ? 'selected' : '' ?>>
@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </label><br>
 
     <label>Tila:<br>
-        <select name="tila" required>
+        <select name="tila">
             <option value="">-- Valitse tila --</option>
             <?php foreach ($tilat as $t): ?>
                 <option value="<?= $t['id'] ?>" <?= $kurssi['tila'] == $t['id'] ? 'selected' : '' ?>>
