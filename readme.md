@@ -48,5 +48,5 @@ laita sinne seuraavat ja anna oikeat arvot.
 ``` bash
 DB_USERNAME=
 DB_PASSWORD=
-DB_NAME=
+DB_NAME=projekti
 ```
