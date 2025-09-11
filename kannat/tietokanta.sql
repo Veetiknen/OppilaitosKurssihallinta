@@ -87,10 +87,6 @@ INSERT INTO `tilat` (`id`, `nimi`, `kapasiteetti`) VALUES
 (3, 'Room 101', 20),
 (4, 'Luokka 4', 30);
 
-ALTER TABLE `tilat`
-  ADD PRIMARY KEY (`id`);
-ALTER TABLE `tilat`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 -- --------------------------------------------------------
 
@@ -163,6 +159,9 @@ ALTER TABLE `opiskelijat`
 --
 ALTER TABLE `tilat`
   ADD PRIMARY KEY (`id`);
+  
+ALTER TABLE `tilat`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Indexes for table `kurssit`
