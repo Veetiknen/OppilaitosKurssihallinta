@@ -1,5 +1,8 @@
 <?php
 require '../yhteys.php';
+require '../template.php';
+
+renderHeader("Lisää Opiskelija");
 
 if (!isset($_GET['kurssi'])) {
     die("Kurssin ID puuttuu.");
@@ -61,9 +64,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </select>
         </label><br><br>
 
-        <button type="submit">Lisää kurssille</button>
+        <button type="submit" class="btn">Lisää kurssille</button>
     </form>
 
     <p><a href="nayta.php?id=<?= $kurssi_id ?>">&laquo; Takaisin kurssin tietoihin</a></p>
 </body>
 </html>
+<?php renderFooter(); ?>
