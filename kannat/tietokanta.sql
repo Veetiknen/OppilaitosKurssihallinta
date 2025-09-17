@@ -1,6 +1,3 @@
--- Combined Database Schema
--- Merged from veeti_koistinen.sql and testikanta.sql
--- Generation Time: Aug 28, 2025
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -96,6 +93,7 @@ INSERT INTO `tilat` (`id`, `nimi`, `kapasiteetti`) VALUES
 CREATE TABLE `kurssit` (
   `id` int(11) NOT NULL,
   `nimi` varchar(30) NOT NULL,
+  `aine` varchar(50) NOT NULL,
   `kuvaus` varchar(30) NOT NULL,
   `alkupäivä` date NOT NULL,
   `loppupäivä` date NOT NULL,
@@ -107,12 +105,12 @@ CREATE TABLE `kurssit` (
 -- Dumping data for table `kurssit`
 --
 
-INSERT INTO `kurssit` (`id`, `nimi`, `kuvaus`, `alkupäivä`, `loppupäivä`, `opettaja`, `tila`) VALUES
-(0, 'Ei valittu', 'Ei kurssia valittu', '2025-01-01', '2025-12-31', 0, 0),
-(1, 'Biology 101', 'Introduction to Biology', '2025-09-01', '2025-12-15', 1, 2),
-(2, 'Physical Education', 'Basic PE Course', '2025-09-01', '2025-12-15', 2, 4),
-(3, 'Advanced Science', 'Advanced Science Topics', '2025-09-15', '2026-01-20', 3, 3),
-(4, 'English Literature', 'Modern English Literature', '2025-09-10', '2025-12-20', 4, 1);
+INSERT INTO `kurssit` (`id`, `nimi`, `aine`, `kuvaus`, `alkupäivä`, `loppupäivä`, `opettaja`, `tila`) VALUES
+(0, 'Ei valittu', 'Ei määritelty', 'Ei kurssia valittu', '2025-01-01', '2025-12-31', 0, 0),
+(1, 'Biology 101', 'Science', 'Introduction to Biology', '2025-09-01', '2025-12-15', 1, 2),
+(2, 'PE Basics', 'Physical Education', 'Basic PE Course', '2025-09-01', '2025-12-15', 2, 4),
+(3, 'Advanced Science', 'Science', 'Advanced Science Topics', '2025-09-15', '2026-01-20', 3, 3),
+(4, 'English Literature', 'English', 'Modern English Literature', '2025-09-10', '2025-12-20', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -124,14 +122,14 @@ CREATE TABLE `kurssikirjautumisilla` (
   `id` int(11) NOT NULL,
   `opiskelija` int(30) NOT NULL,
   `kurssi` int(30) NOT NULL,
-  `Kirjautumispäivä` datetime NOT NULL
+  `kirjautumispäivä` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `kurssikirjautumisilla`
 --
 
-INSERT INTO `kurssikirjautumisilla` (`id`, `opiskelija`, `kurssi`, `Kirjautumispäivä`) VALUES
+INSERT INTO `kurssikirjautumisilla` (`id`, `opiskelija`, `kurssi`, `kirjautumispäivä`) VALUES
 (0, 0, 0, '2025-08-28 07:48:47'),
 (1, 1, 1, '2025-08-28 08:00:00'),
 (2, 2, 2, '2025-08-28 08:15:00'),
