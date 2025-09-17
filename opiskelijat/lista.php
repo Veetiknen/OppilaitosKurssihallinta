@@ -10,6 +10,7 @@ $kysely->execute();
 $opiskelijat = $kysely->fetchAll();
 ?>
 
+<p><a href="../index.php" class="btn">⬅ Takaisin etusivulle</a></p>
 <p><a class="btn" href="lisaa.php">Lisää Opiskelija</a></p>
 
 <table>
