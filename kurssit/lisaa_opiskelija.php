@@ -2,7 +2,7 @@
 require '../yhteys.php';
 require '../template.php';
 
-renderHeader("Lisää Opiskelija");
+renderHeader("Lisää opiskelija kurssille");
 
 if (!isset($_GET['kurssi'])) {
     die("Kurssin ID puuttuu.");
