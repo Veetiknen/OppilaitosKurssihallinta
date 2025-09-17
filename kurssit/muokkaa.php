@@ -13,8 +13,8 @@ $kurssi = $kysely->fetch();
 if (!$kurssi) die("Kurssia ei löytynyt.");
 
 // Haetaan opettajat ja tilat pudotusvalikoita varten
-$opettajat = $yhteys->query("SELECT tunnusnumero, CONCAT(etunimi, ' ', sukunimi) AS nimi FROM opettajat")->fetchAll();
-$tilat = $yhteys->query("SELECT id, nimi FROM tilat")->fetchAll();
+$opettajat = $yhteys->query("SELECT tunnusnumero, CONCAT(etunimi, ' ', sukunimi) AS nimi FROM opettajat WHERE tunnusnumero != 0")->fetchAll();
+$tilat = $yhteys->query("SELECT id, nimi FROM tilat WHERE id !=0")->fetchAll();
 
 renderHeader("Muokkaa kurssia: " . htmlspecialchars($kurssi['nimi']));
 

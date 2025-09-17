@@ -6,7 +6,7 @@ require '../template.php';
 try {
     $aineet = $yhteys->query("SELECT DISTINCT aine FROM opettajat WHERE tunnusnumero != 0")->fetchAll();
     $opettajat = $yhteys->query("SELECT tunnusnumero, CONCAT(etunimi, ' ', sukunimi) AS nimi FROM opettajat WHERE tunnusnumero != 0")->fetchAll();
-    $tilat = $yhteys->query("SELECT id, nimi FROM tilat")->fetchAll();
+    $tilat = $yhteys->query("SELECT id, nimi FROM tilat WHERE id !=0")->fetchAll();
 } catch (PDOException $e) {
     die("<p class='warning'>Virhe haettaessa tietoja: " . htmlspecialchars($e->getMessage()) . "</p>");
 }
