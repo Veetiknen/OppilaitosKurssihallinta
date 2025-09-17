@@ -29,9 +29,9 @@ $tulos = $kysely->fetchAll();
                 <td><?php echo htmlspecialchars($rivi['id']); ?></td>
                 <td><?php echo htmlspecialchars($rivi['nimi']); ?></td>
                 <td>
-                    <a href="nayta.php?id=<?php echo $rivi['id']; ?>">Näytä</a> |
-                    <a href="muokkaa.php?id=<?php echo $rivi['id']; ?>">Muokkaa</a> |
-                    <a href="poista.php?id=<?php echo $rivi['id']; ?>"
+                    <a class="btn" href="nayta.php?id=<?php echo $rivi['id']; ?>">Näytä</a>
+                    <a class="btn" href="muokkaa.php?id=<?php echo $rivi['id']; ?>">Muokkaa</a>
+                    <a class="btn" href="poista.php?id=<?php echo $rivi['id']; ?>"
                        onclick="return confirm('Haluatko varmasti poistaa tämän tilan?');">Poista</a>
                 </td>
             </tr>
