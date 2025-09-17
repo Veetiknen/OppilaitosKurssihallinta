@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit">Tallenna</button>
         </form>
 
-        <a class="cancel-link" href="nayta.php?id=<?= $tila_id ?>">⬅ Peruuta ja palaa</a>
+        <a class="cancel-link" href="lista.php?id=<?= $tila_id ?>">⬅ Peruuta ja palaa</a>
     </div>
 </main>
 
