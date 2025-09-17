@@ -4,7 +4,7 @@
 - [x] Luo tietokantamalli (opettajat, opiskelijat, kurssit, tilat, ilmoittautumiset)
 - [ ] Toteuta CRUD-toiminnot (lisääminen, poistaminen, muokkaaminen) seuraaville:
   - [x] Opettajat
-  - [ ] Opiskelijat
+  - [x] Opiskelijat
   - [x] Kurssit
 
 ## Kurssinäkymä
@@ -33,4 +33,8 @@
   - [x] Varoituskuvake, jos osallistujia > kapasiteetti
 
 ## Ulkoasu
-- [ ] CSS
+- [x] CSS
+
+## Viikkonäkymä
+- [ ] Opiskelijan viikkonäkymä
+- [ ] Opettajan viikkonäkymä
