@@ -83,7 +83,7 @@ renderHeader("Viikkonäkymä: " . htmlspecialchars($opettaja['etunimi'] . ' ' . 
         </tr>
     </thead>
     <tbody>
-        <?php for ($h = 8; $h <= 16; $h++): ?>
+        <?php for ($h = 8; $h <= 17; $h++): ?>
             <tr>
                 <th style="border: 1px solid #ddd; padding: 5px; background: #f9f9f9;">
                     <?= sprintf('%02d:00', $h) ?>
