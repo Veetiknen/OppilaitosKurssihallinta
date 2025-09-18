@@ -38,3 +38,5 @@
 ## Viikkonäkymä
 - [ ] Opiskelijan viikkonäkymä
 - [ ] Opettajan viikkonäkymä
+- [ ] Kurssit viikkonäkymä
+- [ ] Tilat viikkonäkymä
