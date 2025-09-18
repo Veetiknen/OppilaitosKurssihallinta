@@ -2,7 +2,7 @@
 
 ## Perustoiminnot
 - [x] Luo tietokantamalli (opettajat, opiskelijat, kurssit, tilat, ilmoittautumiset)
-- [ ] Toteuta CRUD-toiminnot (lisääminen, poistaminen, muokkaaminen) seuraaville:
+- [x] Toteuta CRUD-toiminnot (lisääminen, poistaminen, muokkaaminen) seuraaville:
   - [x] Opettajat
   - [x] Opiskelijat
   - [x] Kurssit
