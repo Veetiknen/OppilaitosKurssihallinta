@@ -67,6 +67,14 @@ renderHeader("Sessioiden hallinta – " . htmlspecialchars($opettaja['etunimi'].
 
 <h3>Lisää uusi sessio</h3>
 <form method="post" style="margin-bottom:20px;">
+    <label>Kurssi:
+        <select name="kurssi_id" required>
+            <option value="">Valitse kurssi</option>
+            <?php foreach($kurssit as $k): ?>
+                <option value="<?= $k['id'] ?>"><?= htmlspecialchars($k['nimi']) ?></option>
+            <?php endforeach; ?>
+        </select>
+    </label>
     <label>Viikonpäivä:
         <select name="viikonpaiva" required>
             <option value="">Valitse</option>

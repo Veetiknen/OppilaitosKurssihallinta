@@ -11,9 +11,9 @@ $viikko = $_GET['viikko'] ?? date('Y-W');
 
 // Haetaan kurssin tiedot
 $sql = "SELECT nimi, alkupäivä, loppupäivä, id FROM kurssit WHERE id = ?";
-$stmt = $yhteys->prepare($sql);
-$stmt->execute([$kurssi_id]);
-$kurssi = $stmt->fetch();
+$kysely = $yhteys->prepare($sql);
+$kysely->execute([$kurssi_id]);
+$kurssi = $kysely->fetch();
 if (!$kurssi) {
     die("Kurssia ei löytynyt");
 }
@@ -32,9 +32,9 @@ $seuraava_viikko->modify('+1 week');
 
 // Haetaan kurssin sessiot
 $sql = "SELECT viikonpaiva, aloitus, lopetus FROM kurssisessiot WHERE kurssi_id = ?";
-$stmt = $yhteys->prepare($sql);
-$stmt->execute([$kurssi_id]);
-$sessiot = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$kysely = $yhteys->prepare($sql);
+$kysely->execute([$kurssi_id]);
+$sessiot = $kysely->fetchAll(PDO::FETCH_ASSOC);
 
 $viikonpaivat = ['ma'=>'Ma', 'ti'=>'Ti', 'ke'=>'Ke', 'to'=>'To', 'pe'=>'Pe'];
 
