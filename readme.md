@@ -47,7 +47,7 @@ J채rjestelm채 sis채lt채채 CRUD-toiminnot (luonti, luku, muokkaus ja poisto) sek�
    ```
 
 7. Avaa selaimessa:  
-   [http://localhost/<repon-kansio>](http://localhost/<repon-kansio>)
+   [http://localhost/<repon-kansio>]
 
 ---
 
