@@ -9,10 +9,10 @@ if (!isset($_GET['opettajat'])) {
 $opettaja_id = (int)$_GET['opettajat'];
 
 // Haetaan opettajan tiedot
-$sql = "SELECT etunimi, sukunimi, aine FROM opettajat WHERE tunnusnumero = ?";
-$stmt = $yhteys->prepare($sql);
-$stmt->execute([$opettaja_id]);
-$opettaja = $stmt->fetch();
+$sql_lause = "SELECT etunimi, sukunimi, aine FROM opettajat WHERE tunnusnumero = ?";
+$kysely = $yhteys->prepare($sql_lause);
+$kysely->execute([$opettaja_id]);
+$opettaja = $kysely->fetch();
 if (!$opettaja) {
     die("Opettajaa ei löytynyt");
 }
@@ -25,40 +25,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['lisaa'])) {
     $lopetus = (int)$_POST['lopetus'];
 
     // Tarkistetaan että kurssi kuuluu opettajalle
-    $stmt = $yhteys->prepare("SELECT id FROM kurssit WHERE id=? AND opettaja=?");
-    $stmt->execute([$kurssi_id, $opettaja_id]);
-    if ($stmt->fetch() && in_array($viikonpaiva, ['ma','ti','ke','to','pe']) && $aloitus < $lopetus) {
-        $stmt = $yhteys->prepare("INSERT INTO kurssisessiot (kurssi_id, viikonpaiva, aloitus, lopetus) VALUES (?,?,?,?)");
-        $stmt->execute([$kurssi_id, $viikonpaiva, $aloitus, $lopetus]);
+    $kysely = $yhteys->prepare("SELECT id FROM kurssit WHERE id=? AND opettaja=?");
+    $kysely->execute([$kurssi_id, $opettaja_id]);
+    if ($kysely->fetch() && in_array($viikonpaiva, ['ma','ti','ke','to','pe']) && $aloitus < $lopetus) {
+        $kysely = $yhteys->prepare("INSERT INTO kurssisessiot (kurssi_id, viikonpaiva, aloitus, lopetus) VALUES (?,?,?,?)");
+        $kysely->execute([$kurssi_id, $viikonpaiva, $aloitus, $lopetus]);
     }
 }
 
 // --- Session poistaminen ---
 if (isset($_GET['poista'])) {
     $poista_id = (int)$_GET['poista'];
-    $stmt = $yhteys->prepare("DELETE s FROM kurssisessiot s
+    $kysely = $yhteys->prepare("DELETE s FROM kurssisessiot s
                               JOIN kurssit k ON s.kurssi_id = k.id
                               WHERE s.id=? AND k.opettaja=?");
-    $stmt->execute([$poista_id, $opettaja_id]);
+    $kysely->execute([$poista_id, $opettaja_id]);
     header("Location: lisaa_viikkonakymaan.php?opettajat=".$opettaja_id);
     exit;
 }
 
 // --- Haetaan opettajan kurssit ---
-$sql = "SELECT id, nimi FROM kurssit WHERE opettaja=? ORDER BY nimi";
-$stmt = $yhteys->prepare($sql);
-$stmt->execute([$opettaja_id]);
-$kurssit = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$sql_lause = "SELECT id, nimi FROM kurssit WHERE opettaja=? ORDER BY nimi";
+$kysely = $yhteys->prepare($sql_lause);
+$kysely->execute([$opettaja_id]);
+$kurssit = $kysely->fetchAll(PDO::FETCH_ASSOC);
 
 // --- Haetaan opettajan kurssien sessiot ---
-$sql = "SELECT s.id, s.viikonpaiva, s.aloitus, s.lopetus, k.nimi AS kurssi_nimi
+$sql_lause = "SELECT s.id, s.viikonpaiva, s.aloitus, s.lopetus, k.nimi AS kurssi_nimi
         FROM kurssisessiot s
         JOIN kurssit k ON s.kurssi_id = k.id
         WHERE k.opettaja=?
         ORDER BY FIELD(s.viikonpaiva,'ma','ti','ke','to','pe'), s.aloitus";
-$stmt = $yhteys->prepare($sql);
-$stmt->execute([$opettaja_id]);
-$sessiot = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$kysely = $yhteys->prepare($sql_lause);
+$kysely->execute([$opettaja_id]);
+$sessiot = $kysely->fetchAll(PDO::FETCH_ASSOC);
 
 renderHeader("Sessioiden hallinta – " . htmlspecialchars($opettaja['etunimi']." ".$opettaja['sukunimi']));
 ?>

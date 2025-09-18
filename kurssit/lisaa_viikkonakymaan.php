@@ -28,11 +28,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['lisaa'])) {
 }
 
 // --- Session poistaminen ---
-if (isset($_GET['poista'])) {
+if (isset($_GET['poista']) && isset($_GET['kurssi'])) {
     $poista_id = (int)$_GET['poista'];
-    $kysely = $yhteys->prepare("DELETE FROM kurssisessiot WHERE id=? AND kurssi_id=?");
+    $kurssi_id = (int)$_GET['kurssi'];
+
+    $kysely = $yhteys->prepare("DELETE s FROM kurssisessiot s JOIN kurssit k ON s.kurssi_id = k.id WHERE s.id=? AND k.id=?");
     $kysely->execute([$poista_id, $kurssi_id]);
-    header("Location: lisaa_viikkonakyma.php?kurssi=".$kurssi_id);
+    header("Location: viikkonakyma.php?kurssi=" . $kurssi_id);
     exit;
 }
 
@@ -89,8 +91,7 @@ renderHeader("Aikataulu: " . htmlspecialchars($kurssi['nimi']));
         <td style="border:1px solid #ddd;padding:5px;"><?= htmlspecialchars($s['viikonpaiva']) ?></td>
         <td style="border:1px solid #ddd;padding:5px;"><?= $s['aloitus'] ?>:00 - <?= $s['lopetus'] ?>:00</td>
         <td style="border:1px solid #ddd;padding:5px;">
-            <a href="viikkonakyma.php?kurssi=<?= $kurssi_id ?>&poista=<?= $s['id'] ?>" class="btn" 
-                onclick="return confirm('Poistetaanko tämä sessio?')">Poista</a>
+            <a href="lisaa_viikkonakymaan.php?kurssi=<?= $kurssi_id ?>&poista=<?= $s['id'] ?>" class="btn" onclick="return confirm('Poistetaanko tämä sessio?')">Poista</a>
         </td>
     </tr>
     <?php endforeach; ?> 
