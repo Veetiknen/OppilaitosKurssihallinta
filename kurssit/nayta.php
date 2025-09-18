@@ -79,7 +79,7 @@ try {
 
 renderHeader("Kurssi: " . htmlspecialchars($kurssi['nimi']));
 ?>
-<a href="viikkonakyma.php?kurssit=<?= $kurssi['id'] ?>" class="btn">📅 Näytä viikkonäkymä</a>
+<a href="viikkonakyma.php?kurssi=<?= $kurssi['id'] ?>" class="btn">📅 Näytä viikkonäkymä</a>
 <p><strong>Kuvaus:</strong> <?= nl2br(htmlspecialchars($kurssi['kuvaus'])) ?></p>
 <p><strong>Alku:</strong> <?= htmlspecialchars($kurssi['alkupäivä']) ?></p>
 <p><strong>Loppu:</strong> <?= htmlspecialchars($kurssi['loppupäivä']) ?></p>

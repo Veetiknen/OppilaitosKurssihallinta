@@ -136,22 +136,43 @@ INSERT INTO `kurssikirjautumisilla` (`id`, `opiskelija`, `kurssi`, `kirjautumisp
 (4, 4, 4, '2025-08-28 08:45:00');
 
 -- --------------------------------------------------------
-
---
 -- Table structure for table `kurssisessiot`
---
+-- --------------------------------------------------------
 
 CREATE TABLE `kurssisessiot` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `kurssi_id` int(11) NOT NULL,
   `viikonpaiva` enum('ma','ti','ke','to','pe') NOT NULL,
   `aloitus` tinyint(4) NOT NULL,
-  `lopetus` tinyint(4) NOT NULL
+  `lopetus` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `kurssi_id` (`kurssi_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Indexes for dumped tables
---
+-- Poista vanhat sessiot ensin
+DELETE FROM kurssisessiot;
+
+-- Huom: aloitus ja lopetus kentät ovat tinyint(4), joten käytetään tunteja (8 = 08:00, 10 = 10:00 jne.)
+
+INSERT INTO `kurssisessiot` (`kurssi_id`, `viikonpaiva`, `aloitus`, `lopetus`) VALUES
+-- Biology 101 (kurssi_id = 1)
+(1, 'ma', 9, 11),
+(1, 'ke', 13, 15),
+(1, 'pe', 10, 12),
+
+-- PE Basics (kurssi_id = 2)
+(2, 'ti', 8, 10),
+(2, 'to', 14, 16),
+
+-- Advanced Science (kurssi_id = 3)
+(3, 'ma', 10, 12),
+(3, 'ke', 9, 11),
+(3, 'pe', 13, 15),
+
+-- English Literature (kurssi_id = 4)
+(4, 'ti', 9, 11),
+(4, 'to', 11, 13),
+(4, 'pe', 14, 16);
 
 --
 -- Indexes for table `opettajat`
@@ -186,13 +207,6 @@ ALTER TABLE `kurssikirjautumisilla`
   ADD PRIMARY KEY (`id`),
   ADD KEY `opiskelija` (`opiskelija`),
   ADD KEY `kurssi` (`kurssi`);
-
---
--- Indexes for table `kurssisessiot`
---
-ALTER TABLE `kurssisessiot`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `kurssi_id` (`kurssi_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables

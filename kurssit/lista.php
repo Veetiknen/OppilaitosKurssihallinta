@@ -4,7 +4,7 @@ require '../template.php';
 
 renderHeader("Kurssit");
 
-$sql = "SELECT id, nimi, kuvaus FROM kurssit";
+$sql = "SELECT id, nimi, kuvaus FROM kurssit WHERE id != 0";
 $kysely = $yhteys->prepare($sql);
 $kysely->execute();
 $kurssit = $kysely->fetchAll();
