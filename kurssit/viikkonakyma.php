@@ -10,7 +10,7 @@ $kurssi_id = (int)$_GET['kurssi'];
 $viikko = $_GET['viikko'] ?? date('Y-W');
 
 // Haetaan kurssin tiedot
-$sql = "SELECT nimi, alkupäivä, loppupäivä FROM kurssit WHERE id = ?";
+$sql = "SELECT nimi, alkupäivä, loppupäivä, id FROM kurssit WHERE id = ?";
 $stmt = $yhteys->prepare($sql);
 $stmt->execute([$kurssi_id]);
 $kurssi = $stmt->fetch();
@@ -78,7 +78,7 @@ renderHeader("Viikkonäkymä: " . htmlspecialchars($kurssi['nimi']));
         </tr>
     </thead>
     <tbody>
-        <?php for ($h = 8; $h <= 16; $h++): ?>
+        <?php for ($h = 8; $h <= 17; $h++): ?>
             <tr>
                 <th style="border: 1px solid #ddd; padding: 5px; background: #f9f9f9;">
                     <?= sprintf('%02d:00', $h) ?>
@@ -126,6 +126,7 @@ renderHeader("Viikkonäkymä: " . htmlspecialchars($kurssi['nimi']));
     </tbody>
 </table>
 
+<a href="lisaa_viikkonakymaan.php?kurssi=<?= $kurssi['id'] ?>" class="btn" style="margin-top: 20px;"> &laquo;Muokkaa aikataulua</a>
 <a href="nayta.php?id=<?= $kurssi_id ?>" class="btn" style="margin-top: 20px;">&laquo; Takaisin kurssiin</a>
 
 <?php renderFooter(); ?>
