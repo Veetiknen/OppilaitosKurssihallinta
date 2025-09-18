@@ -45,7 +45,7 @@ function onkoKurssiKaynnissa($alkupaiva, $loppupaiva, $viikon_alku, $viikon_lopp
     return !($kurssi_loppu < $viikon_alku || $kurssi_alku > $viikon_loppu);
 }
 
-renderHeader("Viikkonäkymä: " . htmlspecialchars($kurssi['nimi']));
+renderHeader("Viikkonäkymä - " . htmlspecialchars($kurssi['nimi']));
 ?>
 
 <h2><?= htmlspecialchars($kurssi['nimi']) ?> - Viikkonäkymä</h2>

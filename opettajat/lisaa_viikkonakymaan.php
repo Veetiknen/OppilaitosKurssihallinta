@@ -63,19 +63,10 @@ $sessiot = $kysely->fetchAll(PDO::FETCH_ASSOC);
 renderHeader("Sessioiden hallinta – " . htmlspecialchars($opettaja['etunimi']." ".$opettaja['sukunimi']));
 ?>
 
-<h2>Sessioiden hallinta – <?= htmlspecialchars($opettaja['etunimi']." ".$opettaja['sukunimi']) ?></h2>
 <p><strong>Aine:</strong> <?= htmlspecialchars($opettaja['aine']) ?></p>
 
 <h3>Lisää uusi sessio</h3>
 <form method="post" style="margin-bottom:20px;">
-    <label>Kurssi:
-        <select name="kurssi_id" required>
-            <option value="">Valitse kurssi</option>
-            <?php foreach($kurssit as $k): ?>
-                <option value="<?= $k['id'] ?>"><?= htmlspecialchars($k['nimi']) ?></option>
-            <?php endforeach; ?>
-        </select>
-    </label>
     <label>Viikonpäivä:
         <select name="viikonpaiva" required>
             <option value="">Valitse</option>
@@ -106,14 +97,12 @@ renderHeader("Sessioiden hallinta – " . htmlspecialchars($opettaja['etunimi'].
 <h3>Nykyiset sessiot</h3>
 <table style="border-collapse: collapse; width: 100%;">
     <tr>
-        <th style="border:1px solid #ddd;padding:5px;">Kurssi</th>
         <th style="border:1px solid #ddd;padding:5px;">Päivä</th>
         <th style="border:1px solid #ddd;padding:5px;">Aika</th>
         <th style="border:1px solid #ddd;padding:5px;">Toiminnot</th>
     </tr>
     <?php foreach($sessiot as $s): ?>
     <tr>
-        <td style="border:1px solid #ddd;padding:5px;"><?= htmlspecialchars($s['kurssi_nimi']) ?></td>
         <td style="border:1px solid #ddd;padding:5px;"><?= htmlspecialchars($s['viikonpaiva']) ?></td>
         <td style="border:1px solid #ddd;padding:5px;"><?= $s['aloitus'] ?>:00 - <?= $s['lopetus'] ?>:00</td>
         <td style="border:1px solid #ddd;padding:5px;">

@@ -50,10 +50,9 @@ function onkoKurssiKaynnissa($alkupaiva, $loppupaiva, $viikon_alku, $viikon_lopp
     return !($kurssi_loppu < $viikon_alku || $kurssi_alku > $viikon_loppu);
 }
 
-renderHeader("Viikkonäkymä: " . htmlspecialchars($opettaja['etunimi'] . ' ' . $opettaja['sukunimi']));
+renderHeader("Viikkonäkymä - " . htmlspecialchars($opettaja['etunimi'] . ' ' . $opettaja['sukunimi']));
 ?>
 
-<h2>Viikkonäkymä – <?= htmlspecialchars($opettaja['etunimi'] . ' ' . $opettaja['sukunimi']) ?></h2>
 <p><strong>Aine:</strong> <?= htmlspecialchars($opettaja['aine']) ?></p>
 <p><strong>Viikko:</strong> <?= $viikkonro ?>/<?= $vuosi ?> (<?= $viikon_alku->format('d.m.Y') ?> - <?= $viikon_loppu->format('d.m.Y') ?>)</p>
 

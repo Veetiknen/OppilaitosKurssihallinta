@@ -8,8 +8,8 @@ if (!isset($_GET['kurssi'])) {
 
 $kurssi_id = (int)$_GET['kurssi'];
 
-// Kurssin nimi
-$sql_lause = "SELECT nimi FROM kurssit WHERE id=?";
+// Haetaan kurssin nimi ja aine
+$sql_lause = "SELECT nimi, aine FROM kurssit WHERE id=?";
 $kysely = $yhteys->prepare($sql_lause);
 $kysely->execute([$kurssi_id]);
 $kurssi = $kysely->fetch();
@@ -38,17 +38,16 @@ if (isset($_GET['poista']) && isset($_GET['kurssi'])) {
     exit;
 }
 
-
-// --- Hae nykyiset sessiot ---
+// --- Haetaan nykyiset sessiot ---
 $kysely = $yhteys->prepare("SELECT * FROM kurssisessiot WHERE kurssi_id=? ORDER BY 
     FIELD(viikonpaiva,'ma','ti','ke','to','pe'), aloitus");
 $kysely->execute([$kurssi_id]);
 $sessiot = $kysely->fetchAll(PDO::FETCH_ASSOC);
 
-renderHeader("Aikataulu: " . htmlspecialchars($kurssi['nimi']));
+renderHeader("Sessioiden hallinta - " . htmlspecialchars($kurssi['nimi']));
 ?>
 
-<h2>Aikataulu – <?= htmlspecialchars($kurssi['nimi']) ?></h2>
+<p><strong>Aine:</strong> <?= htmlspecialchars($kurssi['aine']) ?></p>
 
 <h3>Lisää uusi sessio</h3>
 <form method="post" style="margin-bottom:20px;">
