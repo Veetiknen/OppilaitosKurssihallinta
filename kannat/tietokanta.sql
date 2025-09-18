@@ -1,4 +1,3 @@
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -136,6 +135,20 @@ INSERT INTO `kurssikirjautumisilla` (`id`, `opiskelija`, `kurssi`, `kirjautumisp
 (3, 3, 3, '2025-08-28 08:30:00'),
 (4, 4, 4, '2025-08-28 08:45:00');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kurssisessiot`
+--
+
+CREATE TABLE `kurssisessiot` (
+  `id` int(11) NOT NULL,
+  `kurssi_id` int(11) NOT NULL,
+  `viikonpaiva` enum('ma','ti','ke','to','pe') NOT NULL,
+  `aloitus` tinyint(4) NOT NULL,
+  `lopetus` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -175,6 +188,13 @@ ALTER TABLE `kurssikirjautumisilla`
   ADD KEY `kurssi` (`kurssi`);
 
 --
+-- Indexes for table `kurssisessiot`
+--
+ALTER TABLE `kurssisessiot`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kurssi_id` (`kurssi_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -209,6 +229,12 @@ ALTER TABLE `kurssikirjautumisilla`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `kurssisessiot`
+--
+ALTER TABLE `kurssisessiot`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -225,6 +251,12 @@ ALTER TABLE `kurssit`
 ALTER TABLE `kurssikirjautumisilla`
   ADD CONSTRAINT `kurssikirjautumisilla_ibfk_1` FOREIGN KEY (`opiskelija`) REFERENCES `opiskelijat` (`opiskelija_numero`),
   ADD CONSTRAINT `kurssikirjautumisilla_ibfk_2` FOREIGN KEY (`kurssi`) REFERENCES `kurssit` (`id`);
+
+--
+-- Constraints for table `kurssisessiot`
+--
+ALTER TABLE `kurssisessiot`
+  ADD CONSTRAINT `kurssisessiot_ibfk_1` FOREIGN KEY (`kurssi_id`) REFERENCES `kurssit` (`id`) ON DELETE CASCADE;
 
 COMMIT;
 
