@@ -1,52 +1,81 @@
-# Projektin README
+# KurssiHallinta
 
-## Repon kloonaaminen
+Kuvitteellinen oppilaitoksen kurssienhallintajärjestelmä.  
+Sovelluksella voi hallita opiskelijoita, opettajia, kursseja, tiloja ja kurssi-ilmoittautumisia.  
+Järjestelmä sisältää CRUD-toiminnot (luonti, luku, muokkaus ja poisto) sekä viikkokalenterin, jossa näkyvät kurssien opetussessiot.
 
-1.  Avaa terminaali\
+## ⚙️ Ominaisuudet
 
-2.  Suorita komento:
+- Opiskelijoiden, opettajien, kurssien, tilojen ja ilmoittautumisten hallinta (CRUD)
+- Kurssi-, opiskelija-, opettaja- ja tilakohtaiset näkymät
+- Viikkokalenterinäkymä, joka näyttää kurssien opetussessiot
 
-    ``` bash
-    git clone <repon-osoite>
-    cd <repon-kansio>
-    ```
+---
 
-## Muutosten tekeminen ja lähettäminen
+## 🧱 Teknologiat
 
-1.  Tee haluamasi muutokset tiedostoihin\
+- PHP
+- MySQL
+- XAMPP-kehitysympäristö
 
-2.  Lisää muutokset indeksiin:
+---
 
-    ``` bash
-    git add .
-    ```
+## 📦 Asennus
 
-3.  Tee commit selkeällä viestillä:
+1. Kloonaa projekti
 
-    ``` bash
-    git commit -m "kuvaile muutoksesi"
-    ```
+   ```bash
+   git clone <repon-osoite>
+   cd <repon-kansio>
+   ```
 
-4.  Lähetä muutokset päähaaraan:
+2. Käynnistä XAMPPin Apache ja MySQL
 
-    ``` bash
-    git push origin main
-    ```
+3. Avaa selaimessa:
+    [http://localhost/phpmyadmin](http://localhost/phpmyadmin)
 
-## Uusien muutosten hakeminen
+4. Luo uusi user account ja anna tälle kaikki oikeudet.
 
-Jos haluat varmistaa, että sinulla on tuorein versio:
+5. Luo MySQL-tietokanta ja tuo (import) mukana tuleva `tietokanta.sql`-tiedosto.
 
-``` bash
+6. Luo `.env`-tiedosto projektin juureen ja syötä oikeat tiedot käyttäjänimeen ja salasanaan (luotiin kohdassa 4):
+
+   ```bash
+   DB_USERNAME=käyttäjänimi
+   DB_PASSWORD=salasana
+   DB_NAME=projekti
+   ```
+
+7. Avaa selaimessa:  
+   [http://localhost/<repon-kansio>](http://localhost/<repon-kansio>)
+
+---
+
+## 🖥️ Käyttö
+
+- Lisää, muokkaa ja poista opiskelijoita, opettajia, kursseja, tiloja ja ilmoittautumisia hallintanäkymistä
+- Katso kurssinäkymästä kurssin tiedot ja ilmoittautuneet opiskelijat
+- Katso opiskelijanäkymästä opiskelijan tiedot ja hänen kurssinsa
+- Katso opettajanäkymästä opettajan tiedot ja hänen kurssinsa
+- Katso tilanäkymästä tilan tiedot, sen kurssit ja niiden osallistujamäärät
+- Viikkokalenterissa voit selata viikon aikatauluja valitun opettajan, opiskelijan, kurssin tai tilan mukaan
+
+---
+
+## 📌 Kehittäjille
+
+### Muutosten tekeminen ja lähettäminen
+
+```bash
+git add .
+git commit -m "kuvaile muutoksesi"
+git push origin main
+```
+
+### Uusien muutosten hakeminen
+
+```bash
 git pull origin main
 ```
 
-## tee .env tiedosto
-
-laita sinne seuraavat ja anna oikeat arvot. 
-
-``` bash
-DB_USERNAME=
-DB_PASSWORD=
-DB_NAME=projekti
-```
+---
