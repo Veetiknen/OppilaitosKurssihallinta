@@ -90,15 +90,25 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($opettaja['etunimi'] . ' ' .
                 <?php foreach ($viikonpaivat as $lyh => $pv): ?>
                     <td style="border: 1px solid #ddd; padding: 2px; height: 60px; vertical-align: top; position: relative;">
                         <?php 
+                        // kerätään kaikki sessiot jotka alkavat tässä tunnissa
+                        $cell_sessiot = [];
                         foreach ($sessiot as $s) {
                             if ($s['viikonpaiva'] === $lyh && 
                                 $s['aloitus'] <= $h && 
                                 $s['lopetus'] > $h &&
-                                onkoKurssiKaynnissa($s['alkupäivä'], $s['loppupäivä'], $viikon_alku, $viikon_loppu)) {
+                                onkoKurssiKaynnissa($s['alkupäivä'], $s['loppupäivä'], $viikon_alku, $viikon_loppu) &&
+                                $s['aloitus'] == $h) {
+                                $cell_sessiot[] = $s;
+                            }
+                        }
+
+                        $maara = count($cell_sessiot);
+                        if ($maara > 0) {
+                            $index = 0;
+                            foreach ($cell_sessiot as $s) {
                                 $kesto = $s['lopetus'] - $s['aloitus'];
-                                $alkaa_tassa = $s['aloitus'] == $h;
-                                
-                                if ($alkaa_tassa):
+                                $leveys = (100 / $maara) - 2; // miinusta vähän väliä varten
+                                $left = $index * (100 / $maara);
                         ?>
                             <div style="
                                 background: linear-gradient(135deg, #ffe7ba, #ffd591); 
@@ -109,8 +119,8 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($opettaja['etunimi'] . ' ' .
                                 border-left: 4px solid #cc6600;
                                 position: absolute;
                                 top: 2px;
-                                left: 2px;
-                                right: 2px;
+                                left: <?= $left ?>%;
+                                width: <?= $leveys ?>%;
                                 height: <?= ($kesto * 60) - 8 ?>px;
                                 overflow: hidden;
                                 box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -119,8 +129,8 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($opettaja['etunimi'] . ' ' .
                                 <div style="font-size: 0.9em;"><?= $s['aloitus'] ?>:00-<?= $s['lopetus'] ?>:00</div>
                                 <div style="font-size: 0.8em; color: #333;">Tila: <?= htmlspecialchars($s['tila_nimi']) ?></div>
                             </div>
-                        <?php 
-                                endif;
+                        <?php
+                                $index++;
                             }
                         }
                         ?>
