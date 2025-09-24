@@ -36,7 +36,7 @@
 - [x] CSS
 
 ## Viikkonäkymä
-- [ ] Opiskelijan viikkonäkymä
-- [ ] Opettajan viikkonäkymä
-- [ ] Kurssit viikkonäkymä
-- [ ] Tilat viikkonäkymä
+- [x] Opiskelijan viikkonäkymä
+- [x] Opettajan viikkonäkymä
+- [x] Kurssit viikkonäkymä
+- [x] Tilat viikkonäkymä

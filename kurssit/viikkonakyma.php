@@ -31,7 +31,11 @@ $seuraava_viikko = clone $viikon_alku;
 $seuraava_viikko->modify('+1 week');
 
 // Haetaan kurssin sessiot
-$sql = "SELECT viikonpaiva, aloitus, lopetus FROM kurssisessiot WHERE kurssi_id = ?";
+$sql = "SELECT s.viikonpaiva, s.aloitus, s.lopetus,
+               t.nimi AS tila_nimi
+        FROM kurssisessiot s
+        JOIN tilat t ON t.id = (SELECT k.tila FROM kurssit k WHERE k.id = s.kurssi_id)
+        WHERE s.kurssi_id = ?";
 $kysely = $yhteys->prepare($sql);
 $kysely->execute([$kurssi_id]);
 $sessiot = $kysely->fetchAll(PDO::FETCH_ASSOC);
@@ -113,6 +117,7 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($kurssi['nimi']));
                             ">
                                 <div style="font-weight: bold;">Opetus</div>
                                 <div style="font-size: 0.9em;"><?= $s['aloitus'] ?>:00-<?= $s['lopetus'] ?>:00</div>
+                                <div style="font-size: 0.8em; color: #333;">Tila: <?= htmlspecialchars($s['tila_nimi']) ?></div>
                             </div>
                         <?php 
                                 endif;
