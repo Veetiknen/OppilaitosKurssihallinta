@@ -89,34 +89,27 @@ renderHeader("Viikkonäkymä - Tila: " . htmlspecialchars($tila['nimi']));
                     <td>
                         <?php 
                         $cell_sessiot = [];
-                        foreach ($sessiot as $s) {
-                            if ($s['viikonpaiva'] === $lyh && 
-                                $s['aloitus'] <= $h && 
-                                $s['lopetus'] > $h &&
-                                onkoKurssiKaynnissa($s['alkupäivä'], $s['loppupäivä'], $viikon_alku, $viikon_loppu) &&
-                                $s['aloitus'] == $h) {
-                                $cell_sessiot[] = $s;
+                        foreach ($sessiot as $sessio) {
+                            if ($sessio['viikonpaiva'] === $lyh && 
+                                $sessio['aloitus'] <= $h && 
+                                $sessio['lopetus'] > $h &&
+                                onkoKurssiKaynnissa($sessio['alkupäivä'], $sessio['loppupäivä'], $viikon_alku, $viikon_loppu) &&
+                                $sessio['aloitus'] == $h) {
+                                $cell_sessiot[] = $sessio;
                             }
                         }
 
-                        $maara = count($cell_sessiot);
-                        if ($maara > 0):
-                            $index = 0;
-                            foreach ($cell_sessiot as $s):
-                                $kesto = $s['lopetus'] - $s['aloitus'];
-                                $leveys = (100 / $maara) - 2;
-                                $left = $index * (100 / $maara);
+                        foreach ($cell_sessiot as $sessio):
+                            $kesto = $sessio['lopetus'] - $sessio['aloitus'];
                         ?>
-                            <div class="room-session-block" style="left: <?= $left ?>%; width: <?= $leveys ?>%; height: <?= ($kesto * 60) - 8 ?>px;">
-                                <div class="room-session-title"><?= htmlspecialchars($s['kurssi_nimi']) ?></div>
-                                <div class="room-session-time"><?= $s['aloitus'] ?>:00-<?= $s['lopetus'] ?>:00</div>
-                                <div class="room-session-teacher">Opettaja: <?= htmlspecialchars($s['op_etunimi'] . ' ' . $s['op_sukunimi']) ?></div>
+                            <div class="room-session-block" style="height: <?= ($kesto * 60) - 8 ?>px;">
+                                <div class="room-session-title"><?= htmlspecialchars($sessio['kurssi_nimi']) ?></div>
+                                <div class="room-session-time"><?= $sessio['aloitus'] ?>:00-<?= $sessio['lopetus'] ?>:00</div>
+                                <div class="room-session-teacher">
+                                    Opettaja: <?= htmlspecialchars($sessio['op_etunimi'] . ' ' . $sessio['op_sukunimi']) ?>
+                                </div>
                             </div>
-                        <?php
-                                $index++;
-                            endforeach;
-                        endif;
-                        ?>
+                        <?php endforeach; ?>
                     </td>
                 <?php endforeach; ?>
             </tr>
