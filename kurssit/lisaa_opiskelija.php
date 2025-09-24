@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="submit" class="btn">Lisää kurssille</button>
     </form>
 
-    <p><a href="nayta.php?id=<?= $kurssi_id ?>">&laquo; Takaisin kurssin tietoihin</a></p>
+    <p><a class="btn" href="nayta.php?id=<?= $kurssi_id ?>">&laquo; Takaisin kurssin tietoihin</a></p>
 </body>
 </html>
 <?php renderFooter(); ?>

@@ -10,9 +10,9 @@ $tila_id = (int)$_GET['tilat'];
 
 // Haetaan tila
 $sql = "SELECT id, nimi, kapasiteetti FROM tilat WHERE id = ?";
-$stmt = $yhteys->prepare($sql);
-$stmt->execute([$tila_id]);
-$tila = $stmt->fetch(PDO::FETCH_ASSOC);
+$kysely = $yhteys->prepare($sql);
+$kysely->execute([$tila_id]);
+$tila = $kysely->fetch(PDO::FETCH_ASSOC);
 if (!$tila) {
     die("Tilaa ei löytynyt");
 }
@@ -23,9 +23,9 @@ $viikonpaivat = ['ma' => 'Maanantai', 'ti' => 'Tiistai', 'ke' => 'Keskiviikko', 
 
 // Haetaan tämän tilan kurssit lomakkeeseen
 $sql = "SELECT id, nimi FROM kurssit WHERE tila = ?";
-$stmt = $yhteys->prepare($sql);
-$stmt->execute([$tila_id]);
-$kurssit = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$kysely = $yhteys->prepare($sql);
+$kysely->execute([$tila_id]);
+$kurssit = $kysely->fetchAll(PDO::FETCH_ASSOC);
 
 // Lomakkeen käsittely
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['lisaa'])) {
@@ -40,8 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['lisaa'])) {
         echo "<p class='warning'>Lopetusajan täytyy olla myöhemmin kuin aloitusajan.</p>";
     } else {
         $sql = "INSERT INTO kurssisessiot (kurssi_id, viikonpaiva, aloitus, lopetus) VALUES (?, ?, ?, ?)";
-        $stmt = $yhteys->prepare($sql);
-        $stmt->execute([$kurssi_id, $viikonpaiva, $aloitus, $lopetus]);
+        $kysely = $yhteys->prepare($sql);
+        $kysely->execute([$kurssi_id, $viikonpaiva, $aloitus, $lopetus]);
         echo "<p class='success'>Sessio lisätty onnistuneesti!</p>";
     }
 }
@@ -53,9 +53,9 @@ $sql = "SELECT s.id, s.viikonpaiva, s.aloitus, s.lopetus, k.nimi AS kurssi_nimi,
         JOIN opettajat o ON k.opettaja = o.tunnusnumero
         WHERE k.tila = ?
         ORDER BY FIELD(s.viikonpaiva,'ma','ti','ke','to','pe'), s.aloitus";
-$stmt = $yhteys->prepare($sql);
-$stmt->execute([$tila_id]);
-$sessiot = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$kysely = $yhteys->prepare($sql);
+$kysely->execute([$tila_id]);
+$sessiot = $kysely->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <form method="post" class="session-form">

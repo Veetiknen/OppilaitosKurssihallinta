@@ -11,9 +11,9 @@ $viikko = $_GET['viikko'] ?? date('Y-W');
 
 // Haetaan opettajan tiedot
 $sql = "SELECT etunimi, sukunimi, aine FROM opettajat WHERE tunnusnumero = ?";
-$stmt = $yhteys->prepare($sql);
-$stmt->execute([$opettaja_id]);
-$opettaja = $stmt->fetch();
+$kysely = $yhteys->prepare($sql);
+$kysely->execute([$opettaja_id]);
+$opettaja = $kysely->fetch();
 if (!$opettaja) die("Opettajaa ei löytynyt");
 
 // Viikon käsittely
@@ -36,9 +36,9 @@ $sql = "SELECT s.viikonpaiva, s.aloitus, s.lopetus,
         JOIN kurssit k ON s.kurssi_id = k.id
         JOIN tilat t ON k.tila = t.id
         WHERE k.opettaja = ?";
-$stmt = $yhteys->prepare($sql);
-$stmt->execute([$opettaja_id]);
-$sessiot = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$kysely = $yhteys->prepare($sql);
+$kysely->execute([$opettaja_id]);
+$sessiot = $kysely->fetchAll(PDO::FETCH_ASSOC);
 
 $viikonpaivat = ['ma'=>'Ma', 'ti'=>'Ti', 'ke'=>'Ke', 'to'=>'To', 'pe'=>'Pe'];
 

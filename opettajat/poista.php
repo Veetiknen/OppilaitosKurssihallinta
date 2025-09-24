@@ -37,9 +37,9 @@ try {
     if ($kurssiLkm > 0) {
         // Siirretään kurssit Tuntemattomalle opettajalle (id=0)
         $sql_update = "UPDATE kurssit SET opettaja = 0 WHERE opettaja = :id";
-        $stmt1 = $yhteys->prepare($sql_update);
-        $stmt1->bindParam(':id', $id, PDO::PARAM_INT);
-        $stmt1->execute();
+        $kysely1 = $yhteys->prepare($sql_update);
+        $kysely1->bindParam(':id', $id, PDO::PARAM_INT);
+        $kysely1->execute();
     }
 
     // Poistetaan opettaja

@@ -78,18 +78,18 @@ try {
     JOIN opiskelijat os ON kk.opiskelija = os.opiskelija_numero
     WHERE kk.kurssi = :id
 ";
-    $stmt = $yhteys->prepare($sql_opiskelijat);
-    $stmt->bindParam(':id', $kurssi_id, PDO::PARAM_INT);
-    $stmt->execute();
-    $opiskelijat = $stmt->fetchAll();
+    $kysely = $yhteys->prepare($sql_opiskelijat);
+    $kysely->bindParam(':id', $kurssi_id, PDO::PARAM_INT);
+    $kysely->execute();
+    $opiskelijat = $kysely->fetchAll();
 } catch (PDOException $e) {
     die("VIRHE: " . $e->getMessage());
 }
 
 // Haetaan kaikki opettajat valikkoa varten
 try {
-    $opettaja_stmt = $yhteys->query("SELECT tunnusnumero, CONCAT(etunimi,' ',sukunimi) AS nimi FROM opettajat ORDER BY sukunimi");
-    $kaikki_opettajat = $opettaja_stmt->fetchAll();
+    $opettaja_kysely = $yhteys->query("SELECT tunnusnumero, CONCAT(etunimi,' ',sukunimi) AS nimi FROM opettajat ORDER BY sukunimi");
+    $kaikki_opettajat = $opettaja_kysely->fetchAll();
 } catch (PDOException $e) {
     $kaikki_opettajat = [];
 }
