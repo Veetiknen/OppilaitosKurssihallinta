@@ -85,33 +85,38 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($opettaja['etunimi'] . ' ' .
                     <td>
                         <?php 
                         $cell_sessiot = [];
-                        foreach ($sessiot as $s) {
-                            if ($s['viikonpaiva'] === $lyh && 
-                                $s['aloitus'] <= $h && 
-                                $s['lopetus'] > $h &&
-                                onkoKurssiKaynnissa($s['alkupäivä'], $s['loppupäivä'], $viikon_alku, $viikon_loppu) &&
-                                $s['aloitus'] == $h) {
-                                $cell_sessiot[] = $s;
+                        foreach ($sessiot as $sessio) {
+                            if ($sessio['viikonpaiva'] === $lyh &&
+                                $sessio['aloitus'] <= $h &&
+                                $sessio['lopetus'] > $h &&
+                                onkoKurssiKaynnissa($sessio['alkupäivä'], $sessio['loppupäivä'], $viikon_alku, $viikon_loppu) &&
+                                $sessio['aloitus'] == $h) {
+                                $cell_sessiot[] = $sessio;
                             }
                         }
 
                         $maara = count($cell_sessiot);
-                        if ($maara > 0):
-                            $index = 0;
-                            foreach ($cell_sessiot as $s):
-                                $kesto = $s['lopetus'] - $s['aloitus'];
+                        if ($maara > 0) {
+                            foreach ($cell_sessiot as $index => $sessio) {
+                                $kesto = $sessio['lopetus'] - $sessio['aloitus'];
+                                $leveys = (100 / $maara) - 2; // -2% pieni väli
+                                $left = $index * (100 / $maara);
                         ?>
-                            <div class="teacher-session-block" style="height: <?= ($kesto * 60) - 8 ?>px;">
-                                <div class="teacher-session-title"><?= htmlspecialchars($s['kurssi_nimi']) ?></div>
-                                <div class="teacher-session-time"><?= $s['aloitus'] ?>:00-<?= $s['lopetus'] ?>:00</div>
-                                <div class="teacher-session-room">Tila: <?= htmlspecialchars($s['tila_nimi']) ?></div>
+                            <div class="teacher-session-block" style="
+                                top: 2px;
+                                left: <?= $left ?>%;
+                                width: <?= $leveys ?>%;
+                                height: <?= ($kesto * 60) - 8 ?>px;
+                            ">
+                                <div class="teacher-session-title"><?= htmlspecialchars($sessio['kurssi_nimi']) ?></div>
+                                <div class="teacher-session-time"><?= $sessio['aloitus'] ?>:00-<?= $sessio['lopetus'] ?>:00</div>
+                                <div class="teacher-session-room">Tila: <?= htmlspecialchars($sessio['tila_nimi']) ?></div>
                             </div>
-                        <?php 
-                                $index++;
-                            endforeach;
-                        endif;
+                        <?php
+                            }
+                        }
                         ?>
-                    </td>
+                        </td>
                 <?php endforeach; ?>
             </tr>
         <?php endfor; ?>

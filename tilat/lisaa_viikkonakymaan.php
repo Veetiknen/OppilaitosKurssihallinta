@@ -17,6 +17,18 @@ if (!$tila) {
     die("Tilaa ei löytynyt");
 }
 
+// --- Sessioiden poisto ---
+if (isset($_GET['poista'])) {
+    $poista_id = (int)$_GET['poista'];
+    $sql = "DELETE s FROM kurssisessiot s
+            JOIN kurssit k ON s.kurssi_id = k.id
+            WHERE s.id = ? AND k.tila = ?";
+    $stmt = $yhteys->prepare($sql);
+    $stmt->execute([$poista_id, $tila_id]);
+    header("Location: lisaa_viikkonakymaan.php?tilat=" . $tila_id);
+    exit;
+}
+
 renderHeader("Lisää sessio - " . htmlspecialchars($tila['nimi']));
 
 $viikonpaivat = ['ma' => 'Maanantai', 'ti' => 'Tiistai', 'ke' => 'Keskiviikko', 'to' => 'Torstai', 'pe' => 'Perjantai'];
@@ -103,6 +115,7 @@ $sessiot = $kysely->fetchAll(PDO::FETCH_ASSOC);
             <th>Viikonpäivä</th>
             <th>Aika</th>
             <th>Opettaja</th>
+            <th>Toiminnot</th>
         </tr>
     </thead>
     <tbody>
@@ -115,6 +128,11 @@ $sessiot = $kysely->fetchAll(PDO::FETCH_ASSOC);
                     <td><?= $viikonpaivat[$s['viikonpaiva']] ?? $s['viikonpaiva'] ?></td>
                     <td><?= sprintf('%02d:00 - %02d:00', $s['aloitus'], $s['lopetus']) ?></td>
                     <td><?= htmlspecialchars($s['etunimi'] . ' ' . $s['sukunimi']) ?></td>
+                    <td>
+                        <a href="lisaa_viikkonakymaan.php?tilat=<?= $tila_id ?>&poista=<?= $s['id'] ?>" 
+                           class="btn" 
+                           onclick="return confirm('Poistetaanko tämä sessio?')">Poista</a>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         <?php endif; ?>
