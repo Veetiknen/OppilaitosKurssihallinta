@@ -14,9 +14,7 @@ $sql = "SELECT etunimi, sukunimi, aine FROM opettajat WHERE tunnusnumero = ?";
 $stmt = $yhteys->prepare($sql);
 $stmt->execute([$opettaja_id]);
 $opettaja = $stmt->fetch();
-if (!$opettaja) {
-    die("Opettajaa ei löytynyt");
-}
+if (!$opettaja) die("Opettajaa ei löytynyt");
 
 // Viikon käsittely
 list($vuosi, $viikkonro) = explode('-', $viikko);
@@ -56,25 +54,23 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($opettaja['etunimi'] . ' ' .
 <p><strong>Aine:</strong> <?= htmlspecialchars($opettaja['aine']) ?></p>
 <p><strong>Viikko:</strong> <?= $viikkonro ?>/<?= $vuosi ?> (<?= $viikon_alku->format('d.m.Y') ?> - <?= $viikon_loppu->format('d.m.Y') ?>)</p>
 
-<div style="margin-bottom: 20px; text-align: center;">
-    <a href="?opettajat=<?= $opettaja_id ?>&viikko=<?= $edellinen_viikko->format('Y-W') ?>" class="btn">&laquo; Edellinen viikko</a>
+<div class="week-navigation">
+    <a href="?opettajat=<?= $opettaja_id ?>&viikko=<?= $edellinen_viikko->format('Y-W') ?>" class="btn">« Edellinen viikko</a>
     <a href="?opettajat=<?= $opettaja_id ?>&viikko=<?= date('Y-W') ?>" class="btn">Tämä viikko</a>
-    <a href="?opettajat=<?= $opettaja_id ?>&viikko=<?= $seuraava_viikko->format('Y-W') ?>" class="btn">Seuraava viikko &raquo;</a>
+    <a href="?opettajat=<?= $opettaja_id ?>&viikko=<?= $seuraava_viikko->format('Y-W') ?>" class="btn">Seuraava viikko »</a>
 </div>
 
-<table style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+<table class="schedule-table">
     <thead>
         <tr>
-            <th style="width: 80px; border: 1px solid #ddd; padding: 5px; background: #f5f5f5;">Aika</th>
+            <th class="time-header">Aika</th>
             <?php 
             $paiva_counter = 0;
             foreach ($viikonpaivat as $lyh => $pv): 
                 $paivan_pvm = clone $viikon_alku;
                 $paivan_pvm->modify("+{$paiva_counter} days");
             ?>
-                <th style="border: 1px solid #ddd; padding: 5px; background: #f5f5f5;">
-                    <?= $pv ?><br><small><?= $paivan_pvm->format('d.m') ?></small>
-                </th>
+                <th class="day-header"><?= $pv ?><br><small><?= $paivan_pvm->format('d.m') ?></small></th>
             <?php 
                 $paiva_counter++;
             endforeach; 
@@ -84,13 +80,10 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($opettaja['etunimi'] . ' ' .
     <tbody>
         <?php for ($h = 8; $h <= 17; $h++): ?>
             <tr>
-                <th style="border: 1px solid #ddd; padding: 5px; background: #f9f9f9;">
-                    <?= sprintf('%02d:00', $h) ?>
-                </th>
+                <th class="time-header"><?= sprintf('%02d:00', $h) ?></th>
                 <?php foreach ($viikonpaivat as $lyh => $pv): ?>
-                    <td style="border: 1px solid #ddd; padding: 2px; height: 60px; vertical-align: top; position: relative;">
+                    <td>
                         <?php 
-                        // kerätään kaikki sessiot jotka alkavat tässä tunnissa
                         $cell_sessiot = [];
                         foreach ($sessiot as $s) {
                             if ($s['viikonpaiva'] === $lyh && 
@@ -103,36 +96,20 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($opettaja['etunimi'] . ' ' .
                         }
 
                         $maara = count($cell_sessiot);
-                        if ($maara > 0) {
+                        if ($maara > 0):
                             $index = 0;
-                            foreach ($cell_sessiot as $s) {
+                            foreach ($cell_sessiot as $s):
                                 $kesto = $s['lopetus'] - $s['aloitus'];
-                                $leveys = (100 / $maara) - 2; // miinusta vähän väliä varten
-                                $left = $index * (100 / $maara);
                         ?>
-                            <div style="
-                                background: linear-gradient(135deg, #ffe7ba, #ffd591); 
-                                padding: 3px 5px; 
-                                margin: 1px; 
-                                border-radius: 4px; 
-                                font-size: 0.85em; 
-                                border-left: 4px solid #cc6600;
-                                position: absolute;
-                                top: 2px;
-                                left: <?= $left ?>%;
-                                width: <?= $leveys ?>%;
-                                height: <?= ($kesto * 60) - 8 ?>px;
-                                overflow: hidden;
-                                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                            ">
-                                <div style="font-weight: bold;"><?= htmlspecialchars($s['kurssi_nimi']) ?></div>
-                                <div style="font-size: 0.9em;"><?= $s['aloitus'] ?>:00-<?= $s['lopetus'] ?>:00</div>
-                                <div style="font-size: 0.8em; color: #333;">Tila: <?= htmlspecialchars($s['tila_nimi']) ?></div>
+                            <div class="teacher-session-block" style="height: <?= ($kesto * 60) - 8 ?>px;">
+                                <div class="teacher-session-title"><?= htmlspecialchars($s['kurssi_nimi']) ?></div>
+                                <div class="teacher-session-time"><?= $s['aloitus'] ?>:00-<?= $s['lopetus'] ?>:00</div>
+                                <div class="teacher-session-room">Tila: <?= htmlspecialchars($s['tila_nimi']) ?></div>
                             </div>
-                        <?php
+                        <?php 
                                 $index++;
-                            }
-                        }
+                            endforeach;
+                        endif;
                         ?>
                     </td>
                 <?php endforeach; ?>
@@ -141,7 +118,9 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($opettaja['etunimi'] . ' ' .
     </tbody>
 </table>
 
-<a href="lisaa_viikkonakymaan.php?opettajat=<?= $opettaja_id ?>" class="btn" style="margin-top: 20px;">&laquo; Muokkaa aikataulua</a>
-<a href="nayta.php?id=<?= $opettaja_id ?>" class="btn" style="margin-top: 20px;">&laquo; Takaisin opettajaan</a>
+<div class="viikkonakyma-linkit">
+    <a href="lisaa_viikkonakymaan.php?opettajat=<?= $opettaja_id ?>" class="btn">« Muokkaa aikataulua</a>
+    <a href="nayta.php?id=<?= $opettaja_id ?>" class="btn">« Takaisin opettajaan</a>
+</div>
 
 <?php renderFooter(); ?>

@@ -19,10 +19,126 @@ function renderHeader($title = "Kouluprojekti") {
     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
     th { background-color: #e2e9f7; }
     tr:nth-child(even) { background-color: #f9f9f9; }
-    .btn { background-color: #0070c0; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
-    .btn:hover { background-color: #005a8f; }
+    .btn { background-color: #0070c0; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; display: inline-block; }
+    .btn:hover { background-color: #005a8f; text-decoration: none; }
     .warning { color: red; font-weight: bold; }
     form input, form select { padding: 5px; margin-bottom: 10px; width: 300px; }
+    
+    /* Viikkonäkymän erityistyylit */
+    .week-navigation { margin-bottom: 20px; text-align: center; }
+    .schedule-table { width: 100%; table-layout: fixed; border-collapse: collapse; }
+    .schedule-table th { width: 80px; border: 1px solid #ddd; padding: 5px; background: #f5f5f5; }
+    .schedule-table .day-header { border: 1px solid #ddd; padding: 5px; background: #f5f5f5; }
+    .schedule-table .time-header { border: 1px solid #ddd; padding: 5px; background: #f9f9f9; }
+    .schedule-table td { 
+        border: 1px solid #ddd; 
+        padding: 2px; 
+        height: 60px; 
+        vertical-align: top; 
+        position: relative; 
+    }
+    .session-block {
+        background: linear-gradient(135deg, #c7e1ff, #a3d0ff); 
+        padding: 3px 5px; 
+        margin: 1px; 
+        border-radius: 4px; 
+        font-size: 0.85em; 
+        border-left: 4px solid #0066cc;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        right: 2px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .session-title { font-weight: bold; }
+    .session-time { font-size: 0.9em; }
+    .session-room { font-size: 0.8em; color: #333; }
+    
+    /* Sessioiden hallinnan tyylit */
+    .session-form { margin-bottom: 20px; }
+    .session-form label { 
+        display: inline-block; 
+        margin-right: 15px; 
+        margin-bottom: 10px;
+        vertical-align: top;
+    }
+    .session-form select { 
+        padding: 5px; 
+        margin-left: 5px;
+        width: auto;
+        min-width: 120px;
+    }
+    .sessions-table { 
+        border-collapse: collapse; 
+        width: 100%; 
+        background: white;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    .sessions-table th, .sessions-table td { 
+        border: 1px solid #ddd; 
+        padding: 8px; 
+        text-align: left;
+    }
+    .sessions-table th { 
+        background-color: #e2e9f7; 
+    }
+    .back-link { 
+        margin-top: 20px; 
+        display: inline-block; 
+    }
+    
+    /* Opettajan viikkonäkymän erityistyylit */
+    .teacher-session-block {
+        background: linear-gradient(135deg, #ffe7ba, #ffd591); 
+        padding: 3px 5px; 
+        margin: 1px; 
+        border-radius: 4px; 
+        font-size: 0.85em; 
+        border-left: 4px solid #cc6600;
+        position: absolute;
+        top: 2px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .teacher-session-title { font-weight: bold; }
+    .teacher-session-time { font-size: 0.9em; }
+    .teacher-session-room { font-size: 0.8em; color: #333; }
+
+    /* Opiskelijan viikkonäkymän sessiot */
+    .student-session-block {
+        background: linear-gradient(135deg, #e1ffc7, #b8f5a3);
+        padding: 3px 5px;
+        margin: 1px;
+        border-radius: 4px;
+        font-size: 0.85em;
+        border-left: 4px solid #339900;
+        position: absolute;
+        top: 2px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .student-session-title { font-weight: bold; }
+    .student-session-time { font-size: 0.9em; }
+    .student-session-room { font-size: 0.8em; color: #333; }
+
+    /* Tilan viikkonäkymän sessiot */
+    .room-session-block {
+        background: linear-gradient(135deg, #e6f7ff, #bae7ff); 
+        padding: 3px 5px; 
+        margin: 1px; 
+        border-radius: 4px; 
+        font-size: 0.85em; 
+        border-left: 4px solid #1890ff;
+        position: absolute;
+        top: 2px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .room-session-title { font-weight: bold; }
+    .room-session-time { font-size: 0.9em; }
+    .room-session-teacher { font-size: 0.8em; color: #333; }
+
 </style>
 </head>
 <body>

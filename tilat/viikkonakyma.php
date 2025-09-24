@@ -56,23 +56,23 @@ renderHeader("Viikkonäkymä - Tila: " . htmlspecialchars($tila['nimi']));
 <p><strong>Tila:</strong> <?= htmlspecialchars($tila['nimi']) ?> (kapasiteetti: <?= (int)$tila['kapasiteetti'] ?>)</p>
 <p><strong>Viikko:</strong> <?= $viikkonro ?>/<?= $vuosi ?> (<?= $viikon_alku->format('d.m.Y') ?> - <?= $viikon_loppu->format('d.m.Y') ?>)</p>
 
-<div style="margin-bottom: 20px; text-align: center;">
+<div class="week-navigation">
     <a href="?tilat=<?= $tila_id ?>&viikko=<?= $edellinen_viikko->format('Y-W') ?>" class="btn">&laquo; Edellinen viikko</a>
     <a href="?tilat=<?= $tila_id ?>&viikko=<?= date('Y-W') ?>" class="btn">Tämä viikko</a>
     <a href="?tilat=<?= $tila_id ?>&viikko=<?= $seuraava_viikko->format('Y-W') ?>" class="btn">Seuraava viikko &raquo;</a>
 </div>
 
-<table style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+<table class="schedule-table">
     <thead>
         <tr>
-            <th style="width: 80px; border: 1px solid #ddd; padding: 5px; background: #f5f5f5;">Aika</th>
+            <th class="time-header">Aika</th>
             <?php 
             $paiva_counter = 0;
             foreach ($viikonpaivat as $lyh => $pv): 
                 $paivan_pvm = clone $viikon_alku;
                 $paivan_pvm->modify("+{$paiva_counter} days");
             ?>
-                <th style="border: 1px solid #ddd; padding: 5px; background: #f5f5f5;">
+                <th class="day-header">
                     <?= $pv ?><br><small><?= $paivan_pvm->format('d.m') ?></small>
                 </th>
             <?php 
@@ -84,13 +84,10 @@ renderHeader("Viikkonäkymä - Tila: " . htmlspecialchars($tila['nimi']));
     <tbody>
         <?php for ($h = 8; $h <= 17; $h++): ?>
             <tr>
-                <th style="border: 1px solid #ddd; padding: 5px; background: #f9f9f9;">
-                    <?= sprintf('%02d:00', $h) ?>
-                </th>
+                <th class="time-header"><?= sprintf('%02d:00', $h) ?></th>
                 <?php foreach ($viikonpaivat as $lyh => $pv): ?>
-                    <td style="border: 1px solid #ddd; padding: 2px; height: 60px; vertical-align: top; position: relative;">
+                    <td>
                         <?php 
-                        // kerätään kaikki sessiot jotka alkavat tässä tunnissa
                         $cell_sessiot = [];
                         foreach ($sessiot as $s) {
                             if ($s['viikonpaiva'] === $lyh && 
@@ -103,36 +100,22 @@ renderHeader("Viikkonäkymä - Tila: " . htmlspecialchars($tila['nimi']));
                         }
 
                         $maara = count($cell_sessiot);
-                        if ($maara > 0) {
+                        if ($maara > 0):
                             $index = 0;
-                            foreach ($cell_sessiot as $s) {
+                            foreach ($cell_sessiot as $s):
                                 $kesto = $s['lopetus'] - $s['aloitus'];
-                                $leveys = (100 / $maara) - 2; // miinusta vähän väliä varten
+                                $leveys = (100 / $maara) - 2;
                                 $left = $index * (100 / $maara);
                         ?>
-                            <div style="
-                                background: linear-gradient(135deg, #e6f7ff, #bae7ff); 
-                                padding: 3px 5px; 
-                                margin: 1px; 
-                                border-radius: 4px; 
-                                font-size: 0.85em; 
-                                border-left: 4px solid #1890ff;
-                                position: absolute;
-                                top: 2px;
-                                left: <?= $left ?>%;
-                                width: <?= $leveys ?>%;
-                                height: <?= ($kesto * 60) - 8 ?>px;
-                                overflow: hidden;
-                                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                            ">
-                                <div style="font-weight: bold;"><?= htmlspecialchars($s['kurssi_nimi']) ?></div>
-                                <div style="font-size: 0.9em;"><?= $s['aloitus'] ?>:00-<?= $s['lopetus'] ?>:00</div>
-                                <div style="font-size: 0.8em; color: #333;">Opettaja: <?= htmlspecialchars($s['op_etunimi'] . ' ' . $s['op_sukunimi']) ?></div>
+                            <div class="room-session-block" style="left: <?= $left ?>%; width: <?= $leveys ?>%; height: <?= ($kesto * 60) - 8 ?>px;">
+                                <div class="room-session-title"><?= htmlspecialchars($s['kurssi_nimi']) ?></div>
+                                <div class="room-session-time"><?= $s['aloitus'] ?>:00-<?= $s['lopetus'] ?>:00</div>
+                                <div class="room-session-teacher">Opettaja: <?= htmlspecialchars($s['op_etunimi'] . ' ' . $s['op_sukunimi']) ?></div>
                             </div>
                         <?php
                                 $index++;
-                            }
-                        }
+                            endforeach;
+                        endif;
                         ?>
                     </td>
                 <?php endforeach; ?>
@@ -141,7 +124,7 @@ renderHeader("Viikkonäkymä - Tila: " . htmlspecialchars($tila['nimi']));
     </tbody>
 </table>
 
-<a href="lisaa_viikkonakymaan_tila.php?tilat=<?= $tila_id ?>" class="btn" style="margin-top: 20px;">&laquo; Muokkaa tilan aikataulua</a>
-<a href="tilat_nayta.php?id=<?= $tila_id ?>" class="btn" style="margin-top: 20px;">&laquo; Takaisin tilaan</a>
+<a href="lisaa_viikkonakymaan_tila.php?tilat=<?= $tila_id ?>" class="btn back-link">&laquo; Muokkaa tilan aikataulua</a>
+<a href="tilat_nayta.php?id=<?= $tila_id ?>" class="btn back-link">&laquo; Takaisin tilaan</a>
 
 <?php renderFooter(); ?>

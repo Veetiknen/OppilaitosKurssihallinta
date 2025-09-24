@@ -31,7 +31,11 @@ $seuraava_viikko = clone $viikon_alku;
 $seuraava_viikko->modify('+1 week');
 
 // Haetaan kurssin sessiot
-$sql = "SELECT viikonpaiva, aloitus, lopetus FROM kurssisessiot WHERE kurssi_id = ?";
+$sql = "SELECT s.viikonpaiva, s.aloitus, s.lopetus,
+               t.nimi AS tila_nimi
+        FROM kurssisessiot s
+        JOIN tilat t ON t.id = (SELECT k.tila FROM kurssit k WHERE k.id = s.kurssi_id)
+        WHERE s.kurssi_id = ?";
 $kysely = $yhteys->prepare($sql);
 $kysely->execute([$kurssi_id]);
 $sessiot = $kysely->fetchAll(PDO::FETCH_ASSOC);
@@ -52,23 +56,23 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($kurssi['nimi']));
 <p><strong>Ajanjakso:</strong> <?= htmlspecialchars($kurssi['alkupäivä']) ?> - <?= htmlspecialchars($kurssi['loppupäivä']) ?></p>
 <p><strong>Viikko:</strong> <?= $viikkonro ?>/<?= $vuosi ?> (<?= $viikon_alku->format('d.m.Y') ?> - <?= $viikon_loppu->format('d.m.Y') ?>)</p>
 
-<div style="margin-bottom: 20px; text-align: center;">
+<div class="week-navigation">
     <a href="?kurssi=<?= $kurssi_id ?>&viikko=<?= $edellinen_viikko->format('Y-W') ?>" class="btn">&laquo; Edellinen viikko</a>
     <a href="?kurssi=<?= $kurssi_id ?>&viikko=<?= date('Y-W') ?>" class="btn">Tämä viikko</a>
     <a href="?kurssi=<?= $kurssi_id ?>&viikko=<?= $seuraava_viikko->format('Y-W') ?>" class="btn">Seuraava viikko &raquo;</a>
 </div>
 
-<table style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+<table class="schedule-table">
     <thead>
         <tr>
-            <th style="width: 80px; border: 1px solid #ddd; padding: 5px; background: #f5f5f5;">Aika</th>
+            <th class="time-header">Aika</th>
             <?php 
             $paiva_counter = 0;
             foreach ($viikonpaivat as $lyh => $pv): 
                 $paivan_pvm = clone $viikon_alku;
                 $paivan_pvm->modify("+{$paiva_counter} days");
             ?>
-                <th style="border: 1px solid #ddd; padding: 5px; background: #f5f5f5;">
+                <th class="day-header">
                     <?= $pv ?><br><small><?= $paivan_pvm->format('d.m') ?></small>
                 </th>
             <?php 
@@ -80,11 +84,11 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($kurssi['nimi']));
     <tbody>
         <?php for ($h = 8; $h <= 17; $h++): ?>
             <tr>
-                <th style="border: 1px solid #ddd; padding: 5px; background: #f9f9f9;">
+                <th class="time-header">
                     <?= sprintf('%02d:00', $h) ?>
                 </th>
                 <?php foreach ($viikonpaivat as $lyh => $pv): ?>
-                    <td style="border: 1px solid #ddd; padding: 2px; height: 60px; vertical-align: top; position: relative;">
+                    <td>
                         <?php 
                         foreach ($sessiot as $s) {
                             if ($s['viikonpaiva'] === $lyh && 
@@ -96,23 +100,10 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($kurssi['nimi']));
                                 
                                 if ($alkaa_tassa):
                         ?>
-                            <div style="
-                                background: linear-gradient(135deg, #c7e1ff, #a3d0ff); 
-                                padding: 3px 5px; 
-                                margin: 1px; 
-                                border-radius: 4px; 
-                                font-size: 0.85em; 
-                                border-left: 4px solid #0066cc;
-                                position: absolute;
-                                top: 2px;
-                                left: 2px;
-                                right: 2px;
-                                height: <?= ($kesto * 60) - 8 ?>px;
-                                overflow: hidden;
-                                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                            ">
-                                <div style="font-weight: bold;">Opetus</div>
-                                <div style="font-size: 0.9em;"><?= $s['aloitus'] ?>:00-<?= $s['lopetus'] ?>:00</div>
+                            <div class="session-block" style="height: <?= ($kesto * 60) - 8 ?>px;">
+                                <div class="session-title">Opetus</div>
+                                <div class="session-time"><?= $s['aloitus'] ?>:00-<?= $s['lopetus'] ?>:00</div>
+                                <div class="session-room">Tila: <?= htmlspecialchars($s['tila_nimi']) ?></div>
                             </div>
                         <?php 
                                 endif;
@@ -126,10 +117,7 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($kurssi['nimi']));
     </tbody>
 </table>
 
-<a href="lisaa_viikkonakymaan.php?kurssi=<?= $kurssi['id'] ?>" class="btn" style="margin-top: 20px;"> &laquo;Muokkaa aikataulua</a>
-<a href="nayta.php?id=<?= $kurssi_id ?>" class="btn" style="margin-top: 20px;">&laquo; Takaisin kurssiin</a>
+<a href="lisaa_viikkonakymaan.php?kurssi=<?= $kurssi['id'] ?>" class="btn back-link">Muokkaa aikataulua</a>
+<a href="nayta.php?id=<?= $kurssi_id ?>" class="btn back-link">Takaisin kurssiin</a>
 
 <?php renderFooter(); ?>
-
-*/
-?>

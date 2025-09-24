@@ -21,10 +21,10 @@ renderHeader("Lisää viikkonäkymään - " . htmlspecialchars($tila['nimi']));
 
 // Jos lomake lähetetty
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $kurssi_id = $_POST['kurssi_id'];
+    $kurssi_id = (int)$_POST['kurssi_id'];
     $viikonpaiva = $_POST['viikonpaiva'];
-    $aloitus = $_POST['aloitus'];
-    $lopetus = $_POST['lopetus'];
+    $aloitus = (int)$_POST['aloitus'];
+    $lopetus = (int)$_POST['lopetus'];
 
     if ($aloitus >= $lopetus) {
         echo "<p style='color:red;'>Lopetusajan täytyy olla myöhemmin kuin aloitusajan.</p>";
@@ -77,7 +77,6 @@ $viikonpaivat = [
         <select name="aloitus" required>
             <?php for ($h = 8; $h <= 16; $h++): ?>
                 <option value="<?= $h ?>"><?= sprintf('%02d:00', $h) ?></option>
-                <option value="<?= $h ?>.5"><?= sprintf('%02d:30', $h) ?></option>
             <?php endfor; ?>
         </select>
     </div>
@@ -87,7 +86,6 @@ $viikonpaivat = [
         <select name="lopetus" required>
             <?php for ($h = 9; $h <= 17; $h++): ?>
                 <option value="<?= $h ?>"><?= sprintf('%02d:00', $h) ?></option>
-                <option value="<?= $h ?>.5"><?= sprintf('%02d:30', $h) ?></option>
             <?php endfor; ?>
         </select>
     </div>

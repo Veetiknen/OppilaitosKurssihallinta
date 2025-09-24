@@ -25,6 +25,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['uusi_opettaja'])) {
     }
 }
 
+// Poista opiskelija, jos lomake lähetetty
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['poista_opiskelija'])) {
+    $poista_opiskelija = (int)$_POST['poista_opiskelija'];
+    if ($poista_opiskelija > 0) {
+        try {
+            $poisto = $yhteys->prepare("DELETE FROM kurssikirjautumisilla WHERE kurssi = :kurssi AND opiskelija = :opiskelija");
+            $poisto->bindParam(':kurssi', $kurssi_id, PDO::PARAM_INT);
+            $poisto->bindParam(':opiskelija', $poista_opiskelija, PDO::PARAM_INT);
+            $poisto->execute();
+            header("Location: nayta.php?id=" . $kurssi_id);
+            exit;
+        } catch (PDOException $e) {
+            die("VIRHE opiskelijaa poistaessa: " . $e->getMessage());
+        }
+    }
+}
+
 // Haetaan kurssin tiedot
 try {
     $sql_lause = "
@@ -56,11 +73,11 @@ try {
 // Haetaan kurssin opiskelijat
 try {
     $sql_opiskelijat = "
-        SELECT os.etunimi, os.sukunimi, os.vuosikurssi, kk.Kirjautumispäivä
-        FROM kurssikirjautumisilla kk
-        JOIN opiskelijat os ON kk.opiskelija = os.opiskelija_numero
-        WHERE kk.kurssi = :id
-    ";
+    SELECT os.opiskelija_numero, os.etunimi, os.sukunimi, os.vuosikurssi, kk.Kirjautumispäivä
+    FROM kurssikirjautumisilla kk
+    JOIN opiskelijat os ON kk.opiskelija = os.opiskelija_numero
+    WHERE kk.kurssi = :id
+";
     $stmt = $yhteys->prepare($sql_opiskelijat);
     $stmt->bindParam(':id', $kurssi_id, PDO::PARAM_INT);
     $stmt->execute();
@@ -112,6 +129,7 @@ renderHeader("Kurssi: " . htmlspecialchars($kurssi['nimi']));
     <th>Sukunimi</th>
     <th>Vuosikurssi</th>
     <th>Ilmoittautumispäivä</th>
+    <th>Toiminnot</th>
 </tr>
 <?php foreach ($opiskelijat as $o): ?>
 <tr>
@@ -119,12 +137,19 @@ renderHeader("Kurssi: " . htmlspecialchars($kurssi['nimi']));
     <td><?= htmlspecialchars($o['sukunimi']) ?></td>
     <td><?= htmlspecialchars($o['vuosikurssi']) ?></td>
     <td><?= htmlspecialchars($o['Kirjautumispäivä']) ?></td>
+    <td>
+        <form method="post" style="display:inline;" onsubmit="return confirm('Haluatko varmasti poistaa opiskelijan?');">
+            <input type="hidden" name="poista_opiskelija" value="<?= $o['opiskelija_numero'] ?>">
+            <button type="submit" class="btn btn-danger">Poista</button>
+        </form>
+    </td>
 </tr>
 <?php endforeach; ?>
 </table>
 <?php else: ?>
 <p>Kurssilla ei ole vielä opiskelijoita.</p>
 <?php endif; ?>
+
 
 <a href="lisaa_opiskelija.php?kurssi=<?= $kurssi['id'] ?>" class="btn">➕ Lisää opiskelija</a>
 <a href="lista.php" class="btn">&laquo; Takaisin kurssilistaan</a>
