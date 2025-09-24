@@ -35,6 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <label>Aine:<br><input type="text" name="aine" value="<?= htmlspecialchars($opettaja['aine']) ?>"></label><br>
     <button class="btn" type="submit">Tallenna</button>
 </form>
-<p><a href="lista.php">Takaisin listaan</a></p>
+<p><a class="btn" href="lista.php">Takaisin listaan</a></p>
 
 <?php renderFooter(); ?>

@@ -68,7 +68,7 @@ renderHeader("Muokkaa opiskelijaa");
     <label>Syntymäpäivä:<br><input type="date" name="syntymapaiva" value="<?= htmlspecialchars($opiskelija['syntymäpäivä']) ?>"></label><br><br>
     <label>Vuosikurssi:<br><input type="number" name="vuosikurssi" min="1" max="3" value="<?= htmlspecialchars($opiskelija['vuosikurssi']) ?>" ></label><br><br>
 
-    <button type="submit">Tallenna muutokset</button>
+    <button class="btn" type="submit">Tallenna muutokset</button>
 </form>
 
 <p><a class="btn" href="lista.php">Takaisin opiskelijalistaan</a></p>
