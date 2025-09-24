@@ -149,6 +149,7 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($opiskelija['etunimi'] . ' '
     </tbody>
 </table>
 
+<a href="lisaa_viikkonakymaan.php?opiskelija=<?= $opiskelija_id ?>" class="btn" style="margin-top: 20px;">&laquo; Muokkaa aikataulua</a>
 <a href="nayta.php?id=<?= $opiskelija_id ?>" class="btn" style="margin-top: 20px;">&laquo; Takaisin opiskelijaan</a>
 
 <?php renderFooter(); ?>
