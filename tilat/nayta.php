@@ -193,7 +193,7 @@ foreach ($kurssit as $k) {
         <?php endif; ?>
 
         <a href="lista.php" class="btn">⬅ Takaisin tila listaan</a>
-        <a href="viikkonakyma.php?kurssit=<?= $tilat['id'] ?>" class="btn">📅 Näytä viikkonäkymä</a>
+        <a href="viikkonakyma.php?tilat=<?= $tila['id'] ?>" class="btn">📅 Näytä viikkonäkymä</a>
     </div>
 </main>
 
