@@ -36,7 +36,7 @@ try {
 
 renderHeader("Opiskelija: " . htmlspecialchars($opiskelija['etunimi'] . ' ' . $opiskelija['sukunimi']));
 ?>
-<a href="viikkonakyma.php?kurssit=<?= $opiskelija['opiskelija_numero'] ?>" class="btn">📅 Näytä viikkonäkymä</a>
+<a href="viikkonakyma.php?opiskelija=<?= $opiskelija['opiskelija_numero'] ?>" class="btn">📅 Näytä viikkonäkymä</a>
 <p><strong>Tunnusnumero:</strong> <?= htmlspecialchars($opiskelija['opiskelija_numero']) ?></p>
 <p><strong>Syntymäpäivä:</strong> <?= htmlspecialchars($opiskelija['syntymäpäivä']) ?></p>
 <p><strong>Vuosikurssi:</strong> <?= htmlspecialchars($opiskelija['vuosikurssi']) ?></p>
