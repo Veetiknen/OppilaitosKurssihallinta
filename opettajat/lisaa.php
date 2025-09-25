@@ -2,8 +2,6 @@
 require '../yhteys.php';
 require '../template.php';
 
-renderHeader("Lisää Opettaja");
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $etunimi = $_POST["etunimi"] ?? '';
     $sukunimi = $_POST["sukunimi"] ?? '';
@@ -29,6 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<p class='warning'>Kaikki kentät ovat pakollisia</p>";
     }
 }
+
+renderHeader("Lisää Opettaja");
 ?>
 
 <form method="post">

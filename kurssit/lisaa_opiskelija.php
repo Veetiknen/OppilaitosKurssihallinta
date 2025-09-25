@@ -1,24 +1,11 @@
 <?php
 require '../yhteys.php';
-require '../template.php';
-
-renderHeader("Lisää opiskelija kurssille");
+require '../template.php';  
 
 if (!isset($_GET['kurssi'])) {
     die("Kurssin ID puuttuu.");
 }
 $kurssi_id = (int)$_GET['kurssi'];
-
-// Haetaan kurssin nimi
-$kurssi = $yhteys->prepare("SELECT nimi FROM kurssit WHERE id = :id");
-$kurssi->execute([':id' => $kurssi_id]);
-$kurssi = $kurssi->fetch();
-if (!$kurssi) {
-    die("Kurssia ei löytynyt.");
-}
-
-// Haetaan kaikki opiskelijat
-$opiskelijat = $yhteys->query("SELECT opiskelija_numero, CONCAT(etunimi, ' ', sukunimi, ' (', vuosikurssi, ')') AS nimi FROM opiskelijat")->fetchAll();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $opiskelija_id = $_POST['opiskelija'] ?? '';
@@ -41,6 +28,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Valitse opiskelija.";
     }
 }
+
+renderHeader("Lisää opiskelija kurssille");
+
+$kurssi = $yhteys->prepare("SELECT nimi FROM kurssit WHERE id = :id");
+$kurssi->execute([':id' => $kurssi_id]);
+$kurssi = $kurssi->fetch();
+if (!$kurssi) {
+    die("Kurssia ei löytynyt.");
+}
+
+$opiskelijat = $yhteys->query("SELECT opiskelija_numero, CONCAT(etunimi, ' ', sukunimi, ' (', vuosikurssi, ')') AS nimi FROM opiskelijat")->fetchAll();
 ?>
 
 <!DOCTYPE html>

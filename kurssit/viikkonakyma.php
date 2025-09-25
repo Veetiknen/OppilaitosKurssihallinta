@@ -52,7 +52,6 @@ function onkoKurssiKaynnissa($alkupaiva, $loppupaiva, $viikon_alku, $viikon_lopp
 renderHeader("Viikkonäkymä - " . htmlspecialchars($kurssi['nimi']));
 ?>
 
-<h2><?= htmlspecialchars($kurssi['nimi']) ?> - Viikkonäkymä</h2>
 <p><strong>Ajanjakso:</strong> <?= htmlspecialchars($kurssi['alkupäivä']) ?> - <?= htmlspecialchars($kurssi['loppupäivä']) ?></p>
 <p><strong>Viikko:</strong> <?= $viikkonro ?>/<?= $vuosi ?> (<?= $viikon_alku->format('d.m.Y') ?> - <?= $viikon_loppu->format('d.m.Y') ?>)</p>
 

@@ -18,10 +18,10 @@ USE `projekti`;
 -- Table structure for table `opettajat`
 
 CREATE TABLE `opettajat` (
-  `tunnusnumero` int(30) NOT NULL,
-  `etunimi` varchar(30) NOT NULL,
-  `sukunimi` varchar(30) NOT NULL,
-  `aine` varchar(30) NOT NULL
+  `tunnusnumero` int(11) NOT NULL,
+  `etunimi` varchar(50) NOT NULL,
+  `sukunimi` varchar(50) NOT NULL,
+  `aine` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -43,8 +43,8 @@ INSERT INTO `opettajat` (`tunnusnumero`, `etunimi`, `sukunimi`, `aine`) VALUES
 
 CREATE TABLE `opiskelijat` (
   `opiskelija_numero` int(11) NOT NULL,
-  `etunimi` varchar(30) NOT NULL,
-  `sukunimi` varchar(30) NOT NULL,
+  `etunimi` varchar(50) NOT NULL,
+  `sukunimi` varchar(50) NOT NULL,
   `syntymäpäivä` date NOT NULL,
   `vuosikurssi` int(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -67,8 +67,8 @@ INSERT INTO `opiskelijat` (`opiskelija_numero`, `etunimi`, `sukunimi`, `syntymä
 --
 
 CREATE TABLE `tilat` (
-  `id` int(30) NOT NULL,
-  `nimi` varchar(30) NOT NULL,
+  `id` int(255) NOT NULL,
+  `nimi` varchar(50) NOT NULL,
   `kapasiteetti` int(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -91,9 +91,9 @@ INSERT INTO `tilat` (`id`, `nimi`, `kapasiteetti`) VALUES
 
 CREATE TABLE `kurssit` (
   `id` int(11) NOT NULL,
-  `nimi` varchar(30) NOT NULL,
-  `aine` varchar(50) NOT NULL,
-  `kuvaus` varchar(30) NOT NULL,
+  `nimi` varchar(255) NOT NULL,
+  `aine` varchar(255) NOT NULL,
+  `kuvaus` varchar(255) NOT NULL,
   `alkupäivä` date NOT NULL,
   `loppupäivä` date NOT NULL,
   `opettaja` int(30) NOT NULL,
@@ -199,6 +199,7 @@ ALTER TABLE `kurssit`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tila` (`tila`),
   ADD KEY `opettaja` (`opettaja`);
+  MODIFY COLUMN kuvaus TEXT NOT NULL;
 
 --
 -- Indexes for table `kurssikirjautumisilla`
