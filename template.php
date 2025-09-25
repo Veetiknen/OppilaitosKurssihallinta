@@ -154,7 +154,7 @@ function renderHeader($title = "Kurssienhallinta") {
 
 <nav>
     <ul>
-        <li><a href="../index.php">Etusivu</a></li>
+        <li><a href="../index.html">Etusivu</a></li>
         <li><a href="../opettajat/lista.php">Opettajat</a></li>
         <li><a href="../opiskelijat/lista.php">Opiskelijat</a></li>
         <li><a href="../kurssit/lista.php">Kurssit</a></li>
