@@ -1,6 +1,5 @@
 <?php
-// template.php
-function renderHeader($title = "Kouluprojekti") {
+function renderHeader($title = "Kurssienhallinta") {
     ?>
 <!DOCTYPE html>
 <html lang="fi">

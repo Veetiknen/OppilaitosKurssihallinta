@@ -93,7 +93,7 @@ CREATE TABLE `kurssit` (
   `id` int(11) NOT NULL,
   `nimi` varchar(255) NOT NULL,
   `aine` varchar(255) NOT NULL,
-  `kuvaus` varchar(255) NOT NULL,
+  `kuvaus` TEXT NOT NULL,
   `alkupäivä` date NOT NULL,
   `loppupäivä` date NOT NULL,
   `opettaja` int(30) NOT NULL,
@@ -199,7 +199,6 @@ ALTER TABLE `kurssit`
   ADD PRIMARY KEY (`id`),
   ADD KEY `tila` (`tila`),
   ADD KEY `opettaja` (`opettaja`);
-  MODIFY COLUMN kuvaus TEXT NOT NULL;
 
 --
 -- Indexes for table `kurssikirjautumisilla`

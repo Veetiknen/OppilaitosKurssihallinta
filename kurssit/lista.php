@@ -10,7 +10,7 @@ $kysely->execute();
 $kurssit = $kysely->fetchAll();
 ?>
 
-<p><a href="../index.php" class="btn">⬅ Takaisin etusivulle</a></p>
+<p><a href="../index.html" class="btn">⬅ Takaisin etusivulle</a></p>
 <p><a class="btn" href="lisaa.php">Lisää Kurssi</a></p>
 
 <table>
