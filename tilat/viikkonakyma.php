@@ -127,7 +127,7 @@ renderHeader("Viikkonäkymä - Tila: " . htmlspecialchars($tila['nimi']));
     </tbody>
 </table>
 
-<a href="lisaa_viikkonakymaan_tila.php?tilat=<?= $tila_id ?>" class="btn back-link">&laquo; Muokkaa tilan aikataulua</a>
+<a href="lisaa_viikkonakymaan.php?tilat=<?= $tila_id ?>" class="btn back-link">&laquo; Muokkaa tilan aikataulua</a>
 <a href="nayta.php?id=<?= $tila_id ?>" class="btn back-link">&laquo; Takaisin tilaan</a>
 
 <?php renderFooter(); ?>
