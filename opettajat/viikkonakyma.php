@@ -85,21 +85,28 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($opettaja['etunimi'] . ' ' .
                     <td>
                         <?php 
                         $cell_sessiot = [];
+                        $active_sessiot = [];
                         foreach ($sessiot as $sessio) {
                             if ($sessio['viikonpaiva'] === $lyh &&
                                 $sessio['aloitus'] <= $h &&
                                 $sessio['lopetus'] > $h &&
-                                onkoKurssiKaynnissa($sessio['alkupäivä'], $sessio['loppupäivä'], $viikon_alku, $viikon_loppu) &&
-                                $sessio['aloitus'] == $h) {
+                                onkoKurssiKaynnissa($sessio['alkupäivä'], $sessio['loppupäivä'], $viikon_alku, $viikon_loppu)) {
+                                $active_sessiot[] = $sessio;
+                            }
+                        }
+
+                        $cell_sessiot = [];
+                        foreach ($active_sessiot as $sessio) {
+                            if ($sessio['aloitus'] == $h) {
                                 $cell_sessiot[] = $sessio;
                             }
                         }
 
-                        $maara = count($cell_sessiot);
-                        if ($maara > 0) {
+                        $maara = count($active_sessiot);
+                        if (count($cell_sessiot) > 0) {
                             foreach ($cell_sessiot as $index => $sessio) {
                                 $kesto = $sessio['lopetus'] - $sessio['aloitus'];
-                                $leveys = (100 / $maara) - 2; // -2% pieni väli
+                                $leveys = (100 / $maara) - 2;
                                 $left = $index * (100 / $maara);
                         ?>
                             <div class="teacher-session-block" style="

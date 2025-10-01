@@ -32,9 +32,13 @@ $seuraava_viikko->modify('+1 week');
 
 // Haetaan kurssin sessiot
 $sql = "SELECT s.viikonpaiva, s.aloitus, s.lopetus,
-               t.nimi AS tila_nimi
+               t.nimi AS tila_nimi,
+               o.etunimi AS opettaja_etunimi,
+               o.sukunimi AS opettaja_sukunimi
         FROM kurssisessiot s
-        JOIN tilat t ON t.id = (SELECT k.tila FROM kurssit k WHERE k.id = s.kurssi_id)
+        JOIN kurssit k ON s.kurssi_id = k.id
+        JOIN tilat t ON k.tila = t.id
+        JOIN opettajat o ON k.opettaja = o.tunnusnumero
         WHERE s.kurssi_id = ?";
 $kysely = $yhteys->prepare($sql);
 $kysely->execute([$kurssi_id]);
@@ -52,7 +56,6 @@ function onkoKurssiKaynnissa($alkupaiva, $loppupaiva, $viikon_alku, $viikon_lopp
 renderHeader("Viikkonäkymä - " . htmlspecialchars($kurssi['nimi']));
 ?>
 
-<h2><?= htmlspecialchars($kurssi['nimi']) ?> - Viikkonäkymä</h2>
 <p><strong>Ajanjakso:</strong> <?= htmlspecialchars($kurssi['alkupäivä']) ?> - <?= htmlspecialchars($kurssi['loppupäivä']) ?></p>
 <p><strong>Viikko:</strong> <?= $viikkonro ?>/<?= $vuosi ?> (<?= $viikon_alku->format('d.m.Y') ?> - <?= $viikon_loppu->format('d.m.Y') ?>)</p>
 
@@ -101,10 +104,14 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($kurssi['nimi']));
                                 if ($alkaa_tassa):
                         ?>
                             <div class="session-block" style="height: <?= ($kesto * 60) - 8 ?>px;">
-                                <div class="session-title">Opetus</div>
-                                <div class="session-time"><?= $s['aloitus'] ?>:00-<?= $s['lopetus'] ?>:00</div>
-                                <div class="session-room">Tila: <?= htmlspecialchars($s['tila_nimi']) ?></div>
+                            <div class="session-title">Opetus</div>
+                            <div class="session-time"><?= $s['aloitus'] ?>:00-<?= $s['lopetus'] ?>:00</div>
+                            <div class="session-room">
+                                Opettaja: <?= htmlspecialchars($s['opettaja_etunimi'] . " " . $s['opettaja_sukunimi']) ?><br>
+                                Tila: <?= htmlspecialchars($s['tila_nimi']) ?>
                             </div>
+                        </div>
+
                         <?php 
                                 endif;
                             }

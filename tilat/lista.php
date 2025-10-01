@@ -14,7 +14,7 @@ try {
 $tulos = $kysely->fetchAll();
 ?>
 
-<p><a href="../index.php" class="btn">⬅ Takaisin etusivulle</a></p>
+<p><a href="../index.html" class="btn">⬅ Takaisin etusivulle</a></p>
 <p><a href="lisaa.php" class="btn">Lisää Tila</a></p>
 
     <table>

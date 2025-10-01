@@ -2,17 +2,6 @@
 require '../yhteys.php';
 require '../template.php';
 
-// Haetaan aineet, opettajat ja tilat
-try {
-    $aineet = $yhteys->query("SELECT DISTINCT aine FROM opettajat WHERE tunnusnumero != 0")->fetchAll();
-    $opettajat = $yhteys->query("SELECT tunnusnumero, CONCAT(etunimi, ' ', sukunimi) AS nimi FROM opettajat WHERE tunnusnumero != 0")->fetchAll();
-    $tilat = $yhteys->query("SELECT id, nimi FROM tilat WHERE id !=0")->fetchAll();
-} catch (PDOException $e) {
-    die("<p class='warning'>Virhe haettaessa tietoja: " . htmlspecialchars($e->getMessage()) . "</p>");
-}
-
-renderHeader("Lisää Kurssi");
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nimi = $_POST["nimi"] ?? '';
     $kuvaus = $_POST["kuvaus"] ?? '';
@@ -46,6 +35,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<p class='warning'>Kaikki kentät ovat pakollisia</p>";
     }
 }
+
+renderHeader("Lisää Kurssi");
+
+// Haetaan aineet, opettajat ja tilat
+try {
+    $aineet = $yhteys->query("SELECT DISTINCT aine FROM opettajat WHERE tunnusnumero != 0")->fetchAll();
+    $opettajat = $yhteys->query("
+        SELECT tunnusnumero, CONCAT(etunimi, ' ', sukunimi) AS nimi, aine 
+        FROM opettajat 
+        WHERE tunnusnumero != 0
+    ")->fetchAll();
+    $tilat = $yhteys->query("SELECT id, nimi FROM tilat WHERE id !=0")->fetchAll();
+} catch (PDOException $e) {
+    die("<p class='warning'>Virhe haettaessa tietoja: " . htmlspecialchars($e->getMessage()) . "</p>");
+}
+
 ?>
 
 <form method="post">
@@ -68,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <option value="">-- Valitse opettaja --</option>
             <?php foreach($opettajat as $o): ?>
                 <option value="<?= $o['tunnusnumero'] ?>">
-                    <?= htmlspecialchars($o['nimi']) ?>
+                    <?= htmlspecialchars($o['nimi']) ?> (<?= htmlspecialchars($o['aine']) ?>)
                 </option>
             <?php endforeach; ?>
         </select>

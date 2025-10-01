@@ -1,6 +1,5 @@
 <?php
-// template.php
-function renderHeader($title = "Kouluprojekti") {
+function renderHeader($title = "Kurssienhallinta") {
     ?>
 <!DOCTYPE html>
 <html lang="fi">
@@ -36,20 +35,6 @@ function renderHeader($title = "Kouluprojekti") {
         height: 60px; 
         vertical-align: top; 
         position: relative; 
-    }
-    .session-block {
-        background: linear-gradient(135deg, #c7e1ff, #a3d0ff); 
-        padding: 3px 5px; 
-        margin: 1px; 
-        border-radius: 4px; 
-        font-size: 0.85em; 
-        border-left: 4px solid #0066cc;
-        position: absolute;
-        top: 2px;
-        left: 2px;
-        right: 2px;
-        overflow: hidden;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     .session-title { font-weight: bold; }
     .session-time { font-size: 0.9em; }
@@ -88,56 +73,80 @@ function renderHeader($title = "Kouluprojekti") {
         display: inline-block; 
     }
     
-    /* Opettajan viikkonäkymän erityistyylit */
-    .teacher-session-block {
-        background: linear-gradient(135deg, #ffe7ba, #ffd591); 
-        padding: 3px 5px; 
-        margin: 1px; 
-        border-radius: 4px; 
-        font-size: 0.85em; 
-        border-left: 4px solid #cc6600;
-        position: absolute;
-        top: 2px;
-        overflow: hidden;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
     .teacher-session-title { font-weight: bold; }
     .teacher-session-time { font-size: 0.9em; }
     .teacher-session-room { font-size: 0.8em; color: #333; }
 
-    /* Opiskelijan viikkonäkymän sessiot */
-    .student-session-block {
-        background: linear-gradient(135deg, #e1ffc7, #b8f5a3);
-        padding: 3px 5px;
-        margin: 1px;
-        border-radius: 4px;
-        font-size: 0.85em;
-        border-left: 4px solid #339900;
-        position: absolute;
-        top: 2px;
-        overflow: hidden;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
     .student-session-title { font-weight: bold; }
     .student-session-time { font-size: 0.9em; }
     .student-session-room { font-size: 0.8em; color: #333; }
 
-    /* Tilan viikkonäkymän sessiot */
-    .room-session-block {
-        background: linear-gradient(135deg, #e6f7ff, #bae7ff); 
-        padding: 3px 5px; 
-        margin: 1px; 
-        border-radius: 4px; 
-        font-size: 0.85em; 
-        border-left: 4px solid #1890ff;
-        position: absolute;
-        top: 2px;
-        overflow: hidden;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
     .room-session-title { font-weight: bold; }
     .room-session-time { font-size: 0.9em; }
     .room-session-teacher { font-size: 0.8em; color: #333; }
+
+    /* Yhteiset sessioblokkien tyylit */
+.session-block,
+.teacher-session-block,
+.room-session-block,
+.student-session-block {
+    position: absolute;
+    top: 2px;
+    overflow: hidden;
+    padding: 3px 5px;
+    margin: 1px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Yleiset tekstit */
+.session-title,
+.teacher-session-title,
+.room-session-title,
+.student-session-title {
+    font-weight: bold;
+}
+
+.session-time,
+.teacher-session-time,
+.room-session-time,
+.student-session-time {
+    font-size: 0.9em;
+}
+
+.session-room,
+.teacher-session-room,
+.room-session-teacher,
+.student-session-room {
+    font-size: 0.8em;
+    color: #333;
+}
+
+/* Opettajan viikkonäkymän sessiot */
+.teacher-session-block {
+    background: linear-gradient(135deg, #ffe7ba, #ffd591);
+    border-left: 4px solid #cc6600;
+}
+
+/* Tilan viikkonäkymän sessiot */
+.room-session-block {
+    background: linear-gradient(135deg, #e6f7ff, #bae7ff);
+    border-left: 4px solid #1890ff;
+}
+
+/* Opiskelijan viikkonäkymän sessiot */
+.student-session-block {
+    background: linear-gradient(135deg, #e1ffc7, #b8f5a3);
+    border-left: 4px solid #339900;
+}
+
+/* Yleinen sessio (jos käytössä esim. muissa näkymissä) */
+.session-block {
+    background: linear-gradient(135deg, #c7e1ff, #a3d0ff);
+    border-left: 4px solid #0066cc;
+}
+
 
 </style>
 </head>
@@ -145,7 +154,7 @@ function renderHeader($title = "Kouluprojekti") {
 
 <nav>
     <ul>
-        <li><a href="../index.php">Etusivu</a></li>
+        <li><a href="../index.html">Etusivu</a></li>
         <li><a href="../opettajat/lista.php">Opettajat</a></li>
         <li><a href="../opiskelijat/lista.php">Opiskelijat</a></li>
         <li><a href="../kurssit/lista.php">Kurssit</a></li>

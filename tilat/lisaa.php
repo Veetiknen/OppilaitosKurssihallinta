@@ -2,8 +2,6 @@
 require '../yhteys.php';
 require '../template.php';
 
-renderHeader("Lisää Tila");
-
 $virhe = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -26,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
+renderHeader("Lisää Tila");
 ?>
 
 <?php if (!empty($virhe)) echo "<p class='warning'>$virhe</p>"; ?>
