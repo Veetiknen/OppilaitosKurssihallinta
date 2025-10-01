@@ -49,7 +49,6 @@ $viikonpaivat = ['ma'=>'Ma', 'ti'=>'Ti', 'ke'=>'Ke', 'to'=>'To', 'pe'=>'Pe'];
 function onkoKurssiKaynnissa($alkupaiva, $loppupaiva, $viikon_alku, $viikon_loppu) {
     $kurssi_alku = new DateTime($alkupaiva);
     $kurssi_loppu = new DateTime($loppupaiva);
-    
     return !($kurssi_loppu < $viikon_alku || $kurssi_alku > $viikon_loppu);
 }
 
@@ -87,35 +86,42 @@ renderHeader("Viikkonäkymä - " . htmlspecialchars($kurssi['nimi']));
     <tbody>
         <?php for ($h = 8; $h <= 17; $h++): ?>
             <tr>
-                <th class="time-header">
-                    <?= sprintf('%02d:00', $h) ?>
-                </th>
+                <th class="time-header"><?= sprintf('%02d:00', $h) ?></th>
                 <?php foreach ($viikonpaivat as $lyh => $pv): ?>
                     <td>
                         <?php 
+                        $cell_sessiot = [];
                         foreach ($sessiot as $s) {
-                            if ($s['viikonpaiva'] === $lyh && 
-                                $s['aloitus'] <= $h && 
+                            if ($s['viikonpaiva'] === $lyh &&
+                                $s['aloitus'] <= $h &&
                                 $s['lopetus'] > $h &&
-                                onkoKurssiKaynnissa($kurssi['alkupäivä'], $kurssi['loppupäivä'], $viikon_alku, $viikon_loppu)) {
-                                $kesto = $s['lopetus'] - $s['aloitus'];
-                                $alkaa_tassa = $s['aloitus'] == $h;
-                                
-                                if ($alkaa_tassa):
-                        ?>
-                            <div class="session-block" style="height: <?= ($kesto * 60) - 8 ?>px;">
-                            <div class="session-title">Opetus</div>
-                            <div class="session-time"><?= $s['aloitus'] ?>:00-<?= $s['lopetus'] ?>:00</div>
-                            <div class="session-room">
-                                Opettaja: <?= htmlspecialchars($s['opettaja_etunimi'] . " " . $s['opettaja_sukunimi']) ?><br>
-                                Tila: <?= htmlspecialchars($s['tila_nimi']) ?>
-                            </div>
-                        </div>
-
-                        <?php 
-                                endif;
+                                onkoKurssiKaynnissa($kurssi['alkupäivä'], $kurssi['loppupäivä'], $viikon_alku, $viikon_loppu) &&
+                                $s['aloitus'] == $h) {
+                                $cell_sessiot[] = $s;
                             }
                         }
+
+                        $maara = count($cell_sessiot);
+                        if ($maara > 0):
+                            foreach ($cell_sessiot as $index => $s):
+                                $kesto = $s['lopetus'] - $s['aloitus'];
+                                $leveys = (100 / $maara) - 2;
+                                $left = $index * (100 / $maara);
+                        ?>
+                            <div class="session-block" style="
+                                left: <?= $left ?>%;
+                                width: <?= $leveys ?>%;
+                                height: <?= ($kesto * 60) - 8 ?>px;
+                            ">
+                                <div class="session-title">Opetus</div>
+                                <div class="session-time"><?= $s['aloitus'] ?>:00-<?= $s['lopetus'] ?>:00</div>
+                                <div class="session-room">
+                                    Opettaja: <?= htmlspecialchars($s['opettaja_etunimi'] . " " . $s['opettaja_sukunimi']) ?><br>
+                                    Tila: <?= htmlspecialchars($s['tila_nimi']) ?>
+                                </div>
+                            </div>
+                        <?php endforeach;
+                        endif;
                         ?>
                     </td>
                 <?php endforeach; ?>

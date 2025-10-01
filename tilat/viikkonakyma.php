@@ -99,17 +99,27 @@ renderHeader("Viikkonäkymä - Tila: " . htmlspecialchars($tila['nimi']));
                             }
                         }
 
-                        foreach ($cell_sessiot as $sessio):
-                            $kesto = $sessio['lopetus'] - $sessio['aloitus'];
+                        $maara = count($cell_sessiot);
+                        if ($maara > 0):
+                            foreach ($cell_sessiot as $index => $sessio):
+                                $kesto = $sessio['lopetus'] - $sessio['aloitus'];
+                                $leveys = (100 / $maara) - 2;
+                                $left = $index * (100 / $maara);
                         ?>
-                            <div class="room-session-block" style="height: <?= ($kesto * 60) - 8 ?>px;">
+                            <div class="room-session-block" style="
+                                left: <?= $left ?>%;
+                                width: <?= $leveys ?>%;
+                                height: <?= ($kesto * 60) - 8 ?>px;
+                            ">
                                 <div class="room-session-title"><?= htmlspecialchars($sessio['kurssi_nimi']) ?></div>
                                 <div class="room-session-time"><?= $sessio['aloitus'] ?>:00-<?= $sessio['lopetus'] ?>:00</div>
                                 <div class="room-session-teacher">
                                     Opettaja: <?= htmlspecialchars($sessio['op_etunimi'] . ' ' . $sessio['op_sukunimi']) ?>
                                 </div>
                             </div>
-                        <?php endforeach; ?>
+                        <?php endforeach;
+                        endif;
+                        ?>
                     </td>
                 <?php endforeach; ?>
             </tr>
