@@ -41,7 +41,11 @@ renderHeader("Lisää Kurssi");
 // Haetaan aineet, opettajat ja tilat
 try {
     $aineet = $yhteys->query("SELECT DISTINCT aine FROM opettajat WHERE tunnusnumero != 0")->fetchAll();
-    $opettajat = $yhteys->query("SELECT tunnusnumero, CONCAT(etunimi, ' ', sukunimi) AS nimi FROM opettajat WHERE tunnusnumero != 0")->fetchAll();
+    $opettajat = $yhteys->query("
+        SELECT tunnusnumero, CONCAT(etunimi, ' ', sukunimi) AS nimi, aine 
+        FROM opettajat 
+        WHERE tunnusnumero != 0
+    ")->fetchAll();
     $tilat = $yhteys->query("SELECT id, nimi FROM tilat WHERE id !=0")->fetchAll();
 } catch (PDOException $e) {
     die("<p class='warning'>Virhe haettaessa tietoja: " . htmlspecialchars($e->getMessage()) . "</p>");
@@ -69,7 +73,7 @@ try {
             <option value="">-- Valitse opettaja --</option>
             <?php foreach($opettajat as $o): ?>
                 <option value="<?= $o['tunnusnumero'] ?>">
-                    <?= htmlspecialchars($o['nimi']) ?>
+                    <?= htmlspecialchars($o['nimi']) ?> (<?= htmlspecialchars($o['aine']) ?>)
                 </option>
             <?php endforeach; ?>
         </select>

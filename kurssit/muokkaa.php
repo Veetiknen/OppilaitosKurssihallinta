@@ -12,12 +12,6 @@ $kysely->execute();
 $kurssi = $kysely->fetch();
 if (!$kurssi) die("Kurssia ei löytynyt.");
 
-// Haetaan opettajat ja tilat pudotusvalikoita varten
-$opettajat = $yhteys->query("SELECT tunnusnumero, CONCAT(etunimi, ' ', sukunimi) AS nimi FROM opettajat WHERE tunnusnumero != 0")->fetchAll();
-$tilat = $yhteys->query("SELECT id, nimi FROM tilat WHERE id !=0")->fetchAll();
-
-renderHeader("Muokkaa kurssia: " . htmlspecialchars($kurssi['nimi']));
-
 // Päivitys kun lomake lähetetään
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $nimi = $_POST['nimi'] ?? '';
@@ -26,12 +20,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $loppupaiva = $_POST['loppupaiva'] ?? '';
     $opettaja = $_POST['opettaja'] ?? '';
     $tila = $_POST['tila'] ?? '';
-
+    
     if ($nimi && $kuvaus && $alkupaiva && $loppupaiva && $opettaja && $tila) {
         $update = $yhteys->prepare("
-            UPDATE kurssit 
-            SET nimi = :nimi, kuvaus = :kuvaus, alkupäivä = :alkupaiva, loppupäivä = :loppupaiva, opettaja = :opettaja, tila = :tila 
-            WHERE id = :id
+        UPDATE kurssit 
+        SET nimi = :nimi, kuvaus = :kuvaus, alkupäivä = :alkupaiva, loppupäivä = :loppupaiva, opettaja = :opettaja, tila = :tila 
+        WHERE id = :id
         ");
         $update->bindParam(':nimi', $nimi);
         $update->bindParam(':kuvaus', $kuvaus);
@@ -41,11 +35,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $update->bindParam(':tila', $tila);
         $update->bindParam(':id', $id, PDO::PARAM_INT);
         $update->execute();
-        echo "<p>Kurssi päivitetty!</p>";
+        
+        header("Location: lista.php");
+        exit;
+        
     } else {
         echo "<p style='color:red'>Kaikki kentät ovat pakollisia.</p>";
     }
 }
+
+// Haetaan opettajat ja tilat pudotusvalikoita varten
+$opettajat = $yhteys->query("SELECT tunnusnumero, CONCAT(etunimi, ' ', sukunimi) AS nimi FROM opettajat WHERE tunnusnumero != 0")->fetchAll();
+$tilat = $yhteys->query("SELECT id, nimi FROM tilat WHERE id !=0")->fetchAll();
+
+renderHeader("Muokkaa kurssia: " . htmlspecialchars($kurssi['nimi']));
 ?>
 
 <form method="post">
