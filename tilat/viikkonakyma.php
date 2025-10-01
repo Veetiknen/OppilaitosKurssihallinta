@@ -11,9 +11,9 @@ $viikko = $_GET['viikko'] ?? date('Y-W');
 
 // Haetaan tilan tiedot
 $sql = "SELECT id, nimi, kapasiteetti FROM tilat WHERE id = ?";
-$stmt = $yhteys->prepare($sql);
-$stmt->execute([$tila_id]);
-$tila = $stmt->fetch(PDO::FETCH_ASSOC);
+$kysely = $yhteys->prepare($sql);
+$kysely->execute([$tila_id]);
+$tila = $kysely->fetch(PDO::FETCH_ASSOC);
 if (!$tila) {
     die("Tilaa ei löytynyt");
 }
@@ -38,9 +38,9 @@ $sql = "SELECT s.viikonpaiva, s.aloitus, s.lopetus,
         JOIN kurssit k ON s.kurssi_id = k.id
         JOIN opettajat o ON k.opettaja = o.tunnusnumero
         WHERE k.tila = ?";
-$stmt = $yhteys->prepare($sql);
-$stmt->execute([$tila_id]);
-$sessiot = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$kysely = $yhteys->prepare($sql);
+$kysely->execute([$tila_id]);
+$sessiot = $kysely->fetchAll(PDO::FETCH_ASSOC);
 
 $viikonpaivat = ['ma'=>'Ma', 'ti'=>'Ti', 'ke'=>'Ke', 'to'=>'To', 'pe'=>'Pe'];
 
@@ -124,7 +124,7 @@ renderHeader("Viikkonäkymä - Tila: " . htmlspecialchars($tila['nimi']));
     </tbody>
 </table>
 
-<a href="lisaa_viikkonakymaan.php?tilat=<?= $tila_id ?>" class="btn back-link">&laquo; Muokkaa tilan aikataulua</a>
+<a href="lisaa_viikkonakymaan_tila.php?tilat=<?= $tila_id ?>" class="btn back-link">&laquo; Muokkaa tilan aikataulua</a>
 <a href="nayta.php?id=<?= $tila_id ?>" class="btn back-link">&laquo; Takaisin tilaan</a>
 
 <?php renderFooter(); ?>
